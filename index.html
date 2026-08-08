@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Sulaymon Ruziboev — Software Developer</title>
+<meta name="description" content="Sulaymon Ruziboev — software developer in Samarkand, Uzbekistan. Desktop apps, web platforms and motion design. Selected work and contact." />
+<meta name="theme-color" content="#f4f4f7" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+
+<!-- importmap 
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+-->
+
+</head>
+<body>
+
+<!-- ── film grain + vignette overlay ─────────────────────────── -->
+<div class="fx-grain" aria-hidden="true"></div>
+
+<!-- ── custom cursor (desktop pointers only) ──────────────────── -->
+<div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
+
+<!-- ── intro loader ───────────────────────────────────────────── -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__mark">◈</div>
+    <div class="loader__bar"><span></span></div>
+    <div class="loader__pct">00</div>
+  </div>
+</div>
+
+<a class="skip" href="#work">Skip to work</a>
+
+<!-- ── navigation ─────────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" aria-label="Home">
+    <span class="nav__mark" aria-hidden="true">◈</span>
+    <span class="nav__name">Sulaymon Ruziboev</span>
+  </a>
+
+  <nav class="nav__links glass" aria-label="Primary">
+    <a href="#hero" class="is-active">Home</a>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#capabilities">Services</a>
+  </nav>
+
+  <a class="btn btn--pill nav__cta" href="#contact"><span>Contact</span></a>
+
+  <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <a href="#hero">Home</a>
+  <a href="#about">About</a>
+  <a href="#work">Work</a>
+  <a href="#capabilities">Services</a>
+  <a href="#experience">Build log</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main id="top">
+
+<!-- ══ HERO ═══════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+
+  <!-- soft aurora light bloom behind everything -->
+  <div class="hero__aura" aria-hidden="true">
+    <span class="aura aura--a"></span>
+    <span class="aura aura--b"></span>
+    <span class="aura aura--c"></span>
+  </div>
+
+  <!-- three.js crystal -->
+  <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero__fallback" aria-hidden="true"></div>
+
+  <!-- draggable orb + elastic reveal window (decorative; JS builds the rest) -->
+  <div class="hero__reveal" id="hero-reveal" aria-hidden="true">
+    <svg class="reveal__svg" id="reveal-svg" preserveAspectRatio="none">
+      <defs>
+        <clipPath id="blob-clip"><path id="blob-clip-path" d="" /></clipPath>
+      </defs>
+      <g clip-path="url(#blob-clip)">
+        <image id="reveal-img" preserveAspectRatio="xMidYMid slice"
+               href="assets/work/hero-bg.png" />
+        <rect id="reveal-veil" x="0" y="0" width="100%" height="100%" fill="#ffffff" opacity="0.86" />
+      </g>
+      <path id="blob-stroke" d="" fill="none" stroke="rgba(11,11,18,.13)" stroke-width="1" />
+    </svg>
+    <div class="reveal__orb" id="reveal-orb"><span>Grab me</span></div>
+  </div>
+
+  <div class="hero__grid">
+
+    <!-- headline -->
+    <div class="hero__head">
+      <p class="eyebrow" data-reveal>
+        <span class="dot" aria-hidden="true"></span> Open to junior roles — 2026
+      </p>
+      <h1 class="display" id="hero-title">
+        <span class="line"><span data-split>Building</span></span>
+        <span class="line"><span data-split>Beyond the</span></span>
+        <span class="line line--ghost"><span data-split>Prompt</span></span>
+      </h1>
+      <div class="hero__actions" data-reveal>
+        <a class="btn btn--solid magnetic" href="#work"><span>View Selected Work</span></a>
+        <a class="btn btn--ghost magnetic" href="#contact"><span>Let's talk</span></a>
+      </div>
+    </div>
+
+    <!-- circular badge, top right (mirrors the reference layout) -->
+    <div class="hero__badge glass-ring" data-reveal>
+      <div class="badge__orb" aria-hidden="true"></div>
+      <p>Shipping AI to<br />Production</p>
+    </div>
+
+    <!-- rotating circular caption, bottom left -->
+    <div class="hero__note" data-reveal>
+      <div class="spinner" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <defs><path id="circlePath" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" /></defs>
+          <text><textPath href="#circlePath">SOFTWARE · DESKTOP · WEB · MOTION ·&nbsp;</textPath></text>
+        </svg>
+        <span class="spinner__core"></span>
+      </div>
+      <p>Designer turned developer, building<br />desktop apps and web platforms.</p>
+    </div>
+
+    <!-- glass stat card, bottom right -->
+    <a class="hero__stat glass" href="#work" data-reveal>
+      <div class="stat__avatars" aria-hidden="true">
+        <span style="--i:0"></span><span style="--i:1"></span><span style="--i:2"></span>
+      </div>
+      <h2 class="stat__num"><span class="count" data-count="10">0</span>+ projects</h2>
+      <p>Self-directed builds across AI, data and web — four of them running in real and demo use.</p>
+      <span class="stat__arrow" aria-hidden="true">↗</span>
+    </a>
+
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true"><span></span>scroll</div>
+</section>
+
+<!-- ══ MARQUEE ════════════════════════════════════════════════ -->
+<section class="marquee" aria-label="Technologies">
+  <div class="marquee__track" id="marquee-track">
+    <!-- duplicated in JS for a seamless loop -->
+    <div class="marquee__set">
+      <span>JavaScript</span><i>◈</i><span>Python</span><i>◈</i><span>Rust</span><i>◈</i>
+      <span>PostgreSQL</span><i>◈</i><span>SQL</span><i>◈</i><span>Supabase</span><i>◈</i>
+      <span>REST APIs</span><i>◈</i><span>OAuth 2.0</span><i>◈</i><span>Three.js</span><i>◈</i>
+      <span>WebGL</span><i>◈</i><span>Git</span><i>◈</i>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT (pinned, scroll-scrubbed) ════════════════════════ -->
+<section class="about" id="about">
+  <div class="about__sticky">
+    <p class="label" data-reveal>(01) — About</p>
+    <p class="about__text" id="about-text">
+      I started in motion design, then learned to code to build the tools I wanted.
+      Two years and three working products later, I still build the whole thing myself —
+      database, backend, and the interface people actually touch. Based in Samarkand,
+      Uzbekistan, and looking for my first developer role — remote or on-site.
+    </p>
+    <div class="about__meta">
+      <div data-reveal><b><span class="count" data-count="2">0</span></b><span>years building</span></div>
+      <div data-reveal><b><span class="count" data-count="10">0</span>+</b><span>projects built</span></div>
+      <div data-reveal><b><span class="count" data-count="4">0</span></b><span>shipped for real use</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORK ══════════════════════════════════════════════════ -->
+<section class="work" id="work">
+  <header class="sec-head">
+    <p class="label" data-reveal>(02) — Selected work</p>
+    <h2 class="h2" data-reveal>Things I've<br /><em>put into the world</em></h2>
+  </header>
+
+  <div class="work__list" id="work-list">
+
+    <a class="card" data-tilt href="https://aeolian.netlify.app/" target="_blank" rel="noopener">
+      <div class="card__media">
+        <img src="assets/work/aeolian.png" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" />
+        <span class="card__sheen" aria-hidden="true"></span>
+      </div>
+      <div class="card__body glass">
+        <span class="card__idx">01</span>
+        <h3>Design Portfolio — the first site I built</h3>
+        <p>My graphic and motion design work, and the first website I ever made — stitched together from effects I took apart across the web, then rebuilt once I understood how they worked. Four static pages, a Three.js hero, and 36 projects behind a filterable grid with a lightbox.</p>
+        <ul class="tags"><li class="is-status">Where I started</li><li>JavaScript</li><li>Three.js</li><li>After Effects</li></ul>
+        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </a>
+
+    <a class="card" data-tilt href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">
+      <div class="card__media">
+        <img src="assets/work/shorts-pilot.png" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" />
+        <span class="card__sheen" aria-hidden="true"></span>
+      </div>
+      <div class="card__body glass">
+        <span class="card__idx">02</span>
+        <h3>Shorts Pilot — Instagram to YouTube, paced</h3>
+        <p>A Windows desktop app that watches the clipboard: copy a reel link and it downloads the clip, works out which channel it belongs to, and releases it on a per-channel interval so a burst of links doesn't become a burst of uploads.</p>
+        <ul class="tags"><li>Python</li><li>JavaScript</li><li>YouTube Data API</li><li>pywebview</li></ul>
+        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </a>
+
+    <a class="card" data-tilt href="https://artgalera.netlify.app/" target="_blank" rel="noopener">
+      <div class="card__media">
+        <img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" />
+        <span class="card__sheen" aria-hidden="true"></span>
+      </div>
+      <div class="card__body glass">
+        <span class="card__idx">03</span>
+        <h3>Galera — Support the artists behind the art</h3>
+        <p>A membership platform for digital artists: work stays public, supporters subscribe to monthly tiers and unlock the studio — 4K files, PSDs, process videos. Accounts, pledges and per-artwork access are all enforced in the database with row-level security.</p>
+        <ul class="tags"><li class="is-status">Beta</li><li>JavaScript</li><li>Supabase</li><li>Netlify</li></ul>
+        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </a>
+
+    <a class="card" data-tilt href="soon.html">
+      <div class="card__media">
+        <img src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=1400&q=80" alt="" loading="lazy" decoding="async" />
+        <span class="card__sheen" aria-hidden="true"></span>
+      </div>
+      <div class="card__body glass">
+        <span class="card__idx">04</span>
+        <h3>Cutlass — AI-first video editor</h3>
+        <p>A desktop editor where the AI and the human are equal operators: every edit is one serialisable, invertible command, and both dispatch the same ones. Undo, scripting and AI parity all fall out of that. Version 1 is still in the cutting room.</p>
+        <ul class="tags"><li class="is-status">In progress</li><li>Rust</li><li>JavaScript</li><li>Tauri</li><li>ffmpeg</li></ul>
+        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══ CAPABILITIES ══════════════════════════════════════════ -->
+<section class="caps" id="capabilities">
+  <header class="sec-head">
+    <p class="label" data-reveal>(03) — Capabilities</p>
+    <h2 class="h2" data-reveal>What I can<br /><em>actually build</em></h2>
+  </header>
+
+  <div class="caps__grid">
+    <article class="cap glass" data-reveal>
+      <span class="cap__ico" aria-hidden="true">◎</span>
+      <h3>Web apps with a real backend</h3>
+      <p>Multi-page apps on Postgres — accounts, membership tiers and per-item access enforced in the database with row-level security, not trusted to the browser.</p>
+    </article>
+    <article class="cap glass" data-reveal>
+      <span class="cap__ico" aria-hidden="true">⬡</span>
+      <h3>Desktop software</h3>
+      <p>Windows apps people install and leave running: native windows, background schedulers, OAuth into third-party accounts, packaged into an installer that just works.</p>
+    </article>
+    <article class="cap glass" data-reveal>
+      <span class="cap__ico" aria-hidden="true">△</span>
+      <h3>Automation that keeps running</h3>
+      <p>Joining systems never meant to talk to each other — clipboard to YouTube, ffmpeg pipelines, jobs that hold their own schedule and pick themselves back up after a failure.</p>
+    </article>
+    <article class="cap glass" data-reveal>
+      <span class="cap__ico" aria-hidden="true">◈</span>
+      <h3>Interface and motion</h3>
+      <p>Design was my first trade, so interfaces get built from tokens up — and WebGL or scroll animation when a page needs to be remembered, not just read.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ══ BUILD LOG ═════════════════════════════════════════════ -->
+<section class="exp" id="experience">
+  <header class="sec-head">
+    <p class="label" data-reveal>(04) — Build log</p>
+    <h2 class="h2" data-reveal>No job titles yet.<br /><em>Plenty of releases.</em></h2>
+  </header>
+
+  <ol class="exp__list">
+    <li class="exp__item" data-reveal>
+      <span class="exp__year"><b>v0.1</b>2024</span>
+      <div><h3>Learned to see</h3>
+      <p>Graphic and motion design — brand identity, channel art, key visuals, After Effects. My first skill in this industry, and still the reason I notice when something sits four pixels off.</p></div>
+    </li>
+    <li class="exp__item" data-reveal>
+      <span class="exp__year"><b>v0.2</b>2025</span>
+      <div><h3>Learned to build</h3>
+      <p>My first website, assembled by taking effects apart from across the internet until I understood why they worked. Nothing taught me faster than breaking someone else's code.</p></div>
+    </li>
+    <li class="exp__item" data-reveal>
+      <span class="exp__year"><b>v0.3</b>2026</span>
+      <div><h3>Something that runs without me</h3>
+      <p>Shorts Pilot. A desktop app watching the clipboard, pacing uploads across channels, holding OAuth tokens safely. The first thing I built that works while I'm asleep.</p></div>
+    </li>
+    <li class="exp__item" data-reveal>
+      <span class="exp__year"><b>v0.4</b>2026</span>
+      <div><h3>A real backend</h3>
+      <p>Galera. Accounts, membership tiers and per-artwork access — enforced by row-level security in the database rather than by trusting the browser.</p></div>
+    </li>
+    <li class="exp__item" data-reveal>
+      <span class="exp__year"><b>v0.5</b>now</span>
+      <div><h3>Teaching an editor to take orders</h3>
+      <p>Cutlass. A video editor where every edit is one invertible command object, so an AI and a human have exactly the same reach. In progress — the hard part is the architecture, not the buttons.</p></div>
+    </li>
+  </ol>
+</section>
+
+<!-- ══ CONTACT ═══════════════════════════════════════════════ -->
+<section class="contact" id="contact">
+  <div class="contact__aura" aria-hidden="true"></div>
+  <p class="label" data-reveal>(05) — Contact</p>
+  <h2 class="display display--sm" data-reveal>
+    <span class="line"><span data-split>Let's build</span></span>
+    <span class="line line--ghost"><span data-split>something</span></span>
+  </h2>
+  <a class="contact__mail magnetic" href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a>
+  <ul class="contact__socials" data-reveal>
+    <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
+    <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>© 2026 Sulaymon Ruziboev</span>
+  <span>Built with too much care</span>
+  <a href="#top">Back to top ↑</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/blob.js"></script>
+<script type="module" src="js/hero3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Still rendering — Cutlass</title>
+<meta name="description" content="Cutlass, an AI-first video editor, is still in development. This page is not." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#f4f4f7" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+  /* page-specific — everything else comes from the site's tokens */
+  .render{
+    position:relative; z-index:1; min-height:100svh;
+    display:flex; align-items:center; justify-content:center;
+    padding:clamp(80px,12vh,140px) var(--pad);
+  }
+  .render__aura{
+    position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
+    width:min(900px,120vw); aspect-ratio:1; border-radius:50%;
+    filter:blur(90px); opacity:.55; pointer-events:none;
+    background:radial-gradient(circle, rgba(122,80,255,.42), rgba(0,194,255,.22) 45%, transparent 70%);
+  }
+  .render__panel{
+    position:relative; z-index:2; width:min(680px,100%);
+    padding:clamp(28px,4vw,46px); border-radius:var(--r-lg);
+  }
+  .render__panel > *{ position:relative; z-index:2; }
+
+  .render__bar{
+    display:flex; align-items:center; gap:10px; margin-bottom:26px;
+    padding-bottom:18px; border-bottom:1px solid var(--line);
+  }
+  .render__dots{ display:flex; gap:6px; }
+  .render__dots i{ width:11px; height:11px; border-radius:50%; background:var(--line); }
+  .render__dots i:first-child{ background:#ff5f57; }
+  .render__dots i:nth-child(2){ background:#febc2e; }
+  .render__dots i:nth-child(3){ background:#28c840; }
+  .render__title{
+    font-family:var(--font-display); font-size:.8rem; letter-spacing:.06em;
+    color:var(--muted); margin-left:6px;
+  }
+
+  .render__code{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(2.6rem,7vw,4.6rem); line-height:1; letter-spacing:-.04em;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:.35em;
+  }
+  .render__h1{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(1.3rem,3vw,2rem); letter-spacing:-.03em; line-height:1.15;
+    margin-bottom:14px;
+  }
+  .render__p{ font-size:.95rem; color:var(--ink-soft); max-width:52ch; }
+  .render__p + .render__p{ margin-top:12px; }
+
+  .render__progress{
+    margin:30px 0 10px; height:8px; border-radius:99px;
+    background:rgba(11,11,18,.07); overflow:hidden;
+  }
+  .render__progress span{
+    display:block; height:100%; width:99%;
+    background:var(--grad); border-radius:99px;
+    animation:nudge 4.5s ease-in-out infinite;
+  }
+  @keyframes nudge{
+    0%,100%{ transform:translateX(0) }
+    50%    { transform:translateX(-.6%) }
+  }
+  .render__meta{
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px;
+    font-family:var(--font-display); font-size:.78rem; letter-spacing:.04em; color:var(--muted);
+  }
+  .render__meta b{ color:var(--accent); font-weight:500; }
+
+  .render__log{
+    margin-top:26px; padding:18px 20px; border-radius:var(--r);
+    background:rgba(11,11,18,.035); border:1px solid var(--line-soft);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.78rem; line-height:1.9; color:var(--ink-soft);
+    max-height:150px; overflow:hidden;
+  }
+  .render__log span{ display:block; }
+  .render__log span::before{ content:"› "; color:var(--accent); }
+  .render__log span:last-child{ color:var(--muted); }
+
+  .render__actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+
+  @media (prefers-reduced-motion:reduce){
+    .render__progress span{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="fx-grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
+
+<main class="render">
+  <div class="render__aura" aria-hidden="true"></div>
+
+  <div class="render__panel glass">
+    <div class="render__bar" aria-hidden="true">
+      <span class="render__dots"><i></i><i></i><i></i></span>
+      <span class="render__title">cutlass — export.mp4</span>
+    </div>
+
+    <p class="render__code">ERROR 501</p>
+    <h1 class="render__h1">This project is still exporting.</h1>
+
+    <p class="render__p">
+      Cutlass is an AI-first video editor I'm building — a desktop NLE where the AI
+      and the human dispatch the exact same commands, so anything you can click, it
+      can do, and anything it can do, you can undo.
+    </p>
+    <p class="render__p">
+      Version 1 isn't finished, which means it has no website yet, which means this
+      page is what you get. It felt more honest than a dead link.
+    </p>
+
+    <div class="render__progress" aria-hidden="true"><span></span></div>
+    <div class="render__meta">
+      <span>Status: <b>rendering</b></span>
+      <span>Progress: <b>99%</b></span>
+      <span>Time remaining: <b id="eta">calculating…</b></span>
+    </div>
+
+    <div class="render__log" aria-hidden="true">
+      <span>building command registry… ok</span>
+      <span>generating capability manifest… ok</span>
+      <span>linking ffmpeg pipeline… ok</span>
+      <span>writing the marketing site… <em>not found</em></span>
+      <span>stuck at 99%. as is tradition.</span>
+    </div>
+
+    <div class="render__actions">
+      <a class="btn btn--solid magnetic" href="index.html#work"><span>← Back to the work</span></a>
+      <a class="btn btn--ghost magnetic" href="index.html#contact"><span>Ask me about it</span></a>
+    </div>
+  </div>
+</main>
+
+<script>
+  /* the estimate never improves, which is the joke */
+  (function () {
+    var el = document.getElementById('eta');
+    if (!el) return;
+    var lines = ['calculating…', '2 minutes', '41 minutes', 'a moment', '3 weeks', 'calculating…'];
+    var i = 0;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(function () {
+      i = (i + 1) % lines.length;
+      el.textContent = lines[i];
+    }, 2600);
+  })();
+</script>
+</body>
+</html>
