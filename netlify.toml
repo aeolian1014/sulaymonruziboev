@@ -1,0 +1,35 @@
+[build]
+  publish = "."
+
+# Fingerprinted assets these are not — but images and the stylesheet only change
+# when I redeploy, and Netlify serves a fresh copy on every deploy anyway. A long
+# max-age with must-revalidate keeps repeat visits instant without serving stale
+# files after a push.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, must-revalidate"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+# The pages themselves must never be cached hard, or a deploy takes hours to
+# reach anyone who has already visited.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"

@@ -34,8 +34,14 @@
   var badge  = document.querySelector('.hero__badge');
   var label  = badge && badge.querySelector('p');
 
+  // Dragging needs room and a precise pointer. On a phone the badge sits at the
+  // bottom of the stacked hero, the gesture fights the page scroll, and there is
+  // nowhere to pull the cell open to — so the layer comes out entirely and the
+  // plain CSS badge takes over. Same breakpoint at which the nav collapses.
+  var SMALL = window.matchMedia('(max-width: 820px)').matches;
+
   if (!layer || !svg || !clip || !orbEl || !hero || !badge) return;
-  if (REDUCED) { layer.remove(); return; }        // keep the plain CSS badge
+  if (REDUCED || SMALL) { layer.remove(); return; }   // keep the plain CSS badge
 
   /* ── tuning ────────────────────────────────────────────── */
   var M            = 52;    // samples along the axis (outline = 2M-2 points)

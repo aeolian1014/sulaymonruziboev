@@ -7,9 +7,12 @@
 <meta name="description" content="Sulaymon Ruziboev — software developer in Samarkand, Uzbekistan. Desktop apps, web platforms and motion design. Selected work and contact." />
 <meta name="theme-color" content="#f4f4f7" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<!-- Fonts are self-hosted (see css/style.css). Preloaded because they sit one
+     level deep — the browser would otherwise only discover them after parsing
+     the stylesheet, delaying every piece of text on the page. -->
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="css/style.css" />
 
 <!-- importmap 
@@ -97,7 +100,7 @@
       </defs>
       <g clip-path="url(#blob-clip)">
         <image id="reveal-img" preserveAspectRatio="xMidYMid slice"
-               href="assets/work/hero-bg.png" />
+               href="assets/work/hero-bg.webp" />
         <rect id="reveal-veil" x="0" y="0" width="100%" height="100%" fill="#ffffff" opacity="0.86" />
       </g>
       <path id="blob-stroke" d="" fill="none" stroke="rgba(11,11,18,.13)" stroke-width="1" />
@@ -198,7 +201,7 @@
 
     <a class="card" data-tilt href="https://aeolian.netlify.app/" target="_blank" rel="noopener">
       <div class="card__media">
-        <img src="assets/work/aeolian.png" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" />
+        <img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
       </div>
       <div class="card__body glass">
@@ -212,7 +215,7 @@
 
     <a class="card" data-tilt href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">
       <div class="card__media">
-        <img src="assets/work/shorts-pilot.png" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" />
+        <img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
       </div>
       <div class="card__body glass">

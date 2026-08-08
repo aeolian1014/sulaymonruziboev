@@ -1,8 +1,36 @@
 /* ============================================================
-   Alex Moran — portfolio
+   Sulaymon Ruziboev — portfolio
    Light-futurist system: white canvas, glass surfaces,
    violet→cyan accent used only as light.
    ============================================================ */
+
+/* ── fonts ─────────────────────────────────────────────────────
+   Self-hosted. Loading these from Google costs two extra DNS+TLS
+   handshakes AND serialises them — the font files can't start until
+   the stylesheet from a *different* host has arrived. Served from
+   our own origin they reuse the connection already open for the HTML.
+
+   Both are variable fonts, so one file per family covers 400–600
+   rather than one file per weight. Latin subset only.
+   ───────────────────────────────────────────────────────────── */
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:400 600;
+  font-display:swap;
+  src:url('../assets/fonts/inter-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
+    U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Space Grotesk';
+  font-style:normal;
+  font-weight:400 600;
+  font-display:swap;
+  src:url('../assets/fonts/space-grotesk-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
+    U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
 
 /* ── tokens ────────────────────────────────────────────────── */
 :root{
@@ -41,7 +69,13 @@
 
 /* ── reset ─────────────────────────────────────────────────── */
 *,*::before,*::after{ box-sizing:border-box; }
-html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+html{
+  -webkit-text-size-adjust:100%; scroll-behavior:smooth;
+  /* Kill the grey/blue flash mobile browsers paint over anything tappable.
+     This is the touch highlight only — :focus-visible below is untouched, so
+     keyboard users keep their focus ring. */
+  -webkit-tap-highlight-color:transparent;
+}
 body{
   margin:0;
   background:var(--bg);
@@ -475,7 +509,9 @@ html.blob-on .hero__badge p{ transition:opacity .25s linear; }
 section{ position:relative; z-index:1; }
 
 /* ── ABOUT ───────────────────────────────────────────────── */
-.about{ padding:clamp(90px,14vh,160px) var(--pad); }
+/* same vertical rhythm as .work / .caps — this section used to run a larger
+   clamp on both sides, which read as a hole above Selected Work */
+.about{ padding:clamp(60px,9vh,110px) var(--pad) clamp(90px,13vh,150px); }
 .about__sticky{ max-width:1100px; margin-inline:auto; display:grid; gap:clamp(36px,6vw,64px); }
 .about__text{
   font-family:var(--font-display); font-weight:400;
@@ -697,6 +733,10 @@ section{ position:relative; z-index:1; }
   .exp__item{ grid-template-columns:1fr; gap:10px; }
   .hero{ min-height:auto; padding-top:130px; }
   .hero__scroll{ display:none; }
+  /* The orb is only meaningful when you can drag it, and you can't here —
+     blob.js bails at this same breakpoint. Hiding the badge too, otherwise
+     the static CSS fallback just takes its place and looks identical. */
+  .hero__badge{ display:none; }
   .hero__note{ flex-direction:column; align-items:flex-start; }
   .card__body{ margin:-40px 12px 12px; padding:22px; }
 }
