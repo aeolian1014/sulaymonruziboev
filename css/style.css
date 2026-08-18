@@ -677,6 +677,57 @@ section{ position:relative; z-index:1; }
 }
 .cap p{ font-size:.92rem; color:var(--ink-soft); }
 
+/* ── TOOLKIT ─────────────────────────────────────────────── */
+/* One tone quieter than Capabilities: same glass card, but the icon stays a
+   flat outline and the weight sits in the chips, so a long tool list doesn't
+   out-shout the four things I can actually build. */
+.kit{ padding:clamp(60px,9vh,110px) 0 clamp(90px,13vh,150px); }
+.sec-lede{
+  font-size:1rem; line-height:1.6; color:var(--ink-soft); max-width:52ch;
+}
+.kit__grid{
+  max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad);
+  display:grid; gap:clamp(16px,2vw,24px); align-items:start;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+}
+.kit__card{
+  padding:28px 26px 30px; border-radius:var(--r-lg);
+  transition:transform .6s var(--ease-out), box-shadow .6s var(--ease-out);
+}
+.kit__card > *{ position:relative; z-index:2; }
+.kit__card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+.kit__ico{
+  display:grid; place-items:center; width:40px; height:40px; margin-bottom:18px;
+  border-radius:13px; font-size:.95rem; color:var(--accent);
+  border:1px solid rgba(106,59,255,.28); background:rgba(106,59,255,.07);
+  transition:background .45s, color .45s, transform .6s var(--ease-out);
+}
+.kit__card:hover .kit__ico{
+  background:var(--ink); border-color:var(--ink); color:#fff; transform:rotate(-8deg);
+}
+.kit__card h3{
+  font-family:var(--font-display); font-weight:500; font-size:1.08rem;
+  letter-spacing:-.025em; margin-bottom:8px;
+}
+.kit__card p{ font-size:.87rem; line-height:1.55; color:var(--ink-soft); }
+.kit__list{
+  display:flex; flex-wrap:wrap; gap:7px;
+  margin-top:18px; padding-top:18px; border-top:1px solid var(--line);
+}
+.kit__list li{
+  font-size:.76rem; letter-spacing:.01em; color:var(--ink);
+  padding:6px 12px; border-radius:var(--r-pill);
+  border:1px solid var(--line); background:rgba(255,255,255,.62);
+  transition:border-color .35s var(--ease), background .35s var(--ease);
+}
+.kit__card:hover .kit__list li{ border-color:rgba(106,59,255,.26); background:rgba(255,255,255,.85); }
+/* Seven cards never fill a four-wide row. Above the width where the fourth
+   column appears, the motion card — the one with the longest list — takes the
+   spare slot so the second row reads as a decision, not a gap. */
+@media (min-width:1376px){
+  .kit__card:nth-child(6){ grid-column:span 2; }
+}
+
 /* ── EXPERIENCE ──────────────────────────────────────────── */
 .exp{ padding:clamp(60px,9vh,110px) 0 clamp(48px,6vh,72px); }
 .exp__list{ max-width:1100px; margin-inline:auto; padding-inline:var(--pad); }
