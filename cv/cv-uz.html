@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8" />
+<title>Sulaymon Ruziboev — Rezyume</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Sodda, ATS uchun xavfsiz rezyume.
+   Bir ustun, haqiqiy matn, jadval yo'q, rasm yo'q, ikonka yo'q.
+   Brauzerda ochib Ctrl+P → "Save as PDF" qiling (A4, Margins: None,
+   "Background graphics" belgisini olib tashlang).
+   Havolalar PDF'da ham bosiladigan bo'lib qoladi.
+   ───────────────────────────────────────────────────────────── */
+
+@page { size: A4; margin: 14mm 15mm; }
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.42;
+  color: #111;
+  background: #fff;
+  max-width: 190mm;
+  margin: 0 auto;
+  padding: 14mm 15mm;
+}
+
+/* ── til almashtirish (faqat ekranda) ── */
+.langswitch {
+  text-align: right;
+  font-size: 9pt;
+  margin-bottom: 10px;
+}
+.langswitch a { color: #444; }
+.langswitch b { color: #111; }
+
+/* ── sarlavha ── */
+h1 {
+  font-size: 20pt;
+  letter-spacing: -0.4px;
+  margin: 0 0 2px;
+}
+.role {
+  font-size: 11pt;
+  color: #333;
+  margin: 0 0 6px;
+}
+.contact {
+  font-size: 9.4pt;
+  color: #333;
+  margin: 0 0 14px;
+}
+
+a { color: #111; text-decoration: none; border-bottom: 1px solid #bbb; }
+a:hover { border-bottom-color: #111; }
+
+/* ── bo'limlar ── */
+h2 {
+  font-size: 9.6pt;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 3px;
+  margin: 15px 0 8px;
+}
+
+/* ── yozuvlar ── */
+.item { margin-bottom: 9px; }
+.item:last-child { margin-bottom: 0; }
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.title { font-weight: 700; }
+.date { font-size: 9.2pt; color: #555; white-space: nowrap; }
+.date a { color: #555; }
+.org { font-size: 9.6pt; color: #333; margin: 1px 0 3px; }
+.stack { font-size: 9.2pt; color: #555; margin-top: 2px; }
+
+ul { margin: 3px 0 0; padding-left: 16px; }
+li { margin-bottom: 2px; }
+
+p { margin: 0; }
+.skills p { margin-bottom: 3px; }
+.skills b { font-weight: 700; }
+
+.inline { display: flex; gap: 22px; flex-wrap: wrap; }
+
+@media print {
+  .langswitch { display: none; }
+  .item { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<p class="langswitch"><b>O'zbekcha</b> · <a href="cv-en.html">English</a></p>
+
+<h1>Sulaymon Ruziboev</h1>
+<p class="role">Software Developer — Web va Desktop dasturlar</p>
+<p class="contact">
+  Samarqand, O'zbekiston · <a href="tel:+998943145577">+998 94 314 55 77</a> ·
+  <a href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a><br />
+  <a href="https://sulaymonruziboev.netlify.app/">sulaymonruziboev.netlify.app</a> ·
+  <a href="https://github.com/aeolian1014">github.com/aeolian1014</a>
+</p>
+
+<h2>Qisqacha</h2>
+<p>
+  Grafika va motion dizayndan dasturlashga o'tgan mustaqil dasturchi. Ikki yil ichida
+  JavaScript, Python va Rust'da to'liq ishlaydigan mahsulotlar qurdim — ma'lumotlar
+  bazasi, backend va foydalanuvchi interfeysi, hammasini o'zim qildim. Asosan front-endda kuchliroqman. To'rtta loyiha real
+  foydalanishda yoki demo holatida ishlab turibdi. Birinchi software developer'lik ish o'rnini
+  qidiryapman.
+</p>
+
+<h2>Texnik ko'nikmalar</h2>
+<div class="skills">
+  <p><b>Dasturlash tillari:</b> JavaScript, Python, Rust, SQL</p>
+  <p><b>Backend va ma'lumotlar bazasi:</b> PostgreSQL, Supabase, Row-Level Security, REST API, OAuth 2.0</p>
+  <p><b>Frontend:</b> HTML, CSS, Three.js, WebGL, GSAP</p>
+  <p><b>Desktop va avtomatlashtirish:</b> Tauri, pywebview, ffmpeg, YouTube Data API</p>
+  <p><b>Vositalar:</b> Git, Netlify, Adobe Photoshop, After Effects</p>
+</div>
+
+<h2>Loyihalar</h2>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Cutlass — AI asosidagi video muharrir</span>
+    <span class="date">2026 — jarayonda</span>
+  </div>
+  <ul>
+    <li>Desktop video editor: dastur ichida video edit jarayonida foydalanuvchi va Ai bir hil kuchga ega. To'g'ri sozlamalar bilan Ai'ni to'liq avtomatlashtirsa bo'ladi va yo'naltirilgan
+      papkadagi hamma video paketlari va keyinchalik papkaga kelib tushadigan loyihalarni ham edit qila oladi. Oddiyroq editlar uchun esa Built-in Automation fuksiyasi ham bor. U resurslarni 
+      visual analiz qilmasdan shunchaki kliplarni ulab chiqadi, logotip va orqa fon musiqasini joyladi. Dasturda auto-eksport funksiyasi ham bor. U har bitta editni user aralashuvisiz 
+      yo'naltirilgan papkaga eksport qiladi
+    </li>
+    <li>Undo, skript orqali boshqarish va AI qo'llab-quvvatlashi — hammasi shu bitta arxitekturadan kelib chiqadi.</li>
+  </ul>
+  <p class="stack">Rust · Tauri · JavaScript · ffmpeg</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Galera — rassomlar uchun obuna platformasi</span>
+    <span class="date">2026 · <a href="https://artgalera.netlify.app/">artgalera.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Tasviriy san'at ustalari uchun raqamli platforma (patreon, artstation, pixiv'ga o'xshash). U yerda rassomlar o'zlari qilgan ishlarni oylik obuna orqali yoki bittalab sotishi mumkin 
+      (4K fayllar, PSD, jarayon videolarini ham).
+    </li>
+    <li>Akkauntlar, obunalar va har bir san'at asariga kirish huquqi brauzerga ishonmasdan, ma'lumotlar bazasida Row-Level Security orqali nazorat qilinadi.</li>
+  </ul>
+  <p class="stack">JavaScript · Supabase · PostgreSQL</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Shorts Pilot — Instagram'dan YouTube'ga avtomatik yuklash</span>
+    <span class="date">2026 · <a href="https://shortspilot.netlify.app/">shortspilot.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Windows desktop dasturi: clipboard'ni kuzatadi, nusxa olingan havoladan videoni yuklab oladi, qaysi kanalga tegishli ekanini aniqlaydi va har bir kanal uchun belgilangan vaqt oraliqda videolarni 
+      joylaydi yoki navbatga qoyadi. Hozirda bu dastur yanada mukammalashtirilyapti. Maqsad YT, IG, TT uchun yagona Content Control Center ochish. Keyin versiya google tomonidan verifikatsiya qilinishi, 
+      serverlar orqali ishlashi va Cutlass Ai video editor bilan intergratsiya qilinishi rejalashtirilmoqda. Shunda foydalanuvchilar bittagina App orqali videolarni qo'lda yoki AI orqali edit qilishi va 
+      kontentini birdaniga barcha platfromlarga joylashi yoki navbatga qoyishi mumkin.
+    </li>
+    <li>OAuth 2.0 orqali YouTube akkauntlariga ulanish va tokenlarni xavfsiz saqlash; fon rejimida rejalashtiruvchi doimiy ishlab turadi.</li>
+  </ul>
+  <p class="stack">Python · JavaScript · YouTube Data API · OAuth 2.0 · pywebview</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Portfolio saytlari — dasturchilik va dizayn</span>
+    <span class="date">2025–2026 · <a href="https://aeolian.netlify.app/">aeolian.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Freymvorksiz, qo'lda yozilgan statik saytlar: Three.js hero sahnasi, scroll animatsiyalari, filtrlanadigan 36 loyihali galereya va lightbox.</li>
+    <li>Butun interfeys dizayn tokenlaridan qurilgan; animatsiyalar <i>prefers-reduced-motion</i> sozlamasiga bo'ysunadi.</li>
+  </ul>
+  <p class="stack">JavaScript · Three.js · WebGL · GSAP · Netlify</p>
+</div>
+
+<h2>Ish tajribasi</h2>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Sotuv menejeri</span>
+    <span class="date">Sen 2025 — hozir</span>
+  </div>
+  <p class="org">Cho'pon Ota Trans Sifat Servis · Samarqand</p>
+  <p>Qurilish korxonalariga metall mahsulotlarini sotish va yetkazib berish; buyurtmalar va mijozlar bilan ishlash.</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Xorijda amaliyot (talabalik amaliyoti)</span>
+    <span class="date">Yan 2023 — Iyul 2024</span>
+  </div>
+  <p class="org">Landwirtschaftsbetrieb e.G · Wittenberg, Germaniya</p>
+  <p>Chorva mollari sutchilik fermasida turli yo'nalishlarda amaliyot; xalqaro jamoada nemis tilida ishlash.</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Dizayner / Tahrirlovchi (yarim stavka)</span>
+    <span class="date">Mar 2020 — May 2022</span>
+  </div>
+  <p class="org">Khurramov Publishing · Lolazor, Samarqand</p>
+  <p>Xorijiy jurnallar uchun maqolalarni tarjima qilish va tahrirlash; oylik paketlar va sertifikatlar uchun Adobe Photoshop'da dizaynlar tayyorlash.</p>
+</div>
+
+<h2>Ta'lim</h2>
+<div class="item">
+  <div class="line">
+    <span class="title">Bakalavr — Qishloq xo'jaligi iqtisodiyoti</span>
+    <span class="date">2020 — 2026</span>
+  </div>
+  <p class="org">Toshkent Davlat Iqtisodiyot Universiteti, Samarqand filiali</p>
+</div>
+
+<h2>Tillar</h2>
+<div class="inline">
+  <span>O'zbek — ona tili</span>
+  <span>Ingliz — B2–C1</span>
+  <span>Nemis — A1–A2</span>
+</div>
+
+</body>
+</html>

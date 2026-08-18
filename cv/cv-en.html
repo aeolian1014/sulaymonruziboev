@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sulaymon Ruziboev — CV</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Plain, ATS-safe CV.
+   One column, real text, no tables, no images, no icons.
+   Open in a browser and press Ctrl+P → "Save as PDF"
+   (A4, Margins: None, "Background graphics" unchecked).
+   Links stay clickable in the exported PDF.
+   ───────────────────────────────────────────────────────────── */
+
+@page { size: A4; margin: 14mm 15mm; }
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.42;
+  color: #111;
+  background: #fff;
+  max-width: 190mm;
+  margin: 0 auto;
+  padding: 14mm 15mm;
+}
+
+/* ── language switch (screen only) ── */
+.langswitch {
+  text-align: right;
+  font-size: 9pt;
+  margin-bottom: 10px;
+}
+.langswitch a { color: #444; }
+.langswitch b { color: #111; }
+
+/* ── header ── */
+h1 {
+  font-size: 20pt;
+  letter-spacing: -0.4px;
+  margin: 0 0 2px;
+}
+.role {
+  font-size: 11pt;
+  color: #333;
+  margin: 0 0 6px;
+}
+.contact {
+  font-size: 9.4pt;
+  color: #333;
+  margin: 0 0 14px;
+}
+
+a { color: #111; text-decoration: none; border-bottom: 1px solid #bbb; }
+a:hover { border-bottom-color: #111; }
+
+/* ── sections ── */
+h2 {
+  font-size: 9.6pt;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 3px;
+  margin: 15px 0 8px;
+}
+
+/* ── entries ── */
+.item { margin-bottom: 9px; }
+.item:last-child { margin-bottom: 0; }
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.title { font-weight: 700; }
+.date { font-size: 9.2pt; color: #555; white-space: nowrap; }
+.date a { color: #555; }
+.org { font-size: 9.6pt; color: #333; margin: 1px 0 3px; }
+.stack { font-size: 9.2pt; color: #555; margin-top: 2px; }
+
+ul { margin: 3px 0 0; padding-left: 16px; }
+li { margin-bottom: 2px; }
+
+p { margin: 0; }
+.skills p { margin-bottom: 3px; }
+.skills b { font-weight: 700; }
+
+.inline { display: flex; gap: 22px; flex-wrap: wrap; }
+
+@media print {
+  .langswitch { display: none; }
+  .item { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<p class="langswitch"><b>English</b> · <a href="cv-uz.html">O'zbekcha</a></p>
+
+<h1>Sulaymon Ruziboev</h1>
+<p class="role">Software Developer — Web &amp; Desktop</p>
+<p class="contact">
+  Samarkand, Uzbekistan · <a href="tel:+998943145577">+998 94 314 55 77</a> ·
+  <a href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a><br />
+  <a href="https://sulaymonruziboev.netlify.app/">sulaymonruziboev.netlify.app</a> ·
+  <a href="https://github.com/aeolian1014">github.com/aeolian1014</a>
+</p>
+
+<h2>Profile</h2>
+<p>
+  Designer turned developer. Over two years I've built complete products in JavaScript,
+  Python and Rust — the database, the backend and the interface people actually touch,
+  all of it myself. Four projects are running in real or demo use. Looking for my first
+  developer role, remote or on-site.
+</p>
+
+<h2>Technical Skills</h2>
+<div class="skills">
+  <p><b>Languages:</b> JavaScript, Python, Rust, SQL</p>
+  <p><b>Backend &amp; data:</b> PostgreSQL, Supabase, Row-Level Security, REST APIs, OAuth 2.0</p>
+  <p><b>Frontend:</b> HTML, CSS, Three.js, WebGL, GSAP</p>
+  <p><b>Desktop &amp; automation:</b> Tauri, pywebview, ffmpeg, YouTube Data API</p>
+  <p><b>Tools:</b> Git, Netlify, Adobe Photoshop, After Effects</p>
+</div>
+
+<h2>Projects</h2>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Cutlass — AI-first video editor</span>
+    <span class="date">2026 — in progress</span>
+  </div>
+  <ul>
+    <li>Desktop video editor where every edit is a single serialisable, invertible command object, so the AI and the human dispatch exactly the same commands.</li>
+    <li>Undo, scripting and AI parity all fall out of that one architectural decision.</li>
+  </ul>
+  <p class="stack">Rust · Tauri · JavaScript · ffmpeg</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Galera — membership platform for digital artists</span>
+    <span class="date">2026 · <a href="https://artgalera.netlify.app/">artgalera.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Artwork stays public while supporters subscribe to monthly tiers and unlock the studio — 4K files, PSDs, process videos.</li>
+    <li>Accounts, pledges and per-artwork access are enforced in the database with row-level security rather than trusted to the browser.</li>
+  </ul>
+  <p class="stack">JavaScript · Supabase · PostgreSQL · Netlify</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Shorts Pilot — Instagram to YouTube, paced</span>
+    <span class="date">2026 · <a href="https://shortspilot.netlify.app/">shortspilot.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Windows desktop app that watches the clipboard: copy a reel link and it downloads the clip, works out which channel it belongs to, and releases it on a per-channel interval.</li>
+    <li>Holds OAuth 2.0 tokens for multiple YouTube accounts and keeps a background scheduler running.</li>
+  </ul>
+  <p class="stack">Python · JavaScript · YouTube Data API · OAuth 2.0 · pywebview</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Portfolio sites — development and design</span>
+    <span class="date">2025–2026 · <a href="https://aeolian.netlify.app/">aeolian.netlify.app</a></span>
+  </div>
+  <ul>
+    <li>Hand-written static sites with no framework and no build step: a Three.js hero, scroll-driven animation, and a filterable 36-project gallery with a lightbox.</li>
+    <li>Built from design tokens up; every animation respects <i>prefers-reduced-motion</i>.</li>
+  </ul>
+  <p class="stack">JavaScript · Three.js · WebGL · GSAP · Netlify</p>
+</div>
+
+<h2>Experience</h2>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Sales Manager</span>
+    <span class="date">Sep 2025 — Present</span>
+  </div>
+  <p class="org">Cho'pon Ota Trans Sifat Servis · Samarkand, Uzbekistan</p>
+  <p>Selling and delivering metal products to construction companies; handling orders and client relationships.</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Practical Placement Abroad (student placement)</span>
+    <span class="date">Jan 2023 — Jul 2024</span>
+  </div>
+  <p class="org">Landwirtschaftsbetrieb e.G · Wittenberg, Germany</p>
+  <p>Placement across several areas of a dairy cattle farm; working in an international team in German.</p>
+</div>
+
+<div class="item">
+  <div class="line">
+    <span class="title">Designer / Editor (part-time)</span>
+    <span class="date">Mar 2020 — May 2022</span>
+  </div>
+  <p class="org">Khurramov Publishing · Lolazor, Samarkand, Uzbekistan</p>
+  <p>Translating and editing articles for foreign magazines; designing monthly packages and certificates in Adobe Photoshop.</p>
+</div>
+
+<h2>Education</h2>
+<div class="item">
+  <div class="line">
+    <span class="title">BSc — Agricultural Economics</span>
+    <span class="date">2020 — 2026</span>
+  </div>
+  <p class="org">Tashkent State University of Economics, Samarkand branch</p>
+</div>
+
+<h2>Languages</h2>
+<div class="inline">
+  <span>Uzbek — native</span>
+  <span>English — B2–C1</span>
+  <span>German — A1–A2</span>
+</div>
+
+</body>
+</html>

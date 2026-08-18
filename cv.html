@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CV — Sulaymon Ruziboev</title>
+<meta name="description" content="Sulaymon Ruziboev — software developer in Samarkand, Uzbekistan. Projects, skills, experience and education." />
+<meta name="theme-color" content="#f4f4f7" />
+
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+  /* page-specific — everything else comes from the site's tokens */
+  .cv{
+    position:relative; z-index:1;
+    display:flex; justify-content:center;
+    padding:clamp(70px,10vh,120px) var(--pad) clamp(60px,9vh,110px);
+  }
+  .cv__aura{
+    position:absolute; left:50%; top:26%; transform:translate(-50%,-50%);
+    width:min(900px,120vw); aspect-ratio:1; border-radius:50%;
+    filter:blur(90px); opacity:.5; pointer-events:none;
+    background:radial-gradient(circle, rgba(122,80,255,.40), rgba(0,194,255,.20) 45%, transparent 70%);
+  }
+  .cv__panel{
+    position:relative; z-index:2; width:min(780px,100%);
+    padding:clamp(26px,4vw,46px); border-radius:var(--r-lg);
+  }
+  .cv__panel > *{ position:relative; z-index:2; }
+
+  /* ── window chrome + language switch ─────────────────────── */
+  .cv__bar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    margin-bottom:28px; padding-bottom:18px; border-bottom:1px solid var(--line);
+  }
+  .cv__dots{ display:flex; gap:6px; }
+  .cv__dots i{ width:11px; height:11px; border-radius:50%; background:var(--line); }
+  .cv__dots i:first-child{ background:#ff5f57; }
+  .cv__dots i:nth-child(2){ background:#febc2e; }
+  .cv__dots i:nth-child(3){ background:#28c840; }
+  .cv__file{
+    font-family:var(--font-display); font-size:.8rem; letter-spacing:.06em;
+    color:var(--muted); margin-left:6px;
+  }
+  .cv__lang{ margin-left:auto; display:flex; gap:4px; padding:3px; border-radius:var(--r-pill);
+             background:rgba(11,11,18,.05); border:1px solid var(--line-soft); }
+  .cv__lang button{
+    font-family:var(--font-display); font-size:.74rem; letter-spacing:.08em;
+    padding:6px 14px; border:0; border-radius:var(--r-pill);
+    background:transparent; color:var(--muted); cursor:pointer;
+    transition:background .25s var(--ease), color .25s var(--ease);
+  }
+  .cv__lang button:hover{ color:var(--ink); }
+  .cv__lang button[aria-pressed="true"]{ background:var(--ink); color:#fff; }
+
+  /* ── identity ────────────────────────────────────────────── */
+  .cv__name{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(2rem,5.5vw,3.4rem); line-height:1; letter-spacing:-.04em;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:.3em;
+  }
+  .cv__role{
+    font-family:var(--font-display); font-size:clamp(.95rem,2vw,1.15rem);
+    letter-spacing:-.01em; color:var(--ink); margin-bottom:14px;
+  }
+  .cv__contact{
+    display:flex; flex-wrap:wrap; gap:6px 18px;
+    font-size:.86rem; color:var(--ink-soft);
+  }
+  .cv__contact a{ color:var(--ink-soft); text-decoration:none; border-bottom:1px solid var(--line); }
+  .cv__contact a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+
+  /* ── sections ────────────────────────────────────────────── */
+  .cv__sec{ margin-top:34px; }
+  .cv__label{
+    font-family:var(--font-display); font-size:.72rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted);
+    padding-bottom:8px; margin-bottom:16px; border-bottom:1px solid var(--line-soft);
+  }
+  .cv__intro{ font-size:.95rem; color:var(--ink-soft); max-width:60ch; }
+
+  /* skills, as a terminal read-out */
+  .cv__log{
+    padding:18px 20px; border-radius:var(--r);
+    background:rgba(11,11,18,.035); border:1px solid var(--line-soft);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.78rem; line-height:2; color:var(--ink-soft);
+  }
+  .cv__log span{ display:block; }
+  .cv__log span::before{ content:"› "; color:var(--accent); }
+  .cv__log b{ color:var(--ink); font-weight:500; }
+
+  /* entries */
+  .cv__item{ padding:16px 0; border-bottom:1px solid var(--line-soft); }
+  .cv__item:first-of-type{ padding-top:0; }
+  .cv__item:last-child{ border-bottom:0; padding-bottom:0; }
+  .cv__row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    gap:14px; flex-wrap:wrap;
+  }
+  .cv__item h3{
+    font-family:var(--font-display); font-weight:500;
+    font-size:1.02rem; letter-spacing:-.02em; color:var(--ink);
+  }
+  .cv__item h3 a{
+    color:inherit; text-decoration:none;
+    border-bottom:1px solid var(--line);
+    transition:color .25s var(--ease), border-color .25s var(--ease);
+  }
+  .cv__item h3 a::after{ content:" ↗"; font-size:.78em; color:var(--muted); }
+  .cv__item h3 a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+  .cv__item h3 a:hover::after{ color:var(--accent); }
+  .cv__date{
+    font-family:var(--font-display); font-size:.75rem; letter-spacing:.05em;
+    color:var(--muted); white-space:nowrap;
+  }
+  .cv__date a{
+    color:var(--muted); text-decoration:none;
+    border-bottom:1px solid var(--line);
+    transition:color .25s var(--ease), border-color .25s var(--ease);
+  }
+  .cv__date a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+  .cv__org{ font-size:.84rem; color:var(--accent); margin-top:3px; }
+  .cv__desc{ font-size:.9rem; color:var(--ink-soft); margin-top:7px; max-width:64ch; }
+  .cv__desc + .cv__desc{ margin-top:5px; }
+
+  .cv__tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; list-style:none; }
+  .cv__tags li{
+    font-family:var(--font-display); font-size:.7rem; letter-spacing:.05em;
+    padding:4px 10px; border-radius:var(--r-pill);
+    background:rgba(11,11,18,.04); border:1px solid var(--line-soft); color:var(--ink-soft);
+  }
+  .cv__tags li.is-live{ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+  .cv__pair{ display:flex; flex-wrap:wrap; gap:8px 28px; font-size:.9rem; color:var(--ink-soft); }
+  .cv__pair b{ color:var(--ink); font-weight:500; }
+
+  .cv__actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:38px; }
+
+  /* ── language switching ──────────────────────────────────── */
+  [data-lang="uz"]{ display:none; }
+  body.is-uz [data-lang="uz"]{ display:block; }
+  body.is-uz [data-lang="en"]{ display:none; }
+  /* inline spans (role, contact line, button labels) must not become blocks */
+  body.is-uz span[data-lang="uz"]{ display:inline; }
+
+  /* ── print: strip the decoration, keep the content ───────── */
+  @media print{
+    @page{ size:A4; margin:14mm 15mm; }
+    body{ background:#fff; }
+    .fx-grain, .cursor, .cv__aura, .cv__dots, .cv__lang, .cv__actions{ display:none !important; }
+    .cv{ padding:0; }
+    .cv__panel{
+      width:100%; padding:0; border:0 !important;
+      background:none !important; box-shadow:none !important; backdrop-filter:none !important;
+    }
+    .cv__panel::after{ display:none !important; }
+    .cv__name{ -webkit-text-fill-color:#111; color:#111; background:none; font-size:24pt; }
+    .cv__org{ color:#333; }
+    .cv__log{ background:none; border-color:#ccc; }
+    .cv__item{ break-inside:avoid; }
+    .cv__sec{ break-inside:avoid-page; }
+  }
+</style>
+</head>
+<body>
+
+<div class="fx-grain" aria-hidden="true"></div>
+<!-- No .cursor element here: the custom cursor is driven by js/main.js, which this
+     page doesn't load. Without it the ring just parks itself in the top-left corner. -->
+
+<main class="cv">
+  <div class="cv__aura" aria-hidden="true"></div>
+
+  <article class="cv__panel glass">
+
+    <!-- ── window bar ─────────────────────────────────────── -->
+    <div class="cv__bar">
+      <span class="cv__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="cv__file" aria-hidden="true">cv — sulaymon_ruziboev</span>
+      <div class="cv__lang" role="group" aria-label="Language / Til">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-uz" aria-pressed="false">UZ</button>
+      </div>
+    </div>
+
+    <!-- ── identity (language-independent) ────────────────── -->
+    <h1 class="cv__name">Sulaymon Ruziboev</h1>
+    <p class="cv__role">
+      <span data-lang="en">Software Developer — Web &amp; Desktop</span>
+      <span data-lang="uz">Dasturchi — Web va Desktop dasturlar</span>
+    </p>
+    <div class="cv__contact">
+      <span data-lang="en">Samarkand, Uzbekistan</span>
+      <span data-lang="uz">Samarqand, O'zbekiston</span>
+      <a href="tel:+998943145577">+998 94 314 55 77</a>
+      <a href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a>
+      <a href="https://github.com/aeolian1014" target="_blank" rel="noopener">github.com/aeolian1014</a>
+    </div>
+
+    <!-- ══ ENGLISH ════════════════════════════════════════════ -->
+    <div data-lang="en" lang="en">
+
+      <section class="cv__sec">
+        <p class="cv__label">(01) — Profile</p>
+        <p class="cv__intro">
+          Designer turned developer. Over two years I've built complete products in
+          JavaScript, Python and Rust — the database, the backend and the interface
+          people actually touch, all of it myself. Four projects are running in real
+          or demo use. Looking for my first developer role, remote or on-site.
+        </p>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(02) — Technical skills</p>
+        <div class="cv__log">
+          <span><b>languages</b> — JavaScript, Python, Rust, SQL</span>
+          <span><b>backend &amp; data</b> — PostgreSQL, Supabase, row-level security, REST APIs, OAuth 2.0</span>
+          <span><b>frontend</b> — HTML, CSS, Three.js, WebGL, GSAP</span>
+          <span><b>desktop &amp; automation</b> — Tauri, pywebview, ffmpeg, YouTube Data API</span>
+          <span><b>tools</b> — Git, Netlify, Adobe Photoshop, After Effects, Adobe Illustrator</span>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(03) — Projects</p>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="soon.html">Cutlass — AI-first video editor</a></h3>
+            <span class="cv__date">2026 — in progress</span>
+          </div>
+          <p class="cv__desc">
+            A desktop editor where every edit is a single serialisable, invertible
+            command object, so the AI and the human dispatch exactly the same commands.
+            Undo, scripting and AI parity all fall out of that one decision.
+          </p>
+          <ul class="cv__tags"><li class="is-live">In progress</li><li>Rust</li><li>Tauri</li><li>JavaScript</li><li>ffmpeg</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://artgalera.netlify.app/" target="_blank" rel="noopener">Galera — membership platform for digital artists</a></h3>
+            <span class="cv__date">2026 · <a href="https://artgalera.netlify.app/" target="_blank" rel="noopener">artgalera.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            Artwork stays public while supporters subscribe to monthly tiers and unlock
+            artist works — 4K files, PSDs, process videos. Accounts, pledges and
+            per-artwork access are enforced in the database with row-level security
+            rather than trusted to the browser.
+          </p>
+          <ul class="cv__tags"><li class="is-live">Beta</li><li>JavaScript</li><li>Supabase</li><li>PostgreSQL</li><li>Netlify</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">Shorts Pilot — Instagram to YouTube, paced</a></h3>
+            <span class="cv__date">2026 · <a href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">shortspilot.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            A Windows desktop app that watches the clipboard: copy a reel link and it
+            downloads the clip, works out which channel it belongs to, and releases it
+            on a per-channel interval so a burst of links doesn't become a burst of
+            uploads. Holds OAuth 2.0 tokens for multiple YouTube accounts and keeps a
+            background scheduler running.
+          </p>
+          <ul class="cv__tags"><li>Python</li><li>JavaScript</li><li>YouTube Data API</li><li>OAuth 2.0</li><li>pywebview</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://aeolian.netlify.app/" target="_blank" rel="noopener">Portfolio sites — development and design</a></h3>
+            <span class="cv__date">2025–2026 · <a href="https://aeolian.netlify.app/" target="_blank" rel="noopener">aeolian.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            Hand-written static sites with no framework and no build step: a Three.js
+            hero, scroll-driven animation, and a filterable 36-project gallery with a
+            lightbox. Built from design tokens up, and every animation respects
+            <i>prefers-reduced-motion</i>.
+          </p>
+          <ul class="cv__tags"><li>JavaScript</li><li>Three.js</li><li>WebGL</li><li>GSAP</li><li>Netlify</li></ul>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(04) — Experience</p>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Sales Manager</h3>
+            <span class="cv__date">Sep 2025 — Present</span>
+          </div>
+          <p class="cv__org">Cho'pon Ota Trans Sifat Servis · Samarkand</p>
+          <p class="cv__desc">
+            Selling and delivering metal products to construction companies; handling
+            orders and client relationships.
+          </p>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Practical Placement Abroad (student placement)</h3>
+            <span class="cv__date">Jan 2023 — Jul 2024</span>
+          </div>
+          <p class="cv__org">Landwirtschaftsbetrieb e.G · Wittenberg, Germany</p>
+          <p class="cv__desc">
+            Placement across several areas of a dairy cattle farm; working in an
+            international team in German.
+          </p>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Designer / Editor (part-time)</h3>
+            <span class="cv__date">Mar 2020 — May 2022</span>
+          </div>
+          <p class="cv__org">Khurramov Publishing · Lolazor, Samarkand</p>
+          <p class="cv__desc">
+            Translating and editing articles for foreign magazines; designing monthly
+            packages and certificates in Adobe Photoshop.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(05) — Education</p>
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>BSc — Agricultural Economics</h3>
+            <span class="cv__date">2020 — 2026</span>
+          </div>
+          <p class="cv__org">Tashkent State University of Economics, Samarkand branch</p>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(06) — Languages</p>
+        <div class="cv__pair">
+          <span><b>Uzbek</b> — native</span>
+          <span><b>English</b> — B2–C1</span>
+          <span><b>German</b> — A1–A2</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ══ O'ZBEKCHA ══════════════════════════════════════════ -->
+    <div data-lang="uz" lang="uz">
+
+      <section class="cv__sec">
+        <p class="cv__label">(01) — Qisqacha</p>
+        <p class="cv__intro">
+          Dizayndan dasturlashga o'tgan dasturchi. Ikki yildan ortiq vaqt ichida
+          JavaScript, Python va Rust'da to'liq mahsulotlar qurdim — ma'lumotlar bazasi,
+          backend va foydalanuvchi ishlatadigan interfeys, hammasini o'zim. To'rtta
+          loyiha real yoki demo holatida ishlab turibdi. Birinchi dasturchilik ish
+          o'rnini qidiryapman — masofadan yoki ofisda.
+        </p>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(02) — Texnik ko'nikmalar</p>
+        <div class="cv__log">
+          <span><b>dasturlash tillari</b> — JavaScript, Python, Rust, SQL</span>
+          <span><b>backend va ma'lumotlar</b> — PostgreSQL, Supabase, row-level security, REST API, OAuth 2.0</span>
+          <span><b>frontend</b> — HTML, CSS, Three.js, WebGL, GSAP</span>
+          <span><b>desktop va avtomatlashtirish</b> — Tauri, pywebview, ffmpeg, YouTube Data API</span>
+          <span><b>vositalar</b> — Git, Netlify, Adobe Photoshop, After Effects</span>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(03) — Loyihalar</p>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="soon.html">Cutlass — AI asosidagi video muharrir</a></h3>
+            <span class="cv__date">2026 — jarayonda</span>
+          </div>
+          <p class="cv__desc">
+            Desktop video muharrir: har bir tahrir bitta seriyalanadigan va teskari
+            qaytariladigan buyruq obyekti sifatida saqlanadi, shu sabab AI va
+            foydalanuvchi aynan bir xil buyruqlarni ishlatadi. Undo, skript orqali
+            boshqarish va AI qo'llab-quvvatlashi — hammasi shu bitta qarordan kelib
+            chiqadi.
+          </p>
+          <ul class="cv__tags"><li class="is-live">Jarayonda</li><li>Rust</li><li>Tauri</li><li>JavaScript</li><li>ffmpeg</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://artgalera.netlify.app/" target="_blank" rel="noopener">Galera — rassomlar uchun obuna platformasi</a></h3>
+            <span class="cv__date">2026 · <a href="https://artgalera.netlify.app/" target="_blank" rel="noopener">artgalera.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            Asarlar ochiq qoladi, obunachilar esa oylik tariflarga yozilib yopiq
+            materiallarni ochadi — 4K fayllar, PSD'lar, jarayon videolari. Akkauntlar,
+            obunalar va har bir asarga kirish huquqi brauzerga ishonmasdan, ma'lumotlar
+            bazasida row-level security orqali nazorat qilinadi.
+          </p>
+          <ul class="cv__tags"><li class="is-live">Beta</li><li>JavaScript</li><li>Supabase</li><li>PostgreSQL</li><li>Netlify</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">Shorts Pilot — Instagram'dan YouTube'ga</a></h3>
+            <span class="cv__date">2026 · <a href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">shortspilot.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            Windows desktop dasturi clipboard'ni kuzatadi: havola nusxa olinganda
+            videoni yuklab oladi, qaysi kanalga tegishli ekanini aniqlaydi va har bir
+            kanal uchun belgilangan oraliqda chiqaradi — shunda ko'p havola birdaniga
+            yuklanib ketmaydi. Bir nechta YouTube akkaunti uchun OAuth 2.0 tokenlarini
+            saqlaydi va fon rejimida rejalashtiruvchi doimiy ishlab turadi.
+          </p>
+          <ul class="cv__tags"><li>Python</li><li>JavaScript</li><li>YouTube Data API</li><li>OAuth 2.0</li><li>pywebview</li></ul>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3><a href="https://aeolian.netlify.app/" target="_blank" rel="noopener">Portfolio saytlari — dasturlash va dizayn</a></h3>
+            <span class="cv__date">2025–2026 · <a href="https://aeolian.netlify.app/" target="_blank" rel="noopener">aeolian.netlify.app</a></span>
+          </div>
+          <p class="cv__desc">
+            Freymvorksiz va build bosqichisiz, qo'lda yozilgan statik saytlar: Three.js
+            hero sahnasi, scroll animatsiyalari va lightbox bilan filtrlanadigan 36
+            loyihali galereya. Butun interfeys dizayn tokenlaridan qurilgan, har bir
+            animatsiya esa <i>prefers-reduced-motion</i> sozlamasiga bo'ysunadi.
+          </p>
+          <ul class="cv__tags"><li>JavaScript</li><li>Three.js</li><li>WebGL</li><li>GSAP</li><li>Netlify</li></ul>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(04) — Ish tajribasi</p>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Sotuv menejeri</h3>
+            <span class="cv__date">Sen 2025 — hozir</span>
+          </div>
+          <p class="cv__org">Cho'pon Ota Trans Sifat Servis · Samarqand</p>
+          <p class="cv__desc">
+            Qurilish korxonalariga metall mahsulotlarini sotish va yetkazib berish;
+            buyurtmalar va mijozlar bilan ishlash.
+          </p>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Xorijda amaliyot (talabalik amaliyoti)</h3>
+            <span class="cv__date">Yan 2023 — Iyul 2024</span>
+          </div>
+          <p class="cv__org">Landwirtschaftsbetrieb e.G · Wittenberg, Germaniya</p>
+          <p class="cv__desc">
+            Chorva mollari sutchilik fermasida turli yo'nalishlarda amaliyot; xalqaro
+            jamoada nemis tilida ishlash.
+          </p>
+        </div>
+
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Dizayner / Tahrirlovchi (yarim stavka)</h3>
+            <span class="cv__date">Mar 2020 — May 2022</span>
+          </div>
+          <p class="cv__org">Khurramov Publishing · Lolazor, Samarqand</p>
+          <p class="cv__desc">
+            Xorijiy jurnallar uchun maqolalarni tarjima qilish va tahrirlash; oylik
+            paketlar va sertifikatlar uchun Adobe Photoshop'da dizaynlar tayyorlash.
+          </p>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(05) — Ta'lim</p>
+        <div class="cv__item">
+          <div class="cv__row">
+            <h3>Bakalavr — Qishloq xo'jaligi iqtisodiyoti</h3>
+            <span class="cv__date">2020 — 2026</span>
+          </div>
+          <p class="cv__org">Toshkent Davlat Iqtisodiyot Universiteti, Samarqand filiali</p>
+        </div>
+      </section>
+
+      <section class="cv__sec">
+        <p class="cv__label">(06) — Tillar</p>
+        <div class="cv__pair">
+          <span><b>O'zbek</b> — ona tili</span>
+          <span><b>Ingliz</b> — B2–C1</span>
+          <span><b>Nemis</b> — A1–A2</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── actions ────────────────────────────────────────── -->
+    <div class="cv__actions">
+      <a class="btn btn--solid magnetic" href="index.html#work">
+        <span data-lang="en">← Back to the work</span>
+        <span data-lang="uz">← Ishlarga qaytish</span>
+      </a>
+      <a class="btn btn--ghost magnetic" href="index.html#contact">
+        <span data-lang="en">Get in touch</span>
+        <span data-lang="uz">Bog'lanish</span>
+      </a>
+    </div>
+
+  </article>
+</main>
+
+<script>
+  /* Language switch. The two versions are both in the HTML; CSS shows one.
+     The choice is remembered so a reload doesn't throw it away. */
+  (function () {
+    var KEY = 'cv-lang';
+    var en  = document.getElementById('lang-en');
+    var uz  = document.getElementById('lang-uz');
+    if (!en || !uz) return;
+
+    function apply(lang, remember) {
+      var isUz = lang === 'uz';
+      document.body.classList.toggle('is-uz', isUz);
+      document.documentElement.lang = isUz ? 'uz' : 'en';
+      en.setAttribute('aria-pressed', String(!isUz));
+      uz.setAttribute('aria-pressed', String(isUz));
+      if (remember) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+    }
+
+    var saved;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    /* No stored choice: follow the browser, but only for Uzbek — English is the default. */
+    if (!saved && (navigator.language || '').toLowerCase().indexOf('uz') === 0) saved = 'uz';
+    if (saved) apply(saved, false);
+
+    en.addEventListener('click', function () { apply('en', true); });
+    uz.addEventListener('click', function () { apply('uz', true); });
+  })();
+</script>
+</body>
+</html>
