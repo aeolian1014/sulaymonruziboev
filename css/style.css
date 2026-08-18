@@ -282,6 +282,15 @@ body::before{
   content:""; position:absolute; inset:0; z-index:-1; border-radius:var(--r-pill);
   background:var(--ink);
 }
+.nav__actions{ display:flex; align-items:center; gap:10px; }
+.nav__git{
+  display:grid; place-items:center; width:52px; height:52px; border-radius:50%;
+  background:var(--glass-strong); border:1px solid var(--glass-line); color:var(--ink);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:var(--shadow-sm);
+  transition:transform .5s var(--ease-out), background .35s var(--ease), color .35s, box-shadow .5s var(--ease-out);
+}
+.nav__git svg{ width:23px; height:23px; display:block; }
+.nav__git:hover{ background:var(--ink); color:#fff; transform:translateY(-2px); box-shadow:var(--shadow); }
 .nav__burger{ display:none; width:44px; height:44px; place-items:center; }
 .nav__burger span{ display:block; width:22px; height:1.5px; background:var(--ink); transition:transform .4s var(--ease-out), opacity .3s; }
 .nav__burger span+span{ margin-top:6px; }
@@ -539,9 +548,10 @@ section{ position:relative; z-index:1; }
   max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad);
   display:grid; gap:clamp(24px,3.2vw,44px);
   grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start;                  /* each card ends where its text does */
 }
 .card{
-  display:block;                      /* cards with a live URL are <a> */
+  display:block;                      /* an <article>: the whole-card link is an overlay */
   position:relative; border-radius:var(--r-lg); overflow:hidden;
   background:var(--surface); box-shadow:var(--shadow);
   transform-style:preserve-3d; will-change:transform;
@@ -567,10 +577,15 @@ section{ position:relative; z-index:1; }
   transform:translateX(-120%); transition:transform 1s var(--ease-out);
 }
 .card:hover .card__sheen{ transform:translateX(120%); }
+/* the whole card is one link, stretched under the body so the repo button —
+   which sits above it — stays independently clickable */
+.card__link{ position:absolute; inset:0; z-index:2; border-radius:inherit; }
 .card__body{
   position:relative; margin:-58px 16px 16px; padding:26px 26px 30px;
   border-radius:var(--r); z-index:3;
+  pointer-events:none;                /* clicks fall through to .card__link … */
 }
+.card__body a{ pointer-events:auto; } /* … except the repo button itself */
 .card__body > *{ position:relative; z-index:2; }
 .card__idx{
   font-family:var(--font-display); font-size:.74rem; letter-spacing:.2em; color:var(--muted);
@@ -599,6 +614,43 @@ section{ position:relative; z-index:1; }
   transition:transform .5s var(--ease-out), background .4s;
 }
 .card:hover .card__go{ transform:translate(3px,-3px); background:var(--accent); }
+
+/* repo button — reads "GitHub", flips to "Open ↗" under the cursor */
+.card__body .card__repo{
+  position:relative; z-index:4; margin-top:20px;
+  display:inline-flex; align-items:center; gap:9px;
+  padding:10px 18px; border-radius:var(--r-pill);
+  border:1px solid var(--line); background:rgba(255,255,255,.72);
+  font-family:var(--font-display); font-size:.82rem; font-weight:500; color:var(--ink);
+  box-shadow:var(--shadow-sm);
+  transition:transform .45s var(--ease-out), background .35s var(--ease), color .35s, border-color .35s, box-shadow .45s var(--ease-out);
+}
+.card__repo svg{ width:16px; height:16px; display:block; flex:none; }
+.card__repo-label{ display:grid; overflow:hidden; }
+.card__repo-label b,
+.card__repo-label i{
+  grid-area:1/1; font-weight:inherit; font-style:normal; white-space:nowrap;
+  transition:transform .4s var(--ease-out), opacity .3s var(--ease);
+}
+.card__repo-label i{ transform:translateY(105%); opacity:0; }
+.card__repo:hover,
+.card__repo:focus-visible{
+  background:var(--ink); border-color:var(--ink); color:#fff;
+  transform:translateY(-2px); box-shadow:var(--shadow);
+}
+.card__repo:hover .card__repo-label b,
+.card__repo:focus-visible .card__repo-label b{ transform:translateY(-105%); opacity:0; }
+.card__repo:hover .card__repo-label i,
+.card__repo:focus-visible .card__repo-label i{ transform:translateY(0); opacity:1; }
+
+/* source-on-request note — stands in for a repo button */
+.card__body .card__note{
+  margin-top:20px; display:flex; gap:9px; align-items:flex-start;
+  padding:12px 16px; border-radius:var(--r);
+  border:1px dashed rgba(106,59,255,.32); background:rgba(106,59,255,.06);
+  font-size:.8rem; line-height:1.5; color:var(--ink-soft); max-width:46ch;
+}
+.card__note span{ color:var(--accent); line-height:1.45; }
 
 /* ── CAPABILITIES ────────────────────────────────────────── */
 .caps{ padding:clamp(60px,9vh,110px) 0 clamp(90px,13vh,150px); }

@@ -60,7 +60,15 @@
     <a href="#capabilities">Services</a>
   </nav>
 
-  <a class="btn btn--pill nav__cta" href="#contact"><span>Contact</span></a>
+  <div class="nav__actions">
+    <a class="nav__git" href="https://github.com/aeolian1014" target="_blank" rel="noopener"
+       aria-label="GitHub profile" title="GitHub">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+      </svg>
+    </a>
+    <a class="btn btn--pill nav__cta" href="#contact"><span>Contact</span></a>
+  </div>
 
   <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
     <span></span><span></span>
@@ -199,7 +207,9 @@
 
   <div class="work__list" id="work-list">
 
-    <a class="card" data-tilt href="https://aeolian.netlify.app/" target="_blank" rel="noopener">
+    <article class="card" data-tilt>
+      <a class="card__link" href="https://aeolian.netlify.app/" target="_blank" rel="noopener"
+         aria-label="Open the Design Portfolio site"></a>
       <div class="card__media">
         <img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
@@ -209,11 +219,20 @@
         <h3>Design Portfolio — the first site I built</h3>
         <p>My graphic and motion design work, and the first website I ever made — stitched together from effects I took apart across the web, then rebuilt once I understood how they worked. Four static pages, a Three.js hero, and 36 projects behind a filterable grid with a lightbox.</p>
         <ul class="tags"><li class="is-status">Where I started</li><li>JavaScript</li><li>Three.js</li><li>After Effects</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/aeolian" target="_blank" rel="noopener"
+           aria-label="Design Portfolio source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+          </svg>
+          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+        </a>
         <span class="card__go" aria-hidden="true">↗</span>
       </div>
-    </a>
+    </article>
 
-    <a class="card" data-tilt href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">
+    <article class="card" data-tilt>
+      <a class="card__link" href="https://shortspilot.netlify.app/" target="_blank" rel="noopener"
+         aria-label="Open the Shorts Pilot site"></a>
       <div class="card__media">
         <img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
@@ -223,11 +242,17 @@
         <h3>Shorts Pilot — Instagram to YouTube, paced</h3>
         <p>A Windows desktop app that watches the clipboard: copy a reel link and it downloads the clip, works out which channel it belongs to, and releases it on a per-channel interval so a burst of links doesn't become a burst of uploads.</p>
         <ul class="tags"><li>Python</li><li>JavaScript</li><li>YouTube Data API</li><li>pywebview</li></ul>
+        <p class="card__note">
+          <span aria-hidden="true">◈</span>
+          A Windows app, so the source isn't public by default — the site has a request page, and I hand out an access code to anyone with a good reason to read it.
+        </p>
         <span class="card__go" aria-hidden="true">↗</span>
       </div>
-    </a>
+    </article>
 
-    <a class="card" data-tilt href="https://artgalera.netlify.app/" target="_blank" rel="noopener">
+    <article class="card" data-tilt>
+      <a class="card__link" href="https://artgalera.netlify.app/" target="_blank" rel="noopener"
+         aria-label="Open the Galera site"></a>
       <div class="card__media">
         <img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
@@ -237,11 +262,19 @@
         <h3>Galera — Support the artists behind the art</h3>
         <p>A membership platform for digital artists: work stays public, supporters subscribe to monthly tiers and unlock the studio — 4K files, PSDs, process videos. Accounts, pledges and per-artwork access are all enforced in the database with row-level security.</p>
         <ul class="tags"><li class="is-status">Beta</li><li>JavaScript</li><li>Supabase</li><li>Netlify</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/Galera-v2" target="_blank" rel="noopener"
+           aria-label="Galera source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+          </svg>
+          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+        </a>
         <span class="card__go" aria-hidden="true">↗</span>
       </div>
-    </a>
+    </article>
 
-    <a class="card" data-tilt href="soon.html">
+    <article class="card" data-tilt>
+      <a class="card__link" href="soon.html" aria-label="Cutlass — coming soon"></a>
       <div class="card__media">
         <img src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=1400&q=80" alt="" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
@@ -253,7 +286,7 @@
         <ul class="tags"><li class="is-status">In progress</li><li>Rust</li><li>JavaScript</li><li>Tauri</li><li>ffmpeg</li></ul>
         <span class="card__go" aria-hidden="true">↗</span>
       </div>
-    </a>
+    </article>
 
   </div>
 </section>
@@ -338,6 +371,7 @@
     <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
     <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="cv.html">CV</a></li>
   </ul>
 </section>
 
