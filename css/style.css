@@ -265,10 +265,11 @@ body::before{
 .nav__logo{ display:inline-flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:600; letter-spacing:-.02em; }
 .nav__mark{
   display:grid; place-items:center; width:34px; height:34px; border-radius:11px;
-  background:var(--ink); color:#fff; font-size:.9rem;
+  background:var(--ink); overflow:hidden;   /* the logo is a dark square; the box is its fallback */
   transition:transform .6s var(--ease-out);
 }
-.nav__logo:hover .nav__mark{ transform:rotate(90deg); }
+.nav__mark img{ width:100%; height:100%; object-fit:cover; display:block; }
+.nav__logo:hover .nav__mark{ transform:scale(1.06); }
 .nav__links{
   display:flex; gap:6px; padding:7px; border-radius:var(--r-pill);
 }
@@ -544,11 +545,12 @@ section{ position:relative; z-index:1; }
 
 /* ── WORK ────────────────────────────────────────────────── */
 .work{ padding:clamp(60px,9vh,110px) 0 clamp(90px,13vh,150px); }
+/* Two columns that pack independently. A grid would tie the cards into rows,
+   so one tall card left a hole beside every shorter neighbour — and an odd
+   card count left a big one mid-list. Columns just flow. */
 .work__list{
   max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad);
-  display:grid; gap:clamp(24px,3.2vw,44px);
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  align-items:start;                  /* each card ends where its text does */
+  column-count:2; column-gap:clamp(24px,3.2vw,44px);
 }
 .card{
   display:block;                      /* an <article>: the whole-card link is an overlay */
@@ -556,8 +558,11 @@ section{ position:relative; z-index:1; }
   background:var(--surface); box-shadow:var(--shadow);
   transform-style:preserve-3d; will-change:transform;
   transition:box-shadow .6s var(--ease-out);
+  break-inside:avoid;                 /* never split a card across the columns */
+  margin-bottom:clamp(24px,3.2vw,44px);
 }
-.card:nth-child(even){ margin-top:clamp(0px,5vw,72px); }
+/* No stagger any more: `nth-child(even)` stopped meaning "the right-hand one"
+   once the cards flowed into columns instead of rows. */
 .card:hover{ box-shadow:var(--shadow-lg); }
 .card__media{ position:relative; aspect-ratio:4/3; overflow:hidden; background:var(--bg-deep); }
 .card__media::before{                 /* gradient fallback if the photo fails */
@@ -596,6 +601,14 @@ section{ position:relative; z-index:1; }
   margin:8px 0 10px; padding-right:36px;
 }
 .card__body p{ font-size:.92rem; color:var(--ink-soft); max-width:46ch; }
+.card__body p + p{ margin-top:11px; }
+/* provenance line — sits under the title, before the description */
+.card__body .card__built{
+  display:flex; gap:8px; align-items:baseline;
+  margin:-4px 0 12px; font-size:.78rem; line-height:1.45;
+  letter-spacing:.01em; color:var(--ink-soft); max-width:46ch;
+}
+.card__built b{ color:var(--accent); font-weight:500; white-space:nowrap; }
 .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
 .tags li{
   font-size:.74rem; letter-spacing:.04em; color:var(--ink-soft);
@@ -813,8 +826,7 @@ section{ position:relative; z-index:1; }
   .hero__badge{ justify-self:start; }
   .hero__stat{ justify-self:start; }
   .hero__canvas,.hero__fallback{ top:38%; width:min(60vh,88vw); height:min(60vh,88vw); opacity:.85; }
-  .work__list{ grid-template-columns:1fr; }
-  .card:nth-child(even){ margin-top:0; }
+  .work__list{ column-count:1; }
 }
 @media (max-width:820px){
   .nav__links, .nav__cta{ display:none; }

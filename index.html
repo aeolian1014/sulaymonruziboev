@@ -6,6 +6,7 @@
 <title>Sulaymon Ruziboev — Software Developer</title>
 <meta name="description" content="Sulaymon Ruziboev — software developer in Samarkand, Uzbekistan. Desktop apps, web platforms and motion design. Selected work and contact." />
 <meta name="theme-color" content="#f4f4f7" />
+<link rel="icon" type="image/webp" href="assets/favicon.webp" />
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <!-- Fonts are self-hosted (see css/style.css). Preloaded because they sit one
@@ -49,7 +50,7 @@
 <!-- ── navigation ─────────────────────────────────────────────── -->
 <header class="nav" id="nav">
   <a class="nav__logo" href="#top" aria-label="Home">
-    <span class="nav__mark" aria-hidden="true">◈</span>
+    <span class="nav__mark"><img src="assets/logo.webp" alt="" width="34" height="34" decoding="async" /></span>
     <span class="nav__name">Sulaymon Ruziboev</span>
   </a>
 
@@ -275,16 +276,40 @@
     </article>
 
     <article class="card" data-tilt>
-      <a class="card__link" href="soon.html" aria-label="Cutlass — coming soon"></a>
+      <a class="card__link" href="cutlass.html" aria-label="Open the Cutlass project page"></a>
       <div class="card__media">
-        <img src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=1400&q=80" alt="" loading="lazy" decoding="async" />
+        <img src="assets/work/cutlass/inspector.webp" alt="Cutlass video editor, showing its timeline, program monitor and inspector" loading="lazy" decoding="async" />
         <span class="card__sheen" aria-hidden="true"></span>
       </div>
       <div class="card__body glass">
         <span class="card__idx">04</span>
-        <h3>Cutlass — AI-first video editor</h3>
-        <p>A desktop editor where the AI and the human are equal operators: every edit is one serialisable, invertible command, and both dispatch the same ones. Undo, scripting and AI parity all fall out of that. Version 1 is still in the cutting room.</p>
-        <ul class="tags"><li class="is-status">In progress</li><li>Rust</li><li>JavaScript</li><li>Tauri</li><li>ffmpeg</li></ul>
+        <h3>Cutlass — the AI and the editor hold the same controls</h3>
+        <p class="card__built"><b>Built from scratch</b><span>No forked editor, no borrowed code — my own Rust core and my own interface, down to the timeline and the render pipeline.</span></p>
+        <p>Every edit is one command in a single registry: the interface fires them, and the AI fires the same ones — no screen-scraping, no driving someone else's editor. What it proposes arrives as a diff I accept or reject clip by clip. It already cuts, trims, grades and exports; I'm holding the release until the AI is trained across several editing styles.</p>
+        <ul class="tags"><li class="is-status">Unreleased — by choice</li><li>Rust</li><li>JavaScript</li><li>Tauri</li><li>ffmpeg</li></ul>
+        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </article>
+
+    <article class="card" data-tilt>
+      <a class="card__link" href="https://nowherecentral.netlify.app/" target="_blank" rel="noopener"
+         aria-label="Open the Nowhere Central site"></a>
+      <div class="card__media">
+        <img src="assets/work/nowhere-central.webp" alt="Nowhere Central, an ambient sleep site, showing its slow-drifting departure board" loading="lazy" decoding="async" />
+        <span class="card__sheen" aria-hidden="true"></span>
+      </div>
+      <div class="card__body glass">
+        <span class="card__idx">05</span>
+        <h3>Nowhere Central — an ambient site to fall asleep to</h3>
+        <p>A free place to wind down at night: generated soundscapes, slow drifting visuals, a sleep timer and a night mode that dims when you stop moving. The imaginary railway station is the setting, not the point. Zero dependencies — every world is a raymarched GLSL shader and every sound is synthesised at runtime from maths.</p>
+        <ul class="tags"><li class="is-status">Live</li><li>JavaScript</li><li>WebGL / GLSL</li><li>Web Audio</li><li>Node.js</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/nowherecentral" target="_blank" rel="noopener"
+           aria-label="Nowhere Central source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+          </svg>
+          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+        </a>
         <span class="card__go" aria-hidden="true">↗</span>
       </div>
     </article>
