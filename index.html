@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<script>
+  // Keep the URL clean: rewrite /index.html to / without reloading.
+  if (location.pathname.endsWith('/index.html')) {
+    history.replaceState(null, '', location.pathname.slice(0, -'index.html'.length) + location.hash);
+  }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Sulaymon Ruziboev — Software Developer</title>
 <meta name="description" content="Sulaymon Ruziboev — software developer in Samarkand, Uzbekistan. Desktop apps, web platforms and motion design. Selected work and contact." />
