@@ -147,7 +147,7 @@
 
       /* scale so the arrow fills a sensible part of the little canvas */
       var span = geo.boundingBox.max.y - geo.boundingBox.min.y;
-      var s = 10 / (span || 1);
+      var s = 14 / (span || 1);
       var m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
         vertexColors: true, roughness: 0.3, metalness: 0.15
       }));
