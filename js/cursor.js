@@ -122,11 +122,19 @@
          is the axis the spin below turns about. */
       geo.rotateZ(-Math.PI * 3 / 4);
 
-      /* Pin the point itself to the origin (the topmost vertex once turned), so
-         the cursor's hotspot is the arrow's tip and it pivots there. */
+      /* Pin the actual point to the origin. Using the bounding box centre puts
+         the pivot beside the tip rather than on it, and the arrow then wobbles
+         as it turns — so find the vertices sitting at the very top and average
+         them, which is the tip itself, and move that onto the spin axis. */
       geo.computeBoundingBox();
-      var bb = geo.boundingBox;
-      geo.translate(-(bb.min.x + bb.max.x) / 2, -bb.max.y, -(bb.min.z + bb.max.z) / 2);
+      var bb = geo.boundingBox, pv = geo.attributes.position;
+      var eps = (bb.max.y - bb.min.y) * 0.03;
+      var tx = 0, tz = 0, tn = 0;
+      for (var q = 0; q < pv.count; q++) {
+        if (pv.getY(q) >= bb.max.y - eps) { tx += pv.getX(q); tz += pv.getZ(q); tn++; }
+      }
+      if (tn) { tx /= tn; tz /= tn; } else { tx = (bb.min.x + bb.max.x) / 2; tz = (bb.min.z + bb.max.z) / 2; }
+      geo.translate(-tx, -bb.max.y, -tz);
       geo.computeBoundingBox();
       geo.computeVertexNormals();
 
