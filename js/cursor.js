@@ -131,12 +131,15 @@
       geo.computeVertexNormals();
 
       /* gradient down the arrow: light at the tip, deep purple at the tails */
-      var LIGHT = new THREE.Color(0xc3aeff), DEEP = new THREE.Color(0x4a1fd0);
+      var LIGHT = new THREE.Color(0xe8dfff), DEEP = new THREE.Color(0x2e0d96);
       var pos = geo.attributes.position, n = pos.count;
       var col = new Float32Array(n * 3), c = new THREE.Color();
       var hi = geo.boundingBox.max.y, lo = geo.boundingBox.min.y;
       for (var i = 0; i < n; i++) {
+        /* eased rather than linear, so the light end reads clearly instead of
+           washing into a single flat purple */
         var t = (pos.getY(i) - lo) / (hi - lo || 1);
+        t = t * t * (3 - 2 * t);
         c.copy(DEEP).lerp(LIGHT, t);
         col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
       }
@@ -144,7 +147,7 @@
 
       /* scale so the arrow fills a sensible part of the little canvas */
       var span = geo.boundingBox.max.y - geo.boundingBox.min.y;
-      var s = 26 / (span || 1);
+      var s = 18 / (span || 1);
       var m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
         vertexColors: true, roughness: 0.3, metalness: 0.15
       }));
