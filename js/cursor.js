@@ -91,31 +91,35 @@
 
     /* Gradient across the body: vertex colours run from a light lilac at the tip
        to deep purple at the tails, so as it spins the lit and dark faces blend. */
-    var LIGHT = new THREE.Color(0xb49bff), DEEP = new THREE.Color(0x4a1fd0);
+    var LIGHT = new THREE.Color(0xc3aeff), DEEP = new THREE.Color(0x4a1fd0);
+    var GHI = 0, GLO = -27;                   // the arrow's full tip..tail span
     function paint(geo) {
       var pos = geo.attributes.position, n = pos.count;
       var col = new Float32Array(n * 3), c = new THREE.Color();
-      var ys = [];
-      for (var i = 0; i < n; i++) ys.push(pos.getY(i));
-      var lo = Math.min.apply(null, ys), hi = Math.max.apply(null, ys);
       for (var j = 0; j < n; j++) {
-        var t = (pos.getY(j) - lo) / (hi - lo || 1);   // 0 tail .. 1 tip
+        var t = (pos.getY(j) - GLO) / (GHI - GLO);     // 0 tail .. 1 tip, whole arrow
         c.copy(DEEP).lerp(LIGHT, t);
         col[j * 3] = c.r; col[j * 3 + 1] = c.g; col[j * 3 + 2] = c.b;
       }
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
       return geo;
     }
-    var mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.34, metalness: 0.14 });
+    var mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.16, flatShading: true });
 
-    var L = 15, R = 2.25, off = L / 2 + R;
-    function leg(sign) {
-      var g = paint(new THREE.CapsuleGeometry(R, L, 8, 20).translate(0, -off, 0));
-      var m = new THREE.Mesh(g, mat);
-      m.rotation.z = sign * 0.40;
-      return m;
-    }
-    var spinG = new THREE.Group(); spinG.add(leg(1)); spinG.add(leg(-1));
+    /* A solid faceted dart, not flat blades: a 5-sided cone for the head and a
+       matching prism for the shaft. Being a volume it reads as an arrow from
+       every angle — it can never collapse into a thin stick mid-spin — and its
+       flat facets catch the light differently, which is what makes the light /
+       dark purple gradient sweep around as it turns. Apex sits at the origin. */
+    var HEAD_H = 15, HEAD_R = 7.4, SHAFT_H = 13, SHAFT_R = 2.7;
+    var head = new THREE.ConeGeometry(HEAD_R, HEAD_H, 5);
+    head.translate(0, -HEAD_H / 2, 0);                       // tip -> origin
+    var shaft = new THREE.CylinderGeometry(SHAFT_R, SHAFT_R * 0.8, SHAFT_H, 5);
+    shaft.translate(0, -HEAD_H - SHAFT_H / 2 + 1.5, 0);      // hangs off the head
+
+    var spinG = new THREE.Group();
+    spinG.add(new THREE.Mesh(paint(head), mat));
+    spinG.add(new THREE.Mesh(paint(shaft), mat));
     var orientG = new THREE.Group(); orientG.add(spinG);
     orientG.rotation.z = -0.733;             // aim up-left like the OS cursor
     orientG.rotation.x = 0.30;               // slight lean
