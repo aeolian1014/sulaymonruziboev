@@ -26,7 +26,8 @@
   var HUES = ['var(--accent, #6a3bff)', 'var(--accent-2, #00c2ff)', 'var(--accent-3, #ff4d9d)'];
   var pick = function (a) { return a[(Math.random() * a.length) | 0]; };
 
-  var CANVAS = 72;                          // px box the 3D arrow is drawn into
+  var CANVAS = 76;                          // px box the 3D arrow is drawn into
+
 
   /* The loader owns the pointer while the page boots — the custom cursor must
      not appear over it. init() runs once the loader is gone (or immediately on
@@ -40,10 +41,10 @@
     '.cc-layer{ position:fixed; inset:0; z-index:9998; pointer-events:none; }',
     '.cc-cursor{ position:fixed; top:0; left:0; z-index:9999; pointer-events:none;',
     '  will-change:transform; }',
-    /* REAL 3D: a Three.js canvas holding an actual arrow mesh. Genuine geometry
-       means no fake stacked layers, so nothing z-fights (no flicker) and the
-       apex — which sits exactly on the spin axis — never drifts. The canvas is
-       centred on the pointer; the mesh's tip is at the canvas centre. */
+    /* The arrow is a real 3D model (modelled in Blender, exported as .glb) drawn
+       by Three.js into this little canvas. Real geometry means nothing z-fights,
+       and the model's origin sits on its tip, so the point never drifts as it
+       spins. The canvas is centred on the pointer. */
     '.cc-caret{ position:absolute; top:0; left:0; width:' + CANVAS + 'px; height:' + CANVAS + 'px;',
     '  transform:translate(-' + (CANVAS / 2) + 'px,-' + (CANVAS / 2) + 'px); }',
     '.cc-caret canvas{ display:block; width:100%; height:100%; }',
@@ -63,15 +64,22 @@
   var cur = document.createElement('div');
   cur.className = 'cc-cursor';
   var caret = document.createElement('span'); caret.className = 'cc-caret';
-
   cur.appendChild(caret);
   document.body.appendChild(layer);
   document.body.appendChild(cur);
   document.documentElement.classList.add('cc-on');
 
-  /* ---- the real 3D arrow (Three.js, loaded as a module) ------------------- */
-  var spinPaused = false;                    // click briefly freezes the spin
-  import('./vendor/three.module.js').then(function (THREE) {
+  /* ---- the 3D arrow -------------------------------------------------------
+     Loads assets/cursor.glb, stands it up so its tip is at the origin pointing
+     up, then spins it about its own shaft. Falls back to the native cursor if
+     WebGL or the model is unavailable. */
+  var spinPaused = false;                     // click freezes the spin for a blink
+  Promise.all([
+    import('./vendor/three.module.js'),
+    import('./vendor/GLTFLoader.js')
+  ]).then(function (mods) {
+    var THREE = mods[0], GLTFLoader = mods[1].GLTFLoader;
+
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
@@ -79,53 +87,66 @@
     caret.appendChild(renderer.domElement);
 
     var scene = new THREE.Scene();
-    /* orthographic, centred on the origin — the arrow's apex sits at the origin,
-       so it lands on the pointer and cannot drift as the mesh turns */
-    var H = 34;
-    var cam = new THREE.OrthographicCamera(-H, H, H, -H, 0.1, 100);
-    cam.position.set(0, 0, 50); cam.lookAt(0, 0, 0);
+    var H = 34;                               // orthographic half-height
+    var cam = new THREE.OrthographicCamera(-H, H, H, -H, 0.1, 200);
+    cam.position.set(0, 0, 80); cam.lookAt(0, 0, 0);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.45));
-    var key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(-6, 10, 12); scene.add(key);
-    var fill = new THREE.DirectionalLight(0x8a63ff, 0.65); fill.position.set(8, -4, 6); scene.add(fill);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    var key = new THREE.DirectionalLight(0xffffff, 2.1); key.position.set(-7, 11, 13); scene.add(key);
+    var fill = new THREE.DirectionalLight(0x8a63ff, 0.7); fill.position.set(9, -4, 7); scene.add(fill);
+    var rim  = new THREE.DirectionalLight(0xffffff, 0.45); rim.position.set(3, -2, -9); scene.add(rim);
 
-    /* Gradient across the body: vertex colours run from a light lilac at the tip
-       to deep purple at the tails, so as it spins the lit and dark faces blend. */
-    var LIGHT = new THREE.Color(0xc3aeff), DEEP = new THREE.Color(0x4a1fd0);
-    var GHI = 0, GLO = -27;                   // the arrow's full tip..tail span
-    function paint(geo) {
+    var spinG = new THREE.Group();            // rolls about the shaft
+    var orientG = new THREE.Group();          // aims the arrow up-left
+    orientG.add(spinG); scene.add(orientG);
+    orientG.rotation.z = -0.79;   // aim up-left, like the OS arrow
+    orientG.rotation.x = 0.20;
+
+    new GLTFLoader().load('assets/cursor.glb', function (gltf) {
+      var root = gltf.scene;
+      root.updateWorldMatrix(true, true);
+
+      /* Bake in whatever transform Blender exported, then stand the arrow up:
+         it comes out lying in the XZ plane with its point toward +Z. */
+      var mesh = null;
+      root.traverse(function (o) { if (o.isMesh && !mesh) mesh = o; });
+      if (!mesh) return;
+      var geo = mesh.geometry.clone();
+      /* deliberately NOT mesh.matrixWorld — Blender bakes a rotation into the
+         exported node that would fight the aim set above. The raw geometry lies
+         flat in XZ with its point toward +Z, so one turn stands it upright. */
+      geo.rotateX(-Math.PI / 2);              // lay it into the screen plane, point up
+
+      geo.computeBoundingBox();
+      var bb = geo.boundingBox;
+      /* put the tip exactly on the origin so it pivots and points there */
+      geo.translate(-(bb.min.x + bb.max.x) / 2, -bb.max.y, -(bb.min.z + bb.max.z) / 2);
+      geo.computeBoundingBox();
+      geo.computeVertexNormals();
+
+      /* gradient down the arrow: light at the tip, deep purple at the tails */
+      var LIGHT = new THREE.Color(0xc3aeff), DEEP = new THREE.Color(0x4a1fd0);
       var pos = geo.attributes.position, n = pos.count;
       var col = new Float32Array(n * 3), c = new THREE.Color();
-      for (var j = 0; j < n; j++) {
-        var t = (pos.getY(j) - GLO) / (GHI - GLO);     // 0 tail .. 1 tip, whole arrow
+      var hi = geo.boundingBox.max.y, lo = geo.boundingBox.min.y;
+      for (var i = 0; i < n; i++) {
+        var t = (pos.getY(i) - lo) / (hi - lo || 1);
         c.copy(DEEP).lerp(LIGHT, t);
-        col[j * 3] = c.r; col[j * 3 + 1] = c.g; col[j * 3 + 2] = c.b;
+        col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
       }
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-      return geo;
-    }
-    var mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.16, flatShading: true });
 
-    /* A solid faceted dart, not flat blades: a 5-sided cone for the head and a
-       matching prism for the shaft. Being a volume it reads as an arrow from
-       every angle — it can never collapse into a thin stick mid-spin — and its
-       flat facets catch the light differently, which is what makes the light /
-       dark purple gradient sweep around as it turns. Apex sits at the origin. */
-    var HEAD_H = 15, HEAD_R = 7.4, SHAFT_H = 13, SHAFT_R = 2.7;
-    var head = new THREE.ConeGeometry(HEAD_R, HEAD_H, 5);
-    head.translate(0, -HEAD_H / 2, 0);                       // tip -> origin
-    var shaft = new THREE.CylinderGeometry(SHAFT_R, SHAFT_R * 0.8, SHAFT_H, 5);
-    shaft.translate(0, -HEAD_H - SHAFT_H / 2 + 1.5, 0);      // hangs off the head
+      /* scale so the arrow fills a sensible part of the little canvas */
+      var span = geo.boundingBox.max.y - geo.boundingBox.min.y;
+      var s = 26 / (span || 1);
+      var m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
+        vertexColors: true, roughness: 0.3, metalness: 0.15
+      }));
+      m.scale.setScalar(s);
+      spinG.add(m);
+    });
 
-    var spinG = new THREE.Group();
-    spinG.add(new THREE.Mesh(paint(head), mat));
-    spinG.add(new THREE.Mesh(paint(shaft), mat));
-    var orientG = new THREE.Group(); orientG.add(spinG);
-    orientG.rotation.z = -0.733;             // aim up-left like the OS cursor
-    orientG.rotation.x = 0.30;               // slight lean
-    scene.add(orientG);
-
-    var last = performance.now(), RATE = (Math.PI * 2) / 2.6;   // one turn / 2.6s
+    var last = performance.now(), RATE = (Math.PI * 2) / 2.6;   // a turn every 2.6s
     (function tick(now) {
       var dt = (now - last) / 1000; last = now;
       if (!REDUCED && !spinPaused) spinG.rotation.y += RATE * dt;
@@ -133,7 +154,6 @@
       requestAnimationFrame(tick);
     })(last);
   }).catch(function () {
-    /* three.js unavailable — leave the native cursor rather than showing nothing */
     document.documentElement.classList.remove('cc-on');
     cur.style.display = 'none';
   });
