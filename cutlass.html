@@ -142,7 +142,6 @@
 <body>
 
 <div class="fx-grain" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
 
 <!-- ── navigation ─────────────────────────────────────────────── -->
 <header class="nav" id="nav">
@@ -387,47 +386,16 @@
 </footer>
 
 <script>
-  /* This is a static case-study page — it doesn't pull in the homepage's animation
-     rig (gsap). These two bits of chrome the site expects are reimplemented here
-     with no dependencies: the nav's scrolled state, and the custom cursor. */
+  /* Static case-study page — no gsap. Just the nav's scrolled state; the code
+     cursor is the shared js/cursor.js below. */
   (function () {
     var nav = document.getElementById('nav');
-    if (nav) {
-      var onScroll = function () { nav.classList.toggle('is-stuck', window.scrollY > 40); };
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-
-    /* custom cursor — desktop pointers only, respecting reduced-motion */
-    var c = document.querySelector('.cursor');
-    var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-    var reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    if (!c || !fine || reduced) { if (c) c.remove(); return; }
-
-    var ring = c.querySelector('.cursor__ring');
-    var dot  = c.querySelector('.cursor__dot');
-    var mx = innerWidth / 2, my = innerHeight / 2;   // mouse target
-    var rx = mx, ry = my;                            // ring (lags behind)
-
-    window.addEventListener('pointermove', function (e) {
-      mx = e.clientX; my = e.clientY;
-      /* the dot tracks the pointer immediately */
-      dot.style.transform = 'translate(' + (mx) + 'px,' + (my) + 'px) translate(-50%,-50%)';
-    });
-
-    (function frame() {
-      rx += (mx - rx) * 0.18;                        // easing toward the pointer
-      ry += (my - ry) * 0.18;
-      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
-      requestAnimationFrame(frame);
-    })();
-
-    /* swell the ring over interactive things */
-    document.querySelectorAll('a, button, .shot, .cut-node').forEach(function (el) {
-      el.addEventListener('pointerenter', function () { c.classList.add('is-hot'); });
-      el.addEventListener('pointerleave', function () { c.classList.remove('is-hot'); });
-    });
+    if (!nav) return;
+    var onScroll = function () { nav.classList.toggle('is-stuck', window.scrollY > 40); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   })();
 </script>
+<script type="module" src="js/cursor.js"></script>
 </body>
 </html>
