@@ -99,7 +99,7 @@
     var spinG = new THREE.Group();            // rolls about the shaft
     var orientG = new THREE.Group();          // aims the arrow up-left
     orientG.add(spinG); scene.add(orientG);
-    orientG.rotation.z = -0.79;   // aim up-left, like the OS arrow
+    orientG.rotation.z = 0.79;    // lean the tip up-left, like the OS arrow
     orientG.rotation.x = 0.20;
 
     new GLTFLoader().load('assets/cursor.glb', function (gltf) {
@@ -114,12 +114,18 @@
       var geo = mesh.geometry.clone();
       /* deliberately NOT mesh.matrixWorld — Blender bakes a rotation into the
          exported node that would fight the aim set above. The raw geometry lies
-         flat in XZ with its point toward +Z, so one turn stands it upright. */
-      geo.rotateX(-Math.PI / 2);              // lay it into the screen plane, point up
+         flat in XZ, so one turn stands it upright in the screen plane. */
+      geo.rotateX(-Math.PI / 2);
+      /* The model is an L-corner: it stands up with its point at the lower left
+         and its two arms running up and to the right. Turn it so the point is
+         at the top and the arms hang below — that puts the shaft along Y, which
+         is the axis the spin below turns about. */
+      geo.rotateZ(-Math.PI * 3 / 4);
 
+      /* Pin the point itself to the origin (the topmost vertex once turned), so
+         the cursor's hotspot is the arrow's tip and it pivots there. */
       geo.computeBoundingBox();
       var bb = geo.boundingBox;
-      /* put the tip exactly on the origin so it pivots and points there */
       geo.translate(-(bb.min.x + bb.max.x) / 2, -bb.max.y, -(bb.min.z + bb.max.z) / 2);
       geo.computeBoundingBox();
       geo.computeVertexNormals();
