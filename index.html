@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8" />
 <script>
@@ -7,82 +7,51 @@
   if (location.pathname.endsWith('/index.html')) {
     history.replaceState(null, '', location.pathname.slice(0, -'index.html'.length) + location.hash);
   }
+  document.documentElement.classList.remove('no-js');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Sulaymon Ruziboev — Software Developer</title>
 <meta name="description" content="Sulaymon Ruziboev — software developer in Tashkent, Uzbekistan. Desktop apps, web platforms and motion design. Selected work and contact." />
-<meta name="theme-color" content="#f4f4f7" />
+<meta name="theme-color" content="#07070a" />
 <link rel="icon" type="image/webp" href="assets/favicon.webp" />
 
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-<!-- Fonts are self-hosted (see css/style.css). Preloaded because they sit one
+<!-- Fonts are self-hosted (see css/home.css). Preloaded because they sit one
      level deep — the browser would otherwise only discover them after parsing
      the stylesheet, delaying every piece of text on the page. -->
 <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="css/style.css" />
-
-<!-- importmap 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
--->
-
+<link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
-
-<!-- ── film grain + vignette overlay ─────────────────────────── -->
-<div class="fx-grain" aria-hidden="true"></div>
-
-<!-- Custom cursor is built entirely by js/cursor.js (desktop pointers only). -->
-
-<!-- ── intro loader ───────────────────────────────────────────── -->
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__inner">
-    <div class="loader__mark">◈</div>
-    <div class="loader__bar"><span></span></div>
-    <div class="loader__pct">00</div>
-  </div>
-</div>
 
 <a class="skip" href="#work">Skip to work</a>
 
 <!-- ── navigation ─────────────────────────────────────────────── -->
 <header class="nav" id="nav">
   <a class="nav__logo" href="#top" aria-label="Home">
-    <span class="nav__mark"><img src="assets/logo.webp" alt="" width="34" height="34" decoding="async" /></span>
-    <span class="nav__name">Sulaymon Ruziboev</span>
+    <img src="assets/logo.webp" alt="" width="30" height="30" decoding="async" />
+    <span>Sulaymon Ruziboev</span>
   </a>
 
-  <nav class="nav__links glass" aria-label="Primary">
-    <a href="#hero" class="is-active">Home</a>
+  <nav class="nav__links" aria-label="Primary">
     <a href="#about">About</a>
     <a href="#work">Work</a>
     <a href="#capabilities">Services</a>
+    <a href="#experience">Build log</a>
   </nav>
 
   <div class="nav__actions">
-    <a class="nav__git" href="https://github.com/aeolian1014" target="_blank" rel="noopener"
-       aria-label="GitHub profile" title="GitHub">
-      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-      </svg>
+    <a class="icon-btn" href="https://github.com/aeolian1014" target="_blank" rel="noopener" aria-label="GitHub profile">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github" /></svg>
     </a>
-    <a class="btn btn--pill nav__cta" href="#contact"><span>Contact</span></a>
+    <a class="btn btn--light btn--sm" href="#contact">Contact</a>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span>
+    </button>
   </div>
-
-  <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span></span><span></span>
-  </button>
 </header>
 
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <a href="#hero">Home</a>
   <a href="#about">About</a>
   <a href="#work">Work</a>
   <a href="#capabilities">Services</a>
@@ -93,377 +62,249 @@
 
 <main id="top">
 
-<!-- ══ HERO ═══════════════════════════════════════════════════ -->
+<!-- ══ HERO — flowing paths ═══════════════════════════════════ -->
 <section class="hero" id="hero">
+  <div class="paths" data-paths aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
 
-  <!-- soft aurora light bloom behind everything -->
-  <div class="hero__aura" aria-hidden="true">
-    <span class="aura aura--a"></span>
-    <span class="aura aura--b"></span>
-    <span class="aura aura--c"></span>
-  </div>
+  <div class="hero__inner">
+    <p class="pill" data-intro>
+      <span class="pill__dot" aria-hidden="true"></span> Open to junior roles — 2026
+    </p>
 
-  <!-- three.js crystal -->
-  <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero__fallback" aria-hidden="true"></div>
+    <h1 class="hero__title" id="hero-title" aria-label="Building beyond the prompt">
+      <span class="hero__line" aria-hidden="true" data-letters>Building beyond</span>
+      <span class="hero__line hero__line--grad" aria-hidden="true" data-letters>the prompt</span>
+    </h1>
 
-  <!-- draggable orb + elastic reveal window (decorative; JS builds the rest) -->
-  <div class="hero__reveal" id="hero-reveal" aria-hidden="true">
-    <svg class="reveal__svg" id="reveal-svg" preserveAspectRatio="none">
-      <defs>
-        <clipPath id="blob-clip"><path id="blob-clip-path" d="" /></clipPath>
-      </defs>
-      <g clip-path="url(#blob-clip)">
-        <image id="reveal-img" preserveAspectRatio="xMidYMid slice"
-               href="assets/work/hero-bg.webp" />
-        <rect id="reveal-veil" x="0" y="0" width="100%" height="100%" fill="#ffffff" opacity="0.86" />
-      </g>
-      <path id="blob-stroke" d="" fill="none" stroke="rgba(11,11,18,.13)" stroke-width="1" />
-    </svg>
-    <div class="reveal__orb" id="reveal-orb"><span>Grab me</span></div>
-  </div>
+    <p class="hero__lede" data-intro>
+      Designer turned developer. I build desktop apps and web platforms end to end —
+      database, backend, and the interface people actually touch.
+    </p>
 
-  <div class="hero__grid">
-
-    <!-- headline -->
-    <div class="hero__head">
-      <p class="eyebrow" data-reveal>
-        <span class="dot" aria-hidden="true"></span> Open to junior roles — 2026
-      </p>
-      <h1 class="display" id="hero-title">
-        <span class="line"><span data-split>Building</span></span>
-        <span class="line"><span data-split>Beyond the</span></span>
-        <span class="line line--ghost"><span data-split>Prompt</span></span>
-      </h1>
-      <div class="hero__actions" data-reveal>
-        <a class="btn btn--solid magnetic" href="#work"><span>View Selected Work</span></a>
-        <a class="btn btn--ghost magnetic" href="#contact"><span>Let's talk</span></a>
-      </div>
+    <div class="hero__actions" data-intro>
+      <a class="btn btn--light btn--lg btn--go" href="#work">
+        <span>View selected work</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="btn btn--ghost btn--lg" href="#contact">Let's talk</a>
     </div>
 
-    <!-- circular badge, top right (mirrors the reference layout) -->
-    <div class="hero__badge glass-ring" data-reveal>
-      <div class="badge__orb" aria-hidden="true"></div>
-      <p>Shipping AI to<br />Production</p>
-    </div>
-
-    <!-- rotating circular caption, bottom left -->
-    <div class="hero__note" data-reveal>
-      <div class="spinner" aria-hidden="true">
-        <svg viewBox="0 0 120 120">
-          <defs><path id="circlePath" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" /></defs>
-          <text><textPath href="#circlePath">SOFTWARE · DESKTOP · WEB · MOTION ·&nbsp;</textPath></text>
-        </svg>
-        <span class="spinner__core"></span>
-      </div>
-      <p>Designer turned developer, building<br />desktop apps and web platforms.</p>
-    </div>
-
-    <!-- glass stat card, bottom right -->
-    <a class="hero__stat glass" href="#work" data-reveal>
-      <div class="stat__avatars" aria-hidden="true">
-        <span style="--i:0"></span><span style="--i:1"></span><span style="--i:2"></span>
-      </div>
-      <h2 class="stat__num"><span class="count" data-count="10">0</span>+ projects</h2>
-      <p>Self-directed builds across AI, data and web — four of them running in real and demo use.</p>
-      <span class="stat__arrow" aria-hidden="true">↗</span>
-    </a>
-
+    <dl class="hero__stats" data-intro>
+      <div><dt>Years building</dt><dd><span class="count" data-count="2">2</span></dd></div>
+      <div><dt>Projects built</dt><dd><span class="count" data-count="10">10</span>+</dd></div>
+      <div><dt>Shipped for real use</dt><dd><span class="count" data-count="4">4</span></dd></div>
+    </dl>
   </div>
 
-  <div class="hero__scroll" aria-hidden="true"><span></span>scroll</div>
+  <a class="hero__scroll" href="#about" aria-label="Scroll to about"><span></span></a>
 </section>
 
 <!-- ══ MARQUEE ════════════════════════════════════════════════ -->
 <section class="marquee" aria-label="Technologies">
-  <div class="marquee__track" id="marquee-track">
-    <!-- duplicated in JS for a seamless loop -->
-    <div class="marquee__set">
-      <span>JavaScript</span><i>◈</i><span>Python</span><i>◈</i><span>Rust</span><i>◈</i>
-      <span>PostgreSQL</span><i>◈</i><span>SQL</span><i>◈</i><span>Supabase</span><i>◈</i>
-      <span>REST APIs</span><i>◈</i><span>OAuth 2.0</span><i>◈</i><span>Three.js</span><i>◈</i>
-      <span>WebGL</span><i>◈</i><span>Docker</span><i>◈</i><span>Git</span><i>◈</i><span>GitHub</span><i>◈</i>
-    </div>
+  <div class="marquee__track">
+    <ul class="marquee__set">
+      <li>JavaScript</li><li>Python</li><li>Rust</li><li>PostgreSQL</li><li>SQL</li>
+      <li>Supabase</li><li>REST APIs</li><li>OAuth 2.0</li><li>Three.js</li><li>WebGL</li>
+      <li>Tauri</li><li>ffmpeg</li><li>Docker</li><li>Git</li>
+    </ul>
+    <ul class="marquee__set" aria-hidden="true">
+      <li>JavaScript</li><li>Python</li><li>Rust</li><li>PostgreSQL</li><li>SQL</li>
+      <li>Supabase</li><li>REST APIs</li><li>OAuth 2.0</li><li>Three.js</li><li>WebGL</li>
+      <li>Tauri</li><li>ffmpeg</li><li>Docker</li><li>Git</li>
+    </ul>
   </div>
 </section>
 
-<!-- ══ ABOUT (pinned, scroll-scrubbed) ════════════════════════ -->
+<!-- ══ ABOUT — words light up as you scroll ═══════════════════ -->
 <section class="about" id="about">
   <div class="about__sticky">
-    <p class="label" data-reveal>(01) — About</p>
+    <p class="label">01 — About</p>
     <p class="about__text" id="about-text">
       I started in motion design, then learned to code to build the tools I wanted.
       Two years and three working products later, I still build the whole thing myself —
       database, backend, and the interface people actually touch. Based in Tashkent,
       Uzbekistan, and looking for my first developer role — remote or on-site.
     </p>
-    <div class="about__meta">
-      <div data-reveal><b><span class="count" data-count="2">0</span></b><span>years building</span></div>
-      <div data-reveal><b><span class="count" data-count="10">0</span>+</b><span>projects built</span></div>
-      <div data-reveal><b><span class="count" data-count="4">0</span></b><span>shipped for real use</span></div>
-    </div>
   </div>
 </section>
 
 <!-- ══ WORK ══════════════════════════════════════════════════ -->
 <section class="work" id="work">
-  <header class="sec-head">
-    <p class="label" data-reveal>(02) — Selected work</p>
-    <h2 class="h2" data-reveal>Things I've<br /><em>put into the world</em></h2>
-  </header>
 
-  <div class="work__list" id="work-list">
-
-    <article class="card" data-tilt>
-      <a class="card__link" href="https://aeolian.netlify.app/" target="_blank" rel="noopener"
-         aria-label="Open the Design Portfolio site"></a>
-      <div class="card__media">
-        <img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" />
-        <span class="card__sheen" aria-hidden="true"></span>
+  <!-- featured: the screen tilts up flat as you scroll -->
+  <div class="tilt" id="tilt">
+    <div class="tilt__sticky">
+      <header class="tilt__head" id="tilt-head">
+        <p class="label">02 — Selected work</p>
+        <h2 class="h2">Cutlass — the AI and the editor<br /><em>hold the same controls</em></h2>
+      </header>
+      <div class="tilt__device" id="tilt-device">
+        <div class="tilt__screen">
+          <img src="assets/work/cutlass/inspector.webp" alt="Cutlass video editor, showing its timeline, program monitor and inspector" decoding="async" />
+        </div>
       </div>
-      <div class="card__body glass">
-        <span class="card__idx">01</span>
-        <h3>Design Portfolio — the first site I built</h3>
-        <p>My graphic and motion design work, and the first website I ever made — stitched together from effects I took apart across the web, then rebuilt once I understood how they worked. Four static pages, a Three.js hero, and 36 projects behind a filterable grid with a lightbox.</p>
-        <ul class="tags"><li class="is-status">Where I started</li><li>JavaScript</li><li>Three.js</li><li>After Effects</li></ul>
-        <a class="card__repo" href="https://github.com/aeolian1014/aeolian" target="_blank" rel="noopener"
-           aria-label="Design Portfolio source on GitHub">
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-          </svg>
-          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+      <div class="tilt__foot">
+        <p>A video editor where every edit is one command in a single registry — the interface fires them, and the AI fires the same ones. Built from scratch: my own Rust core and my own interface, down to the timeline and the render pipeline.</p>
+        <a class="btn btn--ghost" href="cutlass.html">Read the case study
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
         </a>
-        <span class="card__go" aria-hidden="true">↗</span>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <article class="card" data-tilt>
-      <a class="card__link" href="https://shortspilot.netlify.app/" target="_blank" rel="noopener"
-         aria-label="Open the Shorts Pilot site"></a>
-      <div class="card__media">
-        <img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" />
-        <span class="card__sheen" aria-hidden="true"></span>
-      </div>
-      <div class="card__body glass">
-        <span class="card__idx">02</span>
+  <div class="work__grid">
+
+    <article class="spot card reveal">
+      <a class="card__link" href="https://shortspilot.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Shorts Pilot site"></a>
+      <div class="card__media"><img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" /></div>
+      <div class="card__body">
+        <div class="card__top"><span class="card__idx">01</span><span class="status status--dim">Windows app</span></div>
         <h3>Shorts Pilot — Instagram to YouTube, paced</h3>
         <p>A Windows desktop app that watches the clipboard: copy a reel link and it downloads the clip, works out which channel it belongs to, and releases it on a per-channel interval so a burst of links doesn't become a burst of uploads.</p>
         <ul class="tags"><li>Python</li><li>JavaScript</li><li>YouTube Data API</li><li>pywebview</li></ul>
-        <p class="card__note">
-          <span aria-hidden="true">◈</span>
-          A Windows app, so the source isn't public by default — the site has a request page, and I hand out an access code to anyone with a good reason to read it.
-        </p>
-        <span class="card__go" aria-hidden="true">↗</span>
+        <p class="card__note">Source isn't public by default — the site has a request page, and I hand out an access code to anyone with a good reason to read it.</p>
       </div>
     </article>
 
-    <article class="card" data-tilt>
-      <a class="card__link" href="https://artgalera.netlify.app/" target="_blank" rel="noopener"
-         aria-label="Open the Galera site"></a>
-      <div class="card__media">
-        <img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" />
-        <span class="card__sheen" aria-hidden="true"></span>
-      </div>
-      <div class="card__body glass">
-        <span class="card__idx">03</span>
-        <h3>Galera — Support the artists behind the art</h3>
-        <p>A membership platform for digital artists: work stays public, supporters subscribe to monthly tiers and unlock the studio — 4K files, PSDs, process videos. Accounts, pledges and per-artwork access are all enforced in the database with row-level security.</p>
-        <ul class="tags"><li class="is-status">Beta</li><li>JavaScript</li><li>Supabase</li><li>Netlify</li></ul>
-        <a class="card__repo" href="https://github.com/aeolian1014/Galera-v2" target="_blank" rel="noopener"
-           aria-label="Galera source on GitHub">
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-          </svg>
-          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+    <article class="spot card reveal">
+      <a class="card__link" href="https://artgalera.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Galera site"></a>
+      <div class="card__media"><img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" /></div>
+      <div class="card__body">
+        <div class="card__top"><span class="card__idx">02</span><span class="status">Beta</span></div>
+        <h3>Galera — support the artists behind the art</h3>
+        <p>A membership platform for digital artists: work stays public, supporters subscribe to monthly tiers and unlock the studio — 4K files, PSDs, process videos. Accounts, pledges and per-artwork access are enforced in the database with row-level security.</p>
+        <ul class="tags"><li>JavaScript</li><li>Supabase</li><li>Netlify</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/Galera-v2" target="_blank" rel="noopener" aria-label="Galera source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github" /></svg> Source
         </a>
-        <span class="card__go" aria-hidden="true">↗</span>
       </div>
     </article>
 
-    <article class="card" data-tilt>
-      <a class="card__link" href="cutlass.html" aria-label="Open the Cutlass project page"></a>
-      <div class="card__media">
-        <img src="assets/work/cutlass/inspector.webp" alt="Cutlass video editor, showing its timeline, program monitor and inspector" loading="lazy" decoding="async" />
-        <span class="card__sheen" aria-hidden="true"></span>
-      </div>
-      <div class="card__body glass">
-        <span class="card__idx">04</span>
-        <h3>Cutlass — the AI and the editor hold the same controls</h3>
-        <p class="card__built"><b>Built from scratch</b><span>No forked editor, no borrowed code — my own Rust core and my own interface, down to the timeline and the render pipeline.</span></p>
-        <p>Every edit is one command in a single registry: the interface fires them, and the AI fires the same ones — no screen-scraping, no driving someone else's editor. What it proposes arrives as a diff I accept or reject clip by clip. It already cuts, trims, grades and exports; I'm holding the release until the AI is trained across several editing styles.</p>
-        <ul class="tags"><li class="is-status">Unreleased — by choice</li><li>Rust</li><li>JavaScript</li><li>Tauri</li><li>ffmpeg</li></ul>
-        <span class="card__go" aria-hidden="true">↗</span>
-      </div>
-    </article>
-
-    <article class="card" data-tilt>
-      <a class="card__link" href="https://nowherecentral.netlify.app/" target="_blank" rel="noopener"
-         aria-label="Open the Nowhere Central site"></a>
-      <div class="card__media">
-        <img src="assets/work/nowhere-central.webp" alt="Nowhere Central, an ambient sleep site, showing its slow-drifting departure board" loading="lazy" decoding="async" />
-        <span class="card__sheen" aria-hidden="true"></span>
-      </div>
-      <div class="card__body glass">
-        <span class="card__idx">05</span>
+    <article class="spot card reveal">
+      <a class="card__link" href="https://nowherecentral.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Nowhere Central site"></a>
+      <div class="card__media"><img src="assets/work/nowhere-central.webp" alt="Nowhere Central, an ambient sleep site, showing its slow-drifting departure board" loading="lazy" decoding="async" /></div>
+      <div class="card__body">
+        <div class="card__top"><span class="card__idx">03</span><span class="status">Live</span></div>
         <h3>Nowhere Central — an ambient site to fall asleep to</h3>
-        <p>A free place to wind down at night: generated soundscapes, slow drifting visuals, a sleep timer and a night mode that dims when you stop moving. The imaginary railway station is the setting, not the point. Zero dependencies — every world is a raymarched GLSL shader and every sound is synthesised at runtime from maths.</p>
-        <ul class="tags"><li class="is-status">Live</li><li>JavaScript</li><li>WebGL / GLSL</li><li>Web Audio</li><li>Node.js</li></ul>
-        <a class="card__repo" href="https://github.com/aeolian1014/nowherecentral" target="_blank" rel="noopener"
-           aria-label="Nowhere Central source on GitHub">
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-          </svg>
-          <span class="card__repo-label"><b>GitHub</b><i>Open ↗</i></span>
+        <p>Generated soundscapes, slow drifting visuals, a sleep timer and a night mode that dims when you stop moving. Zero dependencies — every world is a raymarched GLSL shader and every sound is synthesised at runtime from maths.</p>
+        <ul class="tags"><li>JavaScript</li><li>WebGL / GLSL</li><li>Web Audio</li><li>Node.js</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/nowherecentral" target="_blank" rel="noopener" aria-label="Nowhere Central source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github" /></svg> Source
         </a>
-        <span class="card__go" aria-hidden="true">↗</span>
+      </div>
+    </article>
+
+    <article class="spot card reveal">
+      <a class="card__link" href="https://aeolian.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Design Portfolio site"></a>
+      <div class="card__media"><img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" /></div>
+      <div class="card__body">
+        <div class="card__top"><span class="card__idx">04</span><span class="status status--dim">Where I started</span></div>
+        <h3>Design Portfolio — the first site I built</h3>
+        <p>My graphic and motion design work, and the first website I ever made — stitched together from effects I took apart across the web, then rebuilt once I understood how they worked. Four static pages, a Three.js hero, and 36 projects behind a filterable grid.</p>
+        <ul class="tags"><li>JavaScript</li><li>Three.js</li><li>After Effects</li></ul>
+        <a class="card__repo" href="https://github.com/aeolian1014/aeolian" target="_blank" rel="noopener" aria-label="Design Portfolio source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github" /></svg> Source
+        </a>
       </div>
     </article>
 
   </div>
 </section>
 
-<!-- ══ CAPABILITIES ══════════════════════════════════════════ -->
+<!-- ══ CAPABILITIES — bento ══════════════════════════════════ -->
 <section class="caps" id="capabilities">
-  <header class="sec-head">
-    <p class="label" data-reveal>(03) — Capabilities</p>
-    <h2 class="h2" data-reveal>What I can<br /><em>actually build</em></h2>
+  <header class="sec-head reveal">
+    <p class="label">03 — Capabilities</p>
+    <h2 class="h2">What I can<br /><em>actually build</em></h2>
   </header>
 
-  <div class="caps__grid">
-    <article class="cap glass" data-reveal>
-      <span class="cap__ico" aria-hidden="true">◎</span>
+  <div class="bento">
+    <article class="spot cap cap--wide reveal">
+      <svg class="cap__ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6M5 11.5v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg>
       <h3>Web apps with a real backend</h3>
       <p>Multi-page apps on Postgres — accounts, membership tiers and per-item access enforced in the database with row-level security, not trusted to the browser.</p>
+      <div class="cap__rows" aria-hidden="true">
+        <span><b>policy</b> artworks_select</span><span><b>using</b> is_supporter(auth.uid())</span><span><b>tier</b> ≥ studio</span>
+      </div>
     </article>
-    <article class="cap glass" data-reveal>
-      <span class="cap__ico" aria-hidden="true">⬡</span>
+    <article class="spot cap reveal">
+      <svg class="cap__ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       <h3>Desktop software</h3>
       <p>Windows apps people install and leave running: native windows, background schedulers, OAuth into third-party accounts, packaged into an installer that just works.</p>
     </article>
-    <article class="cap glass" data-reveal>
-      <span class="cap__ico" aria-hidden="true">△</span>
+    <article class="spot cap reveal">
+      <svg class="cap__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
       <h3>Automation that keeps running</h3>
-      <p>Joining systems never meant to talk to each other — clipboard to YouTube, ffmpeg pipelines, jobs that hold their own schedule and pick themselves back up after a failure.</p>
+      <p>Joining systems never meant to talk to each other — clipboard to YouTube, ffmpeg pipelines, jobs that pick themselves back up after a failure.</p>
     </article>
-    <article class="cap glass" data-reveal>
-      <span class="cap__ico" aria-hidden="true">◈</span>
+    <article class="spot cap cap--wide reveal">
+      <svg class="cap__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c3-6 6-9 9-9s5 2 9-4"/><circle cx="12" cy="8" r="2"/></svg>
       <h3>Interface and motion</h3>
-      <p>Design was my first trade, so interfaces get built from tokens up — and WebGL or scroll animation when a page needs to be remembered, not just read.</p>
+      <p>Design was my first trade, so interfaces get built from tokens up — and WebGL or scroll animation when a page needs to be remembered, not just read. This page is one of them.</p>
+      <div class="cap__curve" aria-hidden="true"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path data-curve d="M0 55 C 80 55, 110 5, 300 5" /></svg></div>
     </article>
   </div>
 </section>
 
 <!-- ══ TOOLKIT ═══════════════════════════════════════════════ -->
 <section class="kit" id="toolkit">
-  <header class="sec-head">
-    <p class="label" data-reveal>(04) — Toolkit</p>
-    <h2 class="h2" data-reveal>The bench I<br /><em>actually reach for</em></h2>
-    <p class="sec-lede" data-reveal>
-      AI writes drafts fast. Deciding which draft survives is still the job —
-      and that part hasn't been automated yet.
-    </p>
+  <header class="sec-head reveal">
+    <p class="label">04 — Toolkit</p>
+    <h2 class="h2">The bench I<br /><em>actually reach for</em></h2>
+    <p class="sec-lede">AI writes drafts fast. Deciding which draft survives is still the job — and that part hasn't been automated yet.</p>
   </header>
 
   <div class="kit__grid">
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">◎</span>
-      <h3>Agents in the editor</h3>
-      <p>Where most of the code starts — an agent with repo-wide reach, kept on a short leash.</p>
-      <ul class="kit__list">
-        <li>Claude Code</li><li>Cursor</li><li>Codex</li><li>Qwen Coder</li><li>Hy3</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">⬡</span>
-      <h3>Thinking it through</h3>
-      <p>Architecture arguments, second opinions, and the debugging you can't grep your way out of.</p>
-      <ul class="kit__list">
-        <li>Claude</li><li>ChatGPT</li><li>Gemini</li><li>DeepSeek</li><li>Grok</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">△</span>
-      <h3>Research &amp; first drafts of UI</h3>
-      <p>Reading the docs faster than the docs read, and getting a layout on screen to argue with.</p>
-      <ul class="kit__list">
-        <li>Perplexity</li><li>NotebookLM</li><li>v0</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">◈</span>
-      <h3>Stills &amp; identity</h3>
-      <p>Key visuals, textures and thumbnails — generated, then taken apart and rebuilt by hand.</p>
-      <ul class="kit__list">
-        <li>Midjourney</li><li>Flux</li><li>DALL·E</li><li>Leonardo</li><li>Ideogram</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">▣</span>
-      <h3>The Adobe bench</h3>
-      <p>My first trade. Everything generated still lands here before anyone else sees it.</p>
-      <ul class="kit__list">
-        <li>Photoshop</li><li>Illustrator</li><li>After Effects</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">▶</span>
-      <h3>Motion &amp; voice</h3>
-      <p>Footage that never existed and a voice to carry it — b-roll, transitions, narration.</p>
-      <ul class="kit__list">
-        <li>Runway Gen-4</li><li>Kling</li><li>Sora</li><li>Veo</li>
-        <li>Luma Dream Machine</li><li>Hailuo</li><li>Seedance</li><li>ElevenLabs</li>
-      </ul>
-    </article>
-
-    <article class="kit__card glass" data-reveal>
-      <span class="kit__ico" aria-hidden="true">⟲</span>
-      <h3>Glue &amp; automation</h3>
-      <p>Routing models and wiring services together so the boring half runs without me.</p>
-      <ul class="kit__list">
-        <li>OmniRouter</li><li>n8n</li><li>Zapier</li>
-      </ul>
-    </article>
-
+    <article class="spot kit__card reveal"><h3>Agents in the editor</h3><p>Where most of the code starts — an agent with repo-wide reach, kept on a short leash.</p>
+      <ul class="chips"><li>Claude Code</li><li>Cursor</li><li>Codex</li><li>Qwen Coder</li><li>Hy3</li></ul></article>
+    <article class="spot kit__card reveal"><h3>Thinking it through</h3><p>Architecture arguments, second opinions, and the debugging you can't grep your way out of.</p>
+      <ul class="chips"><li>Claude</li><li>ChatGPT</li><li>Gemini</li><li>DeepSeek</li><li>Grok</li></ul></article>
+    <article class="spot kit__card reveal"><h3>Research &amp; first drafts of UI</h3><p>Reading the docs faster than the docs read, and getting a layout on screen to argue with.</p>
+      <ul class="chips"><li>Perplexity</li><li>NotebookLM</li><li>v0</li></ul></article>
+    <article class="spot kit__card reveal"><h3>Stills &amp; identity</h3><p>Key visuals, textures and thumbnails — generated, then taken apart and rebuilt by hand.</p>
+      <ul class="chips"><li>Midjourney</li><li>Flux</li><li>DALL·E</li><li>Leonardo</li><li>Ideogram</li></ul></article>
+    <article class="spot kit__card reveal"><h3>The Adobe bench</h3><p>My first trade. Everything generated still lands here before anyone else sees it.</p>
+      <ul class="chips"><li>Photoshop</li><li>Illustrator</li><li>After Effects</li></ul></article>
+    <article class="spot kit__card reveal"><h3>Motion &amp; voice</h3><p>Footage that never existed and a voice to carry it — b-roll, transitions, narration.</p>
+      <ul class="chips"><li>Runway Gen-4</li><li>Kling</li><li>Sora</li><li>Veo</li><li>Luma</li><li>Hailuo</li><li>Seedance</li><li>ElevenLabs</li></ul></article>
+    <article class="spot kit__card reveal"><h3>Glue &amp; automation</h3><p>Routing models and wiring services together so the boring half runs without me.</p>
+      <ul class="chips"><li>OmniRouter</li><li>n8n</li><li>Zapier</li></ul></article>
   </div>
 </section>
 
-<!-- ══ BUILD LOG ═════════════════════════════════════════════ -->
-<section class="exp" id="experience">
-  <header class="sec-head">
-    <p class="label" data-reveal>(05) — Build log</p>
-    <h2 class="h2" data-reveal>No job titles yet.<br /><em>Plenty of releases.</em></h2>
+<!-- ══ BUILD LOG — the beam fills as you scroll ══════════════ -->
+<section class="log" id="experience">
+  <header class="sec-head reveal">
+    <p class="label">05 — Build log</p>
+    <h2 class="h2">No job titles yet.<br /><em>Plenty of releases.</em></h2>
   </header>
 
-  <ol class="exp__list">
-    <li class="exp__item" data-reveal>
-      <span class="exp__year"><b>v0.1</b>2024</span>
-      <div><h3>Learned to see</h3>
+  <ol class="log__list" id="log">
+    <span class="log__rail" aria-hidden="true"><span class="log__beam" id="log-beam"></span></span>
+    <li class="log__item">
+      <div class="log__when"><span class="log__node" aria-hidden="true"></span><b>v0.1</b><span>2024</span></div>
+      <div class="log__body reveal"><h3>Learned to see</h3>
       <p>Graphic and motion design — brand identity, channel art, key visuals, After Effects. My first skill in this industry, and still the reason I notice when something sits four pixels off.</p></div>
     </li>
-    <li class="exp__item" data-reveal>
-      <span class="exp__year"><b>v0.2</b>2025</span>
-      <div><h3>Learned to build</h3>
+    <li class="log__item">
+      <div class="log__when"><span class="log__node" aria-hidden="true"></span><b>v0.2</b><span>2025</span></div>
+      <div class="log__body reveal"><h3>Learned to build</h3>
       <p>My first website, assembled by taking effects apart from across the internet until I understood why they worked. Nothing taught me faster than breaking someone else's code.</p></div>
     </li>
-    <li class="exp__item" data-reveal>
-      <span class="exp__year"><b>v0.3</b>2026</span>
-      <div><h3>Something that runs without me</h3>
+    <li class="log__item">
+      <div class="log__when"><span class="log__node" aria-hidden="true"></span><b>v0.3</b><span>2026</span></div>
+      <div class="log__body reveal"><h3>Something that runs without me</h3>
       <p>Shorts Pilot. A desktop app watching the clipboard, pacing uploads across channels, holding OAuth tokens safely. The first thing I built that works while I'm asleep.</p></div>
     </li>
-    <li class="exp__item" data-reveal>
-      <span class="exp__year"><b>v0.4</b>2026</span>
-      <div><h3>A real backend</h3>
+    <li class="log__item">
+      <div class="log__when"><span class="log__node" aria-hidden="true"></span><b>v0.4</b><span>2026</span></div>
+      <div class="log__body reveal"><h3>A real backend</h3>
       <p>Galera. Accounts, membership tiers and per-artwork access — enforced by row-level security in the database rather than by trusting the browser.</p></div>
     </li>
-    <li class="exp__item" data-reveal>
-      <span class="exp__year"><b>v0.5</b>now</span>
-      <div><h3>Teaching an editor to take orders</h3>
+    <li class="log__item">
+      <div class="log__when"><span class="log__node" aria-hidden="true"></span><b>v0.5</b><span>now</span></div>
+      <div class="log__body reveal"><h3>Teaching an editor to take orders</h3>
       <p>Cutlass. A video editor where every edit is one invertible command object, so an AI and a human have exactly the same reach. In progress — the hard part is the architecture, not the buttons.</p></div>
     </li>
   </ol>
@@ -471,19 +312,23 @@
 
 <!-- ══ CONTACT ═══════════════════════════════════════════════ -->
 <section class="contact" id="contact">
-  <div class="contact__aura" aria-hidden="true"></div>
-  <p class="label" data-reveal>(06) — Contact</p>
-  <h2 class="display display--sm" data-reveal>
-    <span class="line"><span data-split>Let's build</span></span>
-    <span class="line line--ghost"><span data-split>something</span></span>
-  </h2>
-  <a class="contact__mail magnetic" href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a>
-  <ul class="contact__socials" data-reveal>
-    <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
-    <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
-    <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
-    <li><a href="cv.html">CV</a></li>
-  </ul>
+  <div class="paths paths--soft" data-paths aria-hidden="true"></div>
+  <div class="contact__inner reveal">
+    <p class="label">06 — Contact</p>
+    <h2 class="contact__title">Let's build<br /><em>something</em></h2>
+    <a class="hover-btn" href="mailto:sulaymonruziboev75@gmail.com">
+      <span class="hover-btn__dot" aria-hidden="true"></span>
+      <span class="hover-btn__text">sulaymonruziboev75@gmail.com</span>
+      <span class="hover-btn__over" aria-hidden="true"><span>Write to me</span>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+    </a>
+    <ul class="contact__socials">
+      <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
+      <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+  </div>
 </section>
 
 </main>
@@ -494,11 +339,12 @@
   <a href="#top">Back to top ↑</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js"></script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
+</svg>
+
+<script src="js/vendor/motion.js"></script>
+<script src="js/home.js"></script>
 <script type="module" src="js/cursor.js"></script>
-<script src="js/blob.js"></script>
-<script type="module" src="js/hero3d.js"></script>
 </body>
 </html>

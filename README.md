@@ -9,11 +9,13 @@ and JavaScript.
 index.html          the site — hero, work, capabilities, build log, contact
 soon.html           placeholder for projects with no site yet (linked from card 04)
 
-css/style.css       design tokens and every component
+css/home.css        the home page — dark design tokens and every section
+css/style.css       the other pages (cutlass, cv, soon)
 
-js/main.js          scroll animation, reveals, marquee, nav, custom cursor
-js/blob.js          the draggable orb and its elastic reveal window
-js/hero3d.js        the Three.js hero object
+js/home.js          home motion: flowing-paths hero, scroll-lit about, tilting
+                    Cutlass screen, spotlight cards, build-log beam, nav
+js/vendor/motion.js Motion 13.4.6 (formerly Framer Motion), vendored
+js/cursor.js        the 3D code cursor, on every page
 
 assets/work/        screenshots and the hero background
 ```
