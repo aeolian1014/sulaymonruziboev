@@ -356,7 +356,20 @@
     M.scroll(function (p) { bar.style.transform = 'scaleX(' + p.toFixed(4) + ')'; });
   }
 
+  /* ── 11. footer clock — local time in Tashkent ─────────────── */
+  function clock() {
+    var el = $('#local-time');
+    if (!el) return;
+    var fmt;
+    try { fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Tashkent', hour: '2-digit', minute: '2-digit' }); }
+    catch (e) { return; }
+    var tick = function () { el.textContent = fmt.format(new Date()); };
+    tick();
+    setInterval(tick, 15000);
+  }
+
   function init() {
+    clock();
     progress();
     paths();
     heroTitle();
