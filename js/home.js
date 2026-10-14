@@ -180,11 +180,66 @@
     }, { target: $('.about'), offset: ['start start', 'end end'] });
   }
 
-  /* ── 5. featured — the screen tilts flat as it scrolls in ──── */
+  /* a pill that slides to whichever item is active — the vanilla
+     equivalent of Framer Motion's shared layoutId highlight */
+  function slider(pill, host) {
+    var first = true;
+    return function (el) {
+      if (!el) {
+        if (M) M.animate(pill, { opacity: 0 }, { duration: MOTION ? 0.25 : 0 });
+        else pill.style.opacity = '0';
+        return;
+      }
+      var hr = host.getBoundingClientRect(), r = el.getBoundingClientRect();
+      var to = { x: r.left - hr.left, width: r.width, opacity: 1 };
+      if (!M) {
+        pill.style.transform = 'translateX(' + to.x + 'px)';
+        pill.style.width = to.width + 'px';
+        pill.style.opacity = '1';
+        return;
+      }
+      // the first placement jumps; after that it springs across
+      M.animate(pill, to, (first || !MOTION) ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 32 });
+      first = false;
+    };
+  }
+
+  /* ── 5. featured — the screen tilts flat as it scrolls in, then
+     steps through four Cutlass screens ───────────────────────── */
   function tilt() {
     var wrap = $('#tilt'), dev = $('#tilt-device'), head = $('#tilt-head');
-    if (!wrap || !dev || !MOTION) return;
+    if (!wrap || !dev) return;
+    var shots = $$('.tilt__screen img', dev);
+    var tabs = $$('.tilt__tabs button');
+    var tabHost = $('.tilt__tabs');
+    var pill = document.createElement('span');
+    pill.className = 'tabs__pill';
+    tabHost.insertBefore(pill, tabHost.firstChild);
+    var move = slider(pill, tabHost);
+    var current = -1;
+
+    function show(i) {
+      if (i === current) return;
+      current = i;
+      shots.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
+      tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); });
+      move(tabs[i]);
+    }
+    show(0);
+    tabs.forEach(function (t, k) { t.addEventListener('click', function () { show(k); }); });
+    addEventListener('resize', function () { var c = current; current = -1; show(c); });
+
+    if (!MOTION) return;
     var small = matchMedia('(max-width: 760px)');
+    var band = 0;
+    M.scroll(function (p) {
+      if (small.matches) return;
+      // once flat, the rest of the pinned scroll pages through the screens;
+      // only switch when the band changes so a clicked tab is not overridden
+      var b = clamp(Math.floor((p - 0.5) / 0.5 * shots.length), 0, shots.length - 1);
+      if (b !== band) { band = b; show(b); }
+    }, { target: wrap, offset: ['start start', 'end end'] });
+
     M.scroll(function (p) {
       var t = clamp(p / 0.55, 0, 1);
       var e = 1 - Math.pow(1 - t, 3);
@@ -268,13 +323,25 @@
     $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { toggle(false); }); });
     addEventListener('keydown', function (e) { if (e.key === 'Escape') toggle(false); });
 
-    // active link follows the section in the middle of the screen
+    // active link follows the section in the middle of the screen; the
+    // highlight slides to it, and previews whichever link is hovered
     var links = $$('.nav__links a');
+    var host = $('#nav-links'), pillEl = $('#nav-pill');
+    var move = slider(pillEl, host);
+    var active = null;
+    var setActive = function (a) {
+      active = a;
+      links.forEach(function (l) { l.classList.toggle('is-active', l === a); });
+      move(a);
+    };
+    links.forEach(function (l) { l.addEventListener('pointerenter', function () { move(l); }); });
+    host.addEventListener('pointerleave', function () { move(active); });
+
     if (!('IntersectionObserver' in window)) return;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
-        links.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id); });
+        setActive(links.filter(function (l) { return l.getAttribute('href') === '#' + en.target.id; })[0] || null);
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     ['hero', 'about', 'work', 'capabilities', 'toolkit', 'experience', 'contact'].forEach(function (id) {
@@ -282,7 +349,15 @@
     });
   }
 
+  /* ── 10. reading progress along the top edge ───────────────── */
+  function progress() {
+    var bar = $('#progress');
+    if (!bar || !M) return;
+    M.scroll(function (p) { bar.style.transform = 'scaleX(' + p.toFixed(4) + ')'; });
+  }
+
   function init() {
+    progress();
     paths();
     heroTitle();
     counters();

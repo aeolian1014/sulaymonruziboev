@@ -47,7 +47,7 @@
        spins. The canvas is centred on the pointer. */
     '.cc-caret{ position:absolute; top:0; left:0; width:' + CANVAS + 'px; height:' + CANVAS + 'px;',
     '  transform:translate(-' + (CANVAS / 2) + 'px,-' + (CANVAS / 2) + 'px); }',
-    '.cc-caret canvas{ display:block; width:100%; height:100%; }',
+    '.cc-caret canvas{ display:block; width:100%; height:100%; filter:var(--cursor-glow, none); }',
     /* over a clickable thing the cursor eases forward and back along its aim */
     REDUCED ? '' : '.cc-cursor.is-hot .cc-caret{ animation:cc-nudge .9s ease-in-out infinite; }',
     '@keyframes cc-nudge{ 0%,100%{ transform:translate(-' + (CANVAS / 2) + 'px,-' + (CANVAS / 2) + 'px) }',
@@ -138,8 +138,13 @@
       geo.computeBoundingBox();
       geo.computeVertexNormals();
 
-      /* gradient down the arrow: light at the tip, deep purple at the tails */
-      var LIGHT = new THREE.Color(0xe8dfff), DEEP = new THREE.Color(0x2e0d96);
+      /* gradient down the arrow: light at the tip, deep purple at the tails.
+         A page can override both (--cursor-tip / --cursor-tail) — on a dark
+         page the deep purple tail would vanish into the background. */
+      var root = getComputedStyle(document.documentElement);
+      var tip = root.getPropertyValue('--cursor-tip').trim();
+      var tail = root.getPropertyValue('--cursor-tail').trim();
+      var LIGHT = new THREE.Color(tip || 0xe8dfff), DEEP = new THREE.Color(tail || 0x2e0d96);
       var pos = geo.attributes.position, n = pos.count;
       var col = new Float32Array(n * 3), c = new THREE.Color();
       var hi = geo.boundingBox.max.y, lo = geo.boundingBox.min.y;

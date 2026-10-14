@@ -25,6 +25,8 @@
 <body>
 
 <a class="skip" href="#work">Skip to work</a>
+<div class="progress" aria-hidden="true"><span id="progress"></span></div>
+<div class="grain" aria-hidden="true"></div>
 
 <!-- ── navigation ─────────────────────────────────────────────── -->
 <header class="nav" id="nav">
@@ -33,7 +35,8 @@
     <span>Sulaymon Ruziboev</span>
   </a>
 
-  <nav class="nav__links" aria-label="Primary">
+  <nav class="nav__links" id="nav-links" aria-label="Primary">
+    <span class="nav__pill" id="nav-pill" aria-hidden="true"></span>
     <a href="#about">About</a>
     <a href="#work">Work</a>
     <a href="#capabilities">Services</a>
@@ -141,8 +144,17 @@
       </header>
       <div class="tilt__device" id="tilt-device">
         <div class="tilt__screen">
-          <img src="assets/work/cutlass/inspector.webp" alt="Cutlass video editor, showing its timeline, program monitor and inspector" decoding="async" />
+          <img class="is-on" src="assets/work/cutlass/inspector.webp" alt="Cutlass video editor, showing its timeline, program monitor and inspector" decoding="async" />
+          <img src="assets/work/cutlass/ai.webp" alt="Cutlass AI panel: describe the edit, run it, then accept or reject the proposed changes" loading="lazy" decoding="async" />
+          <img src="assets/work/cutlass/build.webp" alt="Cutlass auto-build panel, which arranges a timeline from imported clips and a song" loading="lazy" decoding="async" />
+          <img src="assets/work/cutlass/color.webp" alt="Cutlass colour inspector in light appearance, with presets and colour and light sliders" loading="lazy" decoding="async" />
         </div>
+      </div>
+      <div class="tilt__tabs" role="tablist" aria-label="Cutlass screens">
+        <button role="tab" aria-selected="true" data-shot="0">Inspector</button>
+        <button role="tab" aria-selected="false" data-shot="1">AI edit</button>
+        <button role="tab" aria-selected="false" data-shot="2">Auto-build</button>
+        <button role="tab" aria-selected="false" data-shot="3">Colour</button>
       </div>
       <div class="tilt__foot">
         <p>A video editor where every edit is one command in a single registry — the interface fires them, and the AI fires the same ones. Built from scratch: my own Rust core and my own interface, down to the timeline and the render pipeline.</p>
@@ -157,7 +169,7 @@
 
     <article class="spot card reveal">
       <a class="card__link" href="https://shortspilot.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Shorts Pilot site"></a>
-      <div class="card__media"><img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" /></div>
+      <div class="card__media"><span class="card__visit" aria-hidden="true">Visit site<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span><img src="assets/work/shorts-pilot.webp" alt="Shorts Pilot upload queue, showing clips scheduled per channel" loading="lazy" decoding="async" /></div>
       <div class="card__body">
         <div class="card__top"><span class="card__idx">01</span><span class="status status--dim">Windows app</span></div>
         <h3>Shorts Pilot — Instagram to YouTube, paced</h3>
@@ -169,7 +181,7 @@
 
     <article class="spot card reveal">
       <a class="card__link" href="https://artgalera.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Galera site"></a>
-      <div class="card__media"><img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" /></div>
+      <div class="card__media"><span class="card__visit" aria-hidden="true">Visit site<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span><img src="assets/work/galera.webp" alt="Galera trending section, showing featured artworks with supporter-only badges" loading="lazy" decoding="async" /></div>
       <div class="card__body">
         <div class="card__top"><span class="card__idx">02</span><span class="status">Beta</span></div>
         <h3>Galera — support the artists behind the art</h3>
@@ -183,7 +195,7 @@
 
     <article class="spot card reveal">
       <a class="card__link" href="https://nowherecentral.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Nowhere Central site"></a>
-      <div class="card__media"><img src="assets/work/nowhere-central.webp" alt="Nowhere Central, an ambient sleep site, showing its slow-drifting departure board" loading="lazy" decoding="async" /></div>
+      <div class="card__media"><span class="card__visit" aria-hidden="true">Visit site<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span><img src="assets/work/nowhere-central.webp" alt="Nowhere Central, an ambient sleep site, showing its slow-drifting departure board" loading="lazy" decoding="async" /></div>
       <div class="card__body">
         <div class="card__top"><span class="card__idx">03</span><span class="status">Live</span></div>
         <h3>Nowhere Central — an ambient site to fall asleep to</h3>
@@ -197,7 +209,7 @@
 
     <article class="spot card reveal">
       <a class="card__link" href="https://aeolian.netlify.app/" target="_blank" rel="noopener" aria-label="Open the Design Portfolio site"></a>
-      <div class="card__media"><img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" /></div>
+      <div class="card__media"><span class="card__visit" aria-hidden="true">Visit site<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg></span><img src="assets/work/aeolian.webp" alt="Sulaymon Ruziboev design portfolio, showing the hero and a channel identity project" loading="lazy" decoding="async" /></div>
       <div class="card__body">
         <div class="card__top"><span class="card__idx">04</span><span class="status status--dim">Where I started</span></div>
         <h3>Design Portfolio — the first site I built</h3>
@@ -334,9 +346,13 @@
 </main>
 
 <footer class="foot">
-  <span>© 2026 Sulaymon Ruziboev</span>
-  <span>Built with too much care</span>
-  <a href="#top">Back to top ↑</a>
+  <div class="foot__row">
+    <span>© 2026 Sulaymon Ruziboev</span>
+    <span>Tashkent, Uzbekistan</span>
+    <span>Built with too much care</span>
+    <a href="#top">Back to top ↑</a>
+  </div>
+  <p class="foot__name" aria-hidden="true">Sulaymon</p>
 </footer>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
