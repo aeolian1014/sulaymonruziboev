@@ -1,7 +1,9 @@
 /* ============================================================
-   home.js — motion for the home page, built on Motion
-   (js/vendor/motion.js, global `Motion`). Everything degrades
-   under prefers-reduced-motion and on touch pointers.
+   home.js — motion for every page, built on Motion
+   (js/vendor/motion.js, global `Motion`). Each effect looks for
+   its own markup and skips itself when the page has none, so the
+   inner pages load this same file. Everything degrades under
+   prefers-reduced-motion and on touch pointers.
    ============================================================ */
 (function () {
   'use strict';
@@ -271,10 +273,13 @@
     var shots = $$('.tilt__screen img', dev);
     var tabs = $$('.tilt__tabs button');
     var tabHost = $('.tilt__tabs');
-    var pill = document.createElement('span');
-    pill.className = 'tabs__pill';
-    tabHost.insertBefore(pill, tabHost.firstChild);
-    var move = slider(pill, tabHost);
+    var move = function () {};
+    if (tabHost) {                       // the case-study page shows one screen, no tabs
+      var pill = document.createElement('span');
+      pill.className = 'tabs__pill';
+      tabHost.insertBefore(pill, tabHost.firstChild);
+      move = slider(pill, tabHost);
+    }
     var current = -1;
 
     function show(i) {
@@ -282,7 +287,7 @@
       current = i;
       shots.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
       tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); });
-      move(tabs[i]);
+      if (tabs[i]) move(tabs[i]);
     }
     show(0);
     tabs.forEach(function (t, k) { t.addEventListener('click', function () { show(k); }); });
@@ -291,7 +296,7 @@
     if (!MOTION) return;
     var small = matchMedia('(max-width: 760px)');
     var band = 0;
-    M.scroll(function (p) {
+    if (shots.length > 1) M.scroll(function (p) {
       if (small.matches) return;
       // once flat, the rest of the pinned scroll pages through the screens;
       // only switch when the band changes so a clicked tab is not overridden
@@ -395,6 +400,13 @@
     };
     links.forEach(function (l) { l.addEventListener('pointerenter', function () { move(l); }); });
     host.addEventListener('pointerleave', function () { move(active); });
+    // inner pages mark their section in the markup (the case study sits under Work)
+    var marked = links.filter(function (l) { return l.classList.contains('is-active'); })[0];
+    if (marked) {
+      setActive(marked);
+      addEventListener('resize', function () { move(active); });
+      return;
+    }
 
     if (!('IntersectionObserver' in window)) return;
     var io = new IntersectionObserver(function (entries) {
@@ -532,6 +544,7 @@
   /* ── 15. marquee — scroll speeds it up, flips it and leans it ─ */
   function marquee() {
     var rows = $$('.marquee__row');
+    if (!rows.length) return;
     rows.forEach(function (row) {
       var track = $('.marquee__track', row), set = $('.marquee__set', row);
       var copies = Math.max(2, Math.ceil((innerWidth * 2) / Math.max(set.offsetWidth, 1)) + 1);
@@ -593,7 +606,7 @@
   /* ── 17. border beams on the featured surfaces ─────────────── */
   function beams() {
     if (!MOTION) return;
-    $$('.cap, .tilt__device, .hero .pill').forEach(function (el, i) {
+    $$('.cap, .tilt__device, .hero .pill, [data-beam]').forEach(function (el, i) {
       var b = document.createElement('span');
       b.className = 'beam';
       b.setAttribute('aria-hidden', 'true');

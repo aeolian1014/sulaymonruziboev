@@ -9,11 +9,13 @@ and JavaScript.
 index.html          the site — hero, work, capabilities, build log, contact
 soon.html           placeholder for projects with no site yet (linked from card 04)
 
-css/home.css        the home page — dark design tokens and every section
-css/style.css       the other pages (cutlass, cv, soon)
+css/home.css        every page — dark design tokens, all components, and the
+                    inner-page pieces (case study, CV, "still exporting")
+css/style.css       the old light design; no page loads it any more
 
-js/home.js          home motion: flowing-paths hero, scroll-lit about, tilting
-                    Cutlass screen, spotlight cards, build-log beam, nav
+js/home.js          motion for every page: intro, flowing-paths hero, scroll-lit
+                    about, tilting Cutlass screen, spotlight cards, build-log
+                    beam, nav. Each effect skips itself where its markup is absent.
 js/vendor/motion.js Motion 13.4.6 (formerly Framer Motion), vendored
 js/cursor.js        the 3D code cursor, on every page
 

@@ -1,144 +1,78 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8" />
+<script>document.documentElement.classList.remove('no-js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>CV — Sulaymon Ruziboev</title>
 <meta name="description" content="Sulaymon Ruziboev — software developer in Tashkent, Uzbekistan. Projects, skills, experience and education." />
-<meta name="theme-color" content="#f4f4f7" />
+<meta name="theme-color" content="#07070a" />
+<link rel="icon" type="image/webp" href="assets/favicon.webp" />
 
 <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/home.css" />
 
 <style>
-  /* page-specific — everything else comes from the site's tokens */
-  .cv{
-    position:relative; z-index:1;
-    display:flex; justify-content:center;
-    padding:clamp(70px,10vh,120px) var(--pad) clamp(60px,9vh,110px);
-  }
-  .cv__aura{
-    position:absolute; left:50%; top:26%; transform:translate(-50%,-50%);
-    width:min(900px,120vw); aspect-ratio:1; border-radius:50%;
-    filter:blur(90px); opacity:.5; pointer-events:none;
-    background:radial-gradient(circle, rgba(122,80,255,.40), rgba(0,194,255,.20) 45%, transparent 70%);
-  }
-  .cv__panel{
-    position:relative; z-index:2; width:min(780px,100%);
-    padding:clamp(26px,4vw,46px); border-radius:var(--r-lg);
-  }
-  .cv__panel > *{ position:relative; z-index:2; }
+  /* page-specific — everything else comes from css/home.css */
+  .cv{ position:relative; isolation:isolate; overflow:clip; display:flex; justify-content:center; padding:130px var(--pad) 110px; }
+  .cv .paths{ opacity:.45; }
+  .cv__panel{ position:relative; width:min(820px, 100%); padding:clamp(24px, 4vw, 48px); border-radius:var(--r-lg); }
 
-  /* ── window chrome + language switch ─────────────────────── */
-  .cv__bar{
-    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-    margin-bottom:28px; padding-bottom:18px; border-bottom:1px solid var(--line);
-  }
-  .cv__dots{ display:flex; gap:6px; }
-  .cv__dots i{ width:11px; height:11px; border-radius:50%; background:var(--line); }
-  .cv__dots i:first-child{ background:#ff5f57; }
-  .cv__dots i:nth-child(2){ background:#febc2e; }
-  .cv__dots i:nth-child(3){ background:#28c840; }
-  .cv__file{
-    font-family:var(--font-display); font-size:.8rem; letter-spacing:.06em;
-    color:var(--muted); margin-left:6px;
-  }
-  .cv__lang{ margin-left:auto; display:flex; gap:4px; padding:3px; border-radius:var(--r-pill);
-             background:rgba(11,11,18,.05); border:1px solid var(--line-soft); }
+  /* ── window bar + language switch ────────────────────────── */
+  .cv__bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:34px; padding-bottom:18px; border-bottom:1px solid var(--line); }
+  .cv__lang{ position:relative; margin-left:auto; display:flex; gap:2px; padding:3px; border-radius:var(--r-pill); background:rgba(255,255,255,.03); border:1px solid var(--line); }
   .cv__lang button{
-    font-family:var(--font-display); font-size:.74rem; letter-spacing:.08em;
-    padding:6px 14px; border:0; border-radius:var(--r-pill);
-    background:transparent; color:var(--muted); cursor:pointer;
-    transition:background .25s var(--ease), color .25s var(--ease);
+    position:relative; z-index:1; border:0; background:none; cursor:pointer; padding:7px 15px; border-radius:var(--r-pill);
+    font:500 12px/1 var(--font-mono); letter-spacing:.08em; color:var(--muted); transition:color .3s;
   }
-  .cv__lang button:hover{ color:var(--ink); }
-  .cv__lang button[aria-pressed="true"]{ background:var(--ink); color:#fff; }
+  .cv__lang button:hover{ color:var(--ink-soft); }
+  .cv__lang button[aria-pressed="true"]{ color:var(--bg); }
+  .cv__lang .tabs__pill{ position:absolute; z-index:0; top:3px; bottom:3px; left:0; width:0; border-radius:var(--r-pill); background:var(--ink); }
 
   /* ── identity ────────────────────────────────────────────── */
   .cv__name{
-    font-family:var(--font-display); font-weight:500;
-    font-size:clamp(2rem,5.5vw,3.4rem); line-height:1; letter-spacing:-.04em;
-    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
-    margin-bottom:.3em;
+    font:500 clamp(40px, 7vw, 72px)/.98 var(--font-display); letter-spacing:-.05em; margin-bottom:.2em;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; padding-bottom:.06em;
   }
-  .cv__role{
-    font-family:var(--font-display); font-size:clamp(.95rem,2vw,1.15rem);
-    letter-spacing:-.01em; color:var(--ink); margin-bottom:14px;
-  }
-  .cv__contact{
-    display:flex; flex-wrap:wrap; gap:6px 18px;
-    font-size:.86rem; color:var(--ink-soft);
-  }
-  .cv__contact a{ color:var(--ink-soft); text-decoration:none; border-bottom:1px solid var(--line); }
-  .cv__contact a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+  .cv__role{ font:500 clamp(17px, 2vw, 21px)/1.3 var(--font-display); letter-spacing:-.015em; margin-bottom:16px; }
+  .cv__contact{ display:flex; flex-wrap:wrap; gap:8px 20px; font-size:14.5px; color:var(--ink-soft); }
+  .cv__contact a{ color:var(--ink-soft); background:linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition:color .25s, background-size .4s var(--ease-out); }
+  .cv__contact a:hover{ color:var(--ink); background-size:100% 1px; }
 
   /* ── sections ────────────────────────────────────────────── */
-  .cv__sec{ margin-top:34px; }
+  .cv__sec{ margin-top:44px; }
   .cv__label{
-    font-family:var(--font-display); font-size:.72rem; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--muted);
-    padding-bottom:8px; margin-bottom:16px; border-bottom:1px solid var(--line-soft);
+    font:500 12px/1 var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+    padding-bottom:12px; margin-bottom:18px; border-bottom:1px solid var(--line);
   }
-  .cv__intro{ font-size:.95rem; color:var(--ink-soft); max-width:60ch; }
+  .cv__intro{ color:var(--ink-soft); max-width:62ch; font-size:16px; }
 
-  /* skills, as a terminal read-out */
-  .cv__log{
-    padding:18px 20px; border-radius:var(--r);
-    background:rgba(11,11,18,.035); border:1px solid var(--line-soft);
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.78rem; line-height:2; color:var(--ink-soft);
-  }
+  .cv__log{ padding:18px 20px; border-radius:var(--r); background:rgba(0,0,0,.35); border:1px solid var(--line); font:400 13px/2 var(--font-mono); color:var(--ink-soft); }
   .cv__log span{ display:block; }
   .cv__log span::before{ content:"› "; color:var(--accent); }
   .cv__log b{ color:var(--ink); font-weight:500; }
 
-  /* entries */
-  .cv__item{ padding:16px 0; border-bottom:1px solid var(--line-soft); }
+  .cv__item{ padding:20px 0; border-bottom:1px solid var(--line); }
   .cv__item:first-of-type{ padding-top:0; }
   .cv__item:last-child{ border-bottom:0; padding-bottom:0; }
-  .cv__row{
-    display:flex; justify-content:space-between; align-items:baseline;
-    gap:14px; flex-wrap:wrap;
-  }
-  .cv__item h3{
-    font-family:var(--font-display); font-weight:500;
-    font-size:1.02rem; letter-spacing:-.02em; color:var(--ink);
-  }
-  .cv__item h3 a{
-    color:inherit; text-decoration:none;
-    border-bottom:1px solid var(--line);
-    transition:color .25s var(--ease), border-color .25s var(--ease);
-  }
-  .cv__item h3 a::after{ content:" ↗"; font-size:.78em; color:var(--muted); }
-  .cv__item h3 a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
-  .cv__item h3 a:hover::after{ color:var(--accent); }
-  .cv__date{
-    font-family:var(--font-display); font-size:.75rem; letter-spacing:.05em;
-    color:var(--muted); white-space:nowrap;
-  }
-  .cv__date a{
-    color:var(--muted); text-decoration:none;
-    border-bottom:1px solid var(--line);
-    transition:color .25s var(--ease), border-color .25s var(--ease);
-  }
-  .cv__date a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
-  .cv__org{ font-size:.84rem; color:var(--accent); margin-top:3px; }
-  .cv__desc{ font-size:.9rem; color:var(--ink-soft); margin-top:7px; max-width:64ch; }
-  .cv__desc + .cv__desc{ margin-top:5px; }
+  .cv__row{ display:flex; justify-content:space-between; align-items:baseline; gap:8px 16px; flex-wrap:wrap; }
+  .cv__item h3{ font:500 18px/1.3 var(--font-display); letter-spacing:-.015em; }
+  .cv__item h3 a{ background:linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition:color .25s, background-size .4s var(--ease-out); }
+  .cv__item h3 a::after{ content:" ↗"; font-size:.8em; color:var(--muted); }
+  .cv__item h3 a:hover{ background-size:100% 1px; }
+  .cv__date{ font:500 12.5px/1.4 var(--font-mono); color:var(--muted); white-space:nowrap; }
+  .cv__date a:hover{ color:var(--ink); }
+  .cv__org{ font-size:14px; color:#c9bbff; margin-top:4px; }
+  .cv__desc{ font-size:15px; color:var(--ink-soft); margin-top:8px; max-width:66ch; }
+  .cv__desc + .cv__desc{ margin-top:6px; }
 
-  .cv__tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; list-style:none; }
-  .cv__tags li{
-    font-family:var(--font-display); font-size:.7rem; letter-spacing:.05em;
-    padding:4px 10px; border-radius:var(--r-pill);
-    background:rgba(11,11,18,.04); border:1px solid var(--line-soft); color:var(--ink-soft);
-  }
-  .cv__tags li.is-live{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .cv__tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .cv__tags li{ font:500 12px/1 var(--font-mono); padding:7px 10px; border-radius:8px; color:var(--ink-soft); background:rgba(255,255,255,.04); border:1px solid var(--line); }
+  .cv__tags li.is-live{ color:#3ee08f; background:rgba(62,224,143,.08); border-color:rgba(62,224,143,.2); }
 
-  .cv__pair{ display:flex; flex-wrap:wrap; gap:8px 28px; font-size:.9rem; color:var(--ink-soft); }
+  .cv__pair{ display:flex; flex-wrap:wrap; gap:10px 30px; font-size:15px; color:var(--ink-soft); }
   .cv__pair b{ color:var(--ink); font-weight:500; }
-
-  .cv__actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:38px; }
 
   /* ── language switching ──────────────────────────────────── */
   [data-lang="uz"]{ display:none; }
@@ -147,20 +81,21 @@
   /* inline spans (role, contact line, button labels) must not become blocks */
   body.is-uz span[data-lang="uz"]{ display:inline; }
 
-  /* ── print: strip the decoration, keep the content ───────── */
+  /* ── print: white paper, dark ink, no decoration ─────────── */
   @media print{
     @page{ size:A4; margin:14mm 15mm; }
-    body{ background:#fff; }
-    .fx-grain, .cursor, .cv__aura, .cv__dots, .cv__lang, .cv__actions{ display:none !important; }
+    :root{ --ink:#111; --ink-soft:#333; --muted:#666; --line:#ccc; }
+    body{ background:#fff !important; color:#111; }
+    .grain, .progress, .nav, .mobile-menu, .foot, .paths, .page-hero__glow, .beam, .cv__bar, .actions,
+    .cc-layer, .cc-cursor, .skip{ display:none !important; }
     .cv{ padding:0; }
-    .cv__panel{
-      width:100%; padding:0; border:0 !important;
-      background:none !important; box-shadow:none !important; backdrop-filter:none !important;
-    }
-    .cv__panel::after{ display:none !important; }
-    .cv__name{ -webkit-text-fill-color:#111; color:#111; background:none; font-size:24pt; }
+    .cv__panel{ width:100%; padding:0; border:0 !important; background:none !important; }
+    .cv__panel::before, .cv__panel::after{ display:none !important; }
+    .cv__name{ -webkit-text-fill-color:#111; color:#111; background:none; font-size:26pt; }
     .cv__org{ color:#333; }
-    .cv__log{ background:none; border-color:#ccc; }
+    .cv__log{ background:none; border-color:#ccc; color:#333; }
+    .cv__log b{ color:#111; }
+    .cv__tags li, .cv__tags li.is-live{ background:none; border-color:#ccc; color:#333; }
     .cv__item{ break-inside:avoid; }
     .cv__sec{ break-inside:avoid-page; }
   }
@@ -168,19 +103,54 @@
 </head>
 <body>
 
-<div class="fx-grain" aria-hidden="true"></div>
-<!-- No .cursor element here: the custom cursor is driven by js/main.js, which this
-     page doesn't load. Without it the ring just parks itself in the top-left corner. -->
+<div class="progress" aria-hidden="true"><span id="progress"></span></div>
+<div class="grain" aria-hidden="true"></div>
 
-<main class="cv">
-  <div class="cv__aura" aria-hidden="true"></div>
+<!-- ── navigation ─────────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <a class="nav__logo" href="/" aria-label="Home">
+    <img src="assets/logo.webp" alt="" width="30" height="30" decoding="async" />
+    <span>Sulaymon Ruziboev</span>
+  </a>
 
-  <article class="cv__panel glass">
+  <nav class="nav__links" id="nav-links" aria-label="Primary">
+    <span class="nav__pill" id="nav-pill" aria-hidden="true"></span>
+    <a href="/#about">About</a>
+    <a href="/#work">Work</a>
+    <a href="/#capabilities">Services</a>
+    <a href="/#experience">Build log</a>
+  </nav>
+
+  <div class="nav__actions">
+    <a class="icon-btn" href="https://github.com/aeolian1014" target="_blank" rel="noopener" aria-label="GitHub profile">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github" /></svg>
+    </a>
+    <a class="btn btn--light btn--sm" href="/#contact">Contact</a>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <a href="/">Home</a>
+  <a href="/#about">About</a>
+  <a href="/#work">Work</a>
+  <a href="/#capabilities">Services</a>
+  <a href="/#experience">Build log</a>
+  <a href="/#contact">Contact</a>
+</div>
+
+<main class="cv" id="top">
+  <div class="paths" data-paths aria-hidden="true"></div>
+  <div class="page-hero__glow" aria-hidden="true"></div>
+
+  <article class="spot cv__panel" data-beam>
 
     <!-- ── window bar ─────────────────────────────────────── -->
     <div class="cv__bar">
-      <span class="cv__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span class="cv__file" aria-hidden="true">cv — sulaymon_ruziboev</span>
+      <span class="shot__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="shot__name" aria-hidden="true">cv — sulaymon_ruziboev</span>
       <div class="cv__lang" role="group" aria-label="Language / Til">
         <button type="button" id="lang-en" aria-pressed="true">EN</button>
         <button type="button" id="lang-uz" aria-pressed="false">UZ</button>
@@ -230,7 +200,7 @@
 
         <div class="cv__item">
           <div class="cv__row">
-            <h3><a href="soon.html">Cutlass — AI-first video editor</a></h3>
+            <h3><a href="cutlass.html">Cutlass — AI-first video editor</a></h3>
             <span class="cv__date">2026 — in progress</span>
           </div>
           <p class="cv__desc">
@@ -376,7 +346,7 @@
 
         <div class="cv__item">
           <div class="cv__row">
-            <h3><a href="soon.html">Cutlass — AI asosidagi video muharrir</a></h3>
+            <h3><a href="cutlass.html">Cutlass — AI asosidagi video muharrir</a></h3>
             <span class="cv__date">2026 — jarayonda</span>
           </div>
           <p class="cv__desc">
@@ -494,36 +464,120 @@
       </section>
     </div>
 
+
     <!-- ── actions ────────────────────────────────────────── -->
-    <div class="cv__actions">
-      <a class="btn btn--solid magnetic" href="/#work">
-        <span data-lang="en">← Back to the work</span>
-        <span data-lang="uz">← Ishlarga qaytish</span>
+    <div class="actions">
+      <a class="btn btn--light btn--lg magnetic" href="/#work">
+        <span data-lang="en">Back to the work</span>
+        <span data-lang="uz">Ishlarga qaytish</span>
       </a>
-      <a class="btn btn--ghost magnetic" href="/#contact">
+      <a class="btn btn--ghost btn--lg magnetic" href="/#contact">
         <span data-lang="en">Get in touch</span>
         <span data-lang="uz">Bog'lanish</span>
       </a>
+      <button class="btn btn--ghost btn--lg magnetic" type="button" onclick="window.print()">
+        <span data-lang="en">Print / save as PDF</span>
+        <span data-lang="uz">Chop etish / PDF</span>
+      </button>
     </div>
 
   </article>
 </main>
 
+<footer class="foot">
+  <div class="foot__inner">
+
+    <div class="foot__brand">
+      <a class="foot__logo" href="/" aria-label="Home">
+        <img src="assets/logo.webp" alt="" width="36" height="36" loading="lazy" decoding="async" />
+        <span><b>Sulaymon Ruziboev</b><i>Software developer</i></span>
+      </a>
+      <p>Desktop apps and web platforms, built end to end — database, backend and interface.</p>
+      <a class="foot__mail" href="mailto:sulaymonruziboev75@gmail.com">sulaymonruziboev75@gmail.com</a>
+      <p class="foot__status"><span class="pill__dot" aria-hidden="true"></span> Open to junior roles — remote or on-site</p>
+    </div>
+
+    <nav class="foot__col" aria-label="Sections">
+      <h2>Sections</h2>
+      <ul>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/#capabilities">Services</a></li>
+        <li><a href="/#toolkit">Toolkit</a></li>
+        <li><a href="/#experience">Build log</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot__col" aria-label="Projects">
+      <h2>Projects</h2>
+      <ul>
+        <li><a href="cutlass.html">Cutlass</a></li>
+        <li><a href="https://shortspilot.netlify.app/" target="_blank" rel="noopener">Shorts Pilot</a></li>
+        <li><a href="https://artgalera.netlify.app/" target="_blank" rel="noopener">Galera</a></li>
+        <li><a href="https://nowherecentral.netlify.app/" target="_blank" rel="noopener">Nowhere Central</a></li>
+        <li><a href="https://aeolian.netlify.app/" target="_blank" rel="noopener">Design portfolio</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot__col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <ul>
+        <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
+        <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="cv.html" aria-current="page">CV</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <div class="foot__bar">
+    <span>© 2026 Sulaymon Ruziboev. All rights reserved.</span>
+    <span class="foot__time">Tashkent <time id="local-time">--:--</time> <i>UTC+5</i></span>
+    <a class="foot__top" href="#top">Back to top
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+    </a>
+  </div>
+</footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
+</svg>
+
 <script>
   /* Language switch. The two versions are both in the HTML; CSS shows one.
-     The choice is remembered so a reload doesn't throw it away. */
+     The choice is remembered so a reload doesn't throw it away. A pill slides
+     under the active button (placed once fonts have laid the buttons out). */
   (function () {
     var KEY = 'cv-lang';
     var en  = document.getElementById('lang-en');
     var uz  = document.getElementById('lang-uz');
     if (!en || !uz) return;
 
+    var host = en.parentNode;
+    var pill = document.createElement('span');
+    pill.className = 'tabs__pill';
+    host.insertBefore(pill, en);
+    var first = true;
+    function place(btn) {
+      var hr = host.getBoundingClientRect(), r = btn.getBoundingClientRect();
+      var to = { x: r.left - hr.left, width: r.width };
+      var M = window.Motion;
+      var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (M) M.animate(pill, to, (first || calm) ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 32 });
+      else { pill.style.transform = 'translateX(' + to.x + 'px)'; pill.style.width = to.width + 'px'; }
+      first = false;
+    }
+
+    var current = 'en';
     function apply(lang, remember) {
       var isUz = lang === 'uz';
+      current = lang;
       document.body.classList.toggle('is-uz', isUz);
       document.documentElement.lang = isUz ? 'uz' : 'en';
       en.setAttribute('aria-pressed', String(!isUz));
       uz.setAttribute('aria-pressed', String(isUz));
+      place(isUz ? uz : en);
       if (remember) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
     }
 
@@ -531,11 +585,17 @@
     try { saved = localStorage.getItem(KEY); } catch (e) {}
     /* No stored choice: follow the browser, but only for Uzbek — English is the default. */
     if (!saved && (navigator.language || '').toLowerCase().indexOf('uz') === 0) saved = 'uz';
-    if (saved) apply(saved, false);
+
+    function boot() { apply(saved || 'en', false); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot); else boot();
+    addEventListener('resize', function () { place(current === 'uz' ? uz : en); });
 
     en.addEventListener('click', function () { apply('en', true); });
     uz.addEventListener('click', function () { apply('uz', true); });
   })();
 </script>
+<script src="js/vendor/motion.js"></script>
+<script src="js/home.js"></script>
+<script type="module" src="js/cursor.js"></script>
 </body>
 </html>
