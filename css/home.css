@@ -199,6 +199,13 @@ p{ text-wrap:pretty; }
   background:radial-gradient(closest-side, rgba(124,92,255,.22), rgba(46,197,255,.06) 55%, transparent 75%);
   filter:blur(10px);
 }
+.hero__spot{    /* soft light that follows the pointer */
+  position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:0; transition:opacity .6s;
+  background:radial-gradient(520px circle at var(--hx, 50%) var(--hy, 50%), rgba(139,108,255,.16), transparent 65%);
+}
+.hero:hover .hero__spot{ opacity:1; }
+.hero__inner{ will-change:transform, filter, opacity; transform-style:preserve-3d; }
+.hero__title{ will-change:transform; }
 .hero::after{   /* fade the paths into the page below */
   content:""; position:absolute; inset:auto 0 0 0; height:180px; z-index:-1;
   background:linear-gradient(to bottom, transparent, var(--bg));
@@ -255,21 +262,62 @@ p{ text-wrap:pretty; }
   .hero__scroll{ display:none; }
 }
 
-/* ── marquee ───────────────────────────────────────────────── */
+/* ── marquee — velocity rows (js/home.js drives them) ──────── */
 .marquee{
-  overflow:hidden; padding:26px 0; border-block:1px solid var(--line);
+  overflow:hidden; padding:30px 0; border-block:1px solid var(--line); display:flex; flex-direction:column; gap:14px;
   -webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
           mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
-.marquee__track{ display:flex; width:max-content; animation:marquee 40s linear infinite; }
-.marquee:hover .marquee__track{ animation-play-state:paused; }
+.marquee__row{ overflow:visible; }
+.marquee__track{ display:flex; width:max-content; will-change:transform; }
 .marquee__set{ display:flex; flex-shrink:0; }
 .marquee__set li{
-  display:flex; align-items:center; gap:28px; padding-right:28px;
+  display:flex; align-items:center; gap:28px; padding-right:28px; white-space:nowrap;
   font:500 clamp(18px, 2vw, 24px)/1 var(--font-display); letter-spacing:-.01em; color:var(--muted);
 }
 .marquee__set li::after{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); opacity:.7; }
-@keyframes marquee{ to{ transform:translateX(-50%); } }
+.marquee__row--alt .marquee__set li{
+  font-size:clamp(34px, 5vw, 64px); font-weight:600; letter-spacing:-.04em;
+  color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.22);
+}
+.marquee__row--alt .marquee__set li::after{ width:10px; height:10px; background:var(--accent-2); }
+
+/* ── intro curtain ─────────────────────────────────────────── */
+.intro{
+  position:fixed; inset:0; z-index:300; display:flex; flex-direction:column; justify-content:flex-end;
+  padding:var(--pad); padding-bottom:clamp(28px, 6vh, 64px); background:#050507; color:var(--ink);
+}
+.no-js .intro, .intro.is-skip{ display:none; }
+.intro__name{ overflow:hidden; font:500 clamp(44px, 9vw, 132px)/.95 var(--font-display); letter-spacing:-.05em; padding-bottom:.08em; }
+.intro__name span{ display:inline-block; }
+.intro__meta{ display:flex; justify-content:space-between; align-items:baseline; margin-top:18px;
+  font:500 13px/1 var(--font-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.intro__meta b{ font:500 clamp(28px, 4vw, 48px)/1 var(--font-display); letter-spacing:-.03em; color:var(--ink); font-variant-numeric:tabular-nums; }
+.intro__bar{ height:1px; margin-top:18px; background:var(--line-2); overflow:hidden; }
+.intro__bar span{ display:block; height:100%; background:var(--grad); transform-origin:0 50%; transform:scaleX(0); }
+
+/* ── border beam — a spark that runs around an edge ────────── */
+@property --beam-a{ syntax:'<angle>'; initial-value:0deg; inherits:false; }
+.beam{
+  position:absolute; inset:0; z-index:2; border-radius:inherit; padding:1px; pointer-events:none;
+  background:conic-gradient(from var(--beam-a), transparent 0 78%, rgba(139,108,255,.0) 80%, #a58cff 90%, #39c8ff 96%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:beam 7s linear infinite; animation-delay:var(--beam-delay, 0s);
+}
+@keyframes beam{ to{ --beam-a:360deg; } }
+
+/* ── split headings ────────────────────────────────────────── */
+.wd{ display:inline-block; will-change:transform, filter, opacity; }
+.h2 em.is-split{ background:none; color:inherit; }
+.h2 em.is-split .wd{
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  padding-bottom:.1em; margin-bottom:-.1em;
+}
+.work__grid{ perspective:1400px; }
+.contact__title .hero__line{ white-space:nowrap; }
+.contact__title .ch{ display:inline-block; transform-origin:50% 100%; }
+.js-motion .h2 .wd, .js-motion .work__sub h3 .wd{ opacity:0; }
 
 /* ── about — scroll-lit words ──────────────────────────────── */
 .about{ position:relative; height:220vh; }
@@ -362,8 +410,13 @@ p{ text-wrap:pretty; }
   max-width:var(--maxw); margin:0 auto; padding:0 var(--pad);
   display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px;
 }
-.card{ display:flex; flex-direction:column; transition:transform .5s var(--ease-out), border-color .3s; }
-.card:hover{ transform:translateY(-4px); }
+.card{ display:flex; flex-direction:column; transition:border-color .3s; will-change:transform; }
+.card__glare{   /* a sheet of light that slides across as the card tilts */
+  position:absolute; inset:0; z-index:1; pointer-events:none; border-radius:inherit; opacity:0; transition:opacity .4s;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.07) 45%, rgba(255,255,255,.0) 60%);
+  background-size:250% 250%; background-position:var(--gx, 50%) var(--gy, 50%);
+}
+.card:hover .card__glare{ opacity:1; }
 .card__link{ position:absolute; inset:0; z-index:2; border-radius:inherit; }
 .card__media{ position:relative; aspect-ratio:16/9; margin:10px 10px 0; border-radius:20px; overflow:hidden; background:#000; }
 .card__media img{ width:100%; height:100%; object-fit:cover; object-position:top; transition:transform 1.1s var(--ease-out), filter .6s; }
@@ -567,7 +620,8 @@ p{ text-wrap:pretty; }
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
   html{ scroll-behavior:auto; }
-  .marquee__track{ animation:none; }
+  .beam{ animation:none; opacity:0; }
+  .intro{ display:none; }
   .about{ height:auto; } .about__sticky{ position:relative; min-height:0; padding-block:120px; }
   .tilt{ height:auto; } .tilt__sticky{ position:relative; height:auto; }
 }

@@ -48,6 +48,17 @@
 
     var tri = function (t) { t = t % 1; return t < 0.5 ? t * 2 : 2 - t * 2; };   // 0→1→0
 
+    // the two fans lean apart toward the pointer, each curve a little more
+    // than the one before it, so the field feels deep rather than flat
+    var ptr = { x: 0, y: 0, tx: 0, ty: 0 };
+    if (FINE && MOTION) {
+      addEventListener('pointermove', function (e) {
+        ptr.tx = (e.clientX / innerWidth - 0.5) * 2;
+        ptr.ty = (e.clientY / innerHeight - 0.5) * 2;
+      }, { passive: true });
+    }
+    curves.forEach(function (cu, n) { cu.pos = n < 36 ? 1 : -1; cu.depth = 0.3 + (n % 36) / 36; });
+
     $$('[data-paths]').forEach(function (host) {
       var cv = document.createElement('canvas');
       cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%';
@@ -65,12 +76,15 @@
 
       function draw(now) {
         var t = now / 1000;
+        ptr.x += (ptr.tx - ptr.x) * 0.05;
+        ptr.y += (ptr.ty - ptr.y) * 0.05;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, cv.width, cv.height);
-        ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * ox, dpr * oy);
         ctx.strokeStyle = '#f3f2ef';
         for (var i = 0; i < curves.length; i++) {
           var cu = curves[i];
+          var dx = ptr.x * 34 * cu.pos * cu.depth, dy = ptr.y * 22 * cu.depth;
+          ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * (ox + dx), dpr * (oy + dy));
           var s = MOTION ? tri(t / cu.dur + cu.phase) : 0.5;
           var on = (0.3 + 0.7 * s) * cu.len;
           ctx.globalAlpha = cu.alpha * (0.35 + 0.45 * s) * 1.5;
@@ -97,9 +111,8 @@
     });
   }
 
-  /* ── 2. hero title — letters spring up, word by word ───────── */
-  function heroTitle() {
-    var lines = $$('#hero-title [data-letters]');
+  /* split a line into word > letter spans; letters carry a stagger delay */
+  function splitLetters(lines) {
     var chars = [];
     lines.forEach(function (line, li) {
       var words = line.textContent.trim().split(/\s+/);
@@ -118,43 +131,89 @@
         line.appendChild(ws);
       });
     });
+    return chars;
+  }
 
-    // gradient line: each letter shows its own slice of one line-wide gradient
-    function sizeGradient() {
-      $$('.hero__line--grad').forEach(function (line) {
-        var lr = line.getBoundingClientRect();
-        var cs = $$('.ch', line);
-        var left = Math.min.apply(null, cs.map(function (c) { return c.getBoundingClientRect().left; }));
-        var right = Math.max.apply(null, cs.map(function (c) { return c.getBoundingClientRect().right; }));
-        line.style.setProperty('--line-w', (right - left || lr.width) + 'px');
-        cs.forEach(function (c) { c.style.setProperty('--ch-x', (c.getBoundingClientRect().left - left) + 'px'); });
-      });
-    }
-    sizeGradient();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeGradient);
-    addEventListener('resize', sizeGradient);
-
-    if (!MOTION) return;
-    chars.forEach(function (c) {
-      M.animate(c, { y: ['105%', '0%'], opacity: [0, 1] },
-        { type: 'spring', stiffness: 150, damping: 25, delay: parseFloat(c.dataset.d) + 0.1 });
-    });
-    $$('[data-intro]').forEach(function (el, i) {
-      M.animate(el, { opacity: [0, 1], y: [18, 0] },
-        { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.14 + (i ? 0.5 : 0) });
+  // gradient lines: each letter shows its own slice of one line-wide
+  // gradient. offsetLeft, not getBoundingClientRect — letters move.
+  function sizeGradient() {
+    $$('.hero__line--grad').forEach(function (line) {
+      var cs = $$('.ch', line);
+      if (!cs.length) return;
+      var left = Math.min.apply(null, cs.map(function (c) { return c.offsetLeft; }));
+      var right = Math.max.apply(null, cs.map(function (c) { return c.offsetLeft + c.offsetWidth; }));
+      line.style.setProperty('--line-w', (right - left) + 'px');
+      cs.forEach(function (c) { c.style.setProperty('--ch-x', (c.offsetLeft - left) + 'px'); });
     });
   }
 
-  /* ── 3. counters ───────────────────────────────────────────── */
+  /* ── 2. hero title — letters spring up, word by word ─────────
+     Split now (hidden under the intro), played when the curtain lifts. */
+  function heroTitle() {
+    var chars = splitLetters($$('#hero-title [data-letters]'));
+    var intros = $$('[data-intro]');
+    if (MOTION) {
+      chars.forEach(function (c) { c.style.opacity = '0'; });
+      intros.forEach(function (el) { el.style.opacity = '0'; });
+    }
+    return function play() {
+      if (!MOTION) return;
+      chars.forEach(function (c) {
+        M.animate(c, { y: ['105%', '0%'], opacity: [0, 1], rotate: [6, 0] },
+          { type: 'spring', stiffness: 150, damping: 22, delay: parseFloat(c.dataset.d) });
+      });
+      intros.forEach(function (el, i) {
+        M.animate(el, { opacity: [0, 1], y: [18, 0], filter: ['blur(8px)', 'blur(0px)'] },
+          { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.12 + (i ? 0.45 : 0) });
+      });
+    };
+  }
+
+  /* ── 3. counters — tick up once the hero is revealed ───────── */
   function counters() {
-    if (!MOTION) return;
-    $$('.count').forEach(function (n) {
-      var target = parseFloat(n.dataset.count) || 0;
-      n.textContent = '0';
-      M.inView(n, function () {
-        M.animate(0, target, { duration: 1.6, delay: 0.9, ease: [0.16, 1, 0.3, 1],
+    var nodes = $$('.count');
+    if (MOTION) nodes.forEach(function (n) { n.textContent = '0'; });
+    return function play() {
+      if (!MOTION) return;
+      nodes.forEach(function (n) {
+        M.animate(0, parseFloat(n.dataset.count) || 0, { duration: 1.8, delay: 0.9, ease: [0.16, 1, 0.3, 1],
           onUpdate: function (v) { n.textContent = Math.round(v); } });
       });
+    };
+  }
+
+  /* ── intro curtain — name rises, a counter runs, the curtain
+     lifts. Once per visit; reduced motion skips it entirely. ─── */
+  function intro() {
+    var el = $('#loader');
+    if (!el) return Promise.resolve();
+    var seen = false;
+    try { seen = sessionStorage.getItem('intro-seen') === '1'; sessionStorage.setItem('intro-seen', '1'); } catch (e) {}
+    if (!MOTION || seen) { el.remove(); return Promise.resolve(); }
+
+    document.body.classList.add('is-locked');
+    var words = $$('[data-intro-word]', el), count = $('#intro-count'), bar = $('#intro-bar');
+    words.forEach(function (w, i) {
+      M.animate(w, { y: ['110%', '0%'] }, { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.08 });
+    });
+    M.animate(bar, { scaleX: [0, 1] }, { duration: 1.3, ease: [0.65, 0, 0.35, 1], delay: 0.15 });
+    M.animate(0, 100, { duration: 1.3, ease: [0.65, 0, 0.35, 1], delay: 0.15,
+      onUpdate: function (v) { count.textContent = String(Math.round(v)).padStart(3, '0'); } });
+
+    return new Promise(function (done) {
+      var finished = false;
+      var finish = function () {
+        if (finished) return; finished = true;
+        document.body.classList.remove('is-locked');
+        done();
+      };
+      setTimeout(function () {
+        M.animate(words, { y: '-110%' }, { duration: 0.6, ease: [0.7, 0, 0.84, 0] });
+        M.animate(el, { clipPath: ['inset(0 0 0% 0)', 'inset(0 0 100% 0)'] },
+          { duration: 0.9, ease: [0.76, 0, 0.24, 1], delay: 0.25 }).then(function () { el.remove(); });
+        setTimeout(finish, 650);          // start the hero while the curtain is still lifting
+      }, 1650);
+      setTimeout(function () { finish(); if (el.isConnected) el.remove(); }, 5000);   // never trap the page
     });
   }
 
@@ -368,18 +427,264 @@
     setInterval(tick, 15000);
   }
 
+  /* ── 12. hero — light follows the pointer, the title leans
+     toward it, and the whole block blurs away as you scroll ──── */
+  function heroFx() {
+    var hero = $('#hero'), inner = $('#hero-inner'), title = $('#hero-title');
+    if (!hero || !MOTION) return;
+
+    M.scroll(function (p) {
+      inner.style.transform = 'translateY(' + (p * 140).toFixed(1) + 'px) scale(' + (1 - p * 0.1).toFixed(4) + ')';
+      inner.style.filter = 'blur(' + (p * 10).toFixed(2) + 'px)';
+      inner.style.opacity = (1 - p * 1.15).toFixed(3);
+    }, { target: hero, offset: ['start start', 'end start'] });
+
+    if (!FINE) return;
+    var tx = 0, ty = 0, x = 0, y = 0, running = false;
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--hx', (e.clientX - r.left) + 'px');
+      hero.style.setProperty('--hy', (e.clientY - r.top) + 'px');
+      tx = (e.clientX - r.left) / r.width - 0.5;
+      ty = (e.clientY - r.top) / r.height - 0.5;
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    });
+    hero.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+    function loop() {
+      x += (tx - x) * 0.08; y += (ty - y) * 0.08;
+      title.style.transform = 'perspective(900px) rotateX(' + (-y * 9).toFixed(2) + 'deg) rotateY(' + (x * 12).toFixed(2) + 'deg)';
+      if (Math.abs(tx - x) + Math.abs(ty - y) > 0.0005) requestAnimationFrame(loop);
+      else running = false;
+    }
+  }
+
+  /* ── 13. section labels decode like a terminal ─────────────── */
+  function scramble() {
+    if (!MOTION) return;
+    var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/#*+=';
+    $$('.label').forEach(function (el) {
+      var final = el.textContent;
+      M.inView(el, function () {
+        var start = performance.now(), dur = 900;
+        (function frame(now) {
+          var t = clamp((now - start) / dur, 0, 1);
+          var out = '';
+          for (var i = 0; i < final.length; i++) {
+            var ch = final[i];
+            out += (ch === ' ' || i / final.length < t) ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+          }
+          el.textContent = out;
+          if (t < 1) requestAnimationFrame(frame);
+          else el.textContent = final;
+        })(start);
+      }, { amount: 0.8 });
+    });
+  }
+
+  /* ── 14. headings blur in word by word ─────────────────────── */
+  function headings() {
+    if (!MOTION) return;
+    $$('.h2, .work__sub h3').forEach(function (h) {
+      var words = [];
+      (function walk(node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var parts = n.textContent.split(/(\s+)/);
+            var frag = document.createDocumentFragment();
+            parts.forEach(function (p) {
+              if (!p) return;
+              if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(' ')); return; }
+              var s = document.createElement('span');
+              s.className = 'wd';
+              s.textContent = p;
+              frag.appendChild(s);
+              words.push(s);
+            });
+            n.parentNode.replaceChild(frag, n);
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+        });
+      })(h);
+
+      // words inside the gradient <em> each take their slice of it
+      $$('em', h).forEach(function (em) {
+        em.classList.add('is-split');
+        var ws = $$('.wd', em);
+        var size = function () {
+          ws.forEach(function (w) {
+            w.style.backgroundSize = em.offsetWidth + 'px 100%';
+            w.style.backgroundPosition = -(w.offsetLeft - em.offsetLeft) + 'px 0';
+          });
+        };
+        size();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+        addEventListener('resize', size);
+      });
+
+      M.inView(h, function () {
+        words.forEach(function (w, i) {
+          M.animate(w, { opacity: [0, 1], y: [28, 0], filter: ['blur(12px)', 'blur(0px)'] },
+            { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 });
+        });
+      }, { amount: 0.4 });
+    });
+  }
+
+  /* ── 15. marquee — scroll speeds it up, flips it and leans it ─ */
+  function marquee() {
+    var rows = $$('.marquee__row');
+    rows.forEach(function (row) {
+      var track = $('.marquee__track', row), set = $('.marquee__set', row);
+      var copies = Math.max(2, Math.ceil((innerWidth * 2) / Math.max(set.offsetWidth, 1)) + 1);
+      for (var i = 1; i < copies; i++) {
+        var c = set.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
+      }
+    });
+    if (!MOTION) return;
+
+    var lastY = scrollY, lastT = performance.now(), vel = 0, skew = 0, running = false;
+    var state = rows.map(function (row) {
+      return { row: row, track: $('.marquee__track', row), w: $('.marquee__set', row).offsetWidth,
+               dir: parseFloat(row.dataset.velocity) || 1, x: 0 };
+    });
+    addEventListener('resize', function () { state.forEach(function (s) { s.w = $('.marquee__set', s.row).offsetWidth; }); });
+
+    var flip = 1;
+    function frame(now) {
+      var dt = Math.min((now - lastT) / 1000, 0.05); lastT = now;
+      var v = (scrollY - lastY) / Math.max(dt, 0.001); lastY = scrollY;
+      vel += (v - vel) * 0.1;
+      if (Math.abs(vel) > 30) flip = vel > 0 ? 1 : -1;
+      var boost = 1 + Math.min(Math.abs(vel) / 260, 6);
+      skew += (clamp(-vel / 90, -12, 12) - skew) * 0.12;
+      state.forEach(function (s) {
+        s.x -= 46 * boost * s.dir * flip * dt;
+        if (s.x <= -s.w) s.x += s.w;
+        if (s.x > 0) s.x -= s.w;
+        s.track.style.transform = 'translate3d(' + s.x.toFixed(2) + 'px,0,0) skewX(' + (skew * s.dir).toFixed(2) + 'deg)';
+      });
+      if (running) requestAnimationFrame(frame);
+    }
+    M.inView($('.marquee'), function () {
+      running = true; lastT = performance.now(); lastY = scrollY; requestAnimationFrame(frame);
+      return function () { running = false; };
+    }, { amount: 0 });
+  }
+
+  /* ── 16. project cards tilt in 3D with a sliding glare ─────── */
+  function cardTilt() {
+    if (!FINE || !MOTION) return;
+    $$('.card').forEach(function (card) {
+      var glare = document.createElement('span');
+      glare.className = 'card__glare';
+      card.appendChild(glare);
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        var nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+        M.animate(card, { rotateX: -ny * 7, rotateY: nx * 9, y: -6 }, { type: 'spring', stiffness: 220, damping: 22 });
+        card.style.setProperty('--gx', (50 + nx * 120) + '%');
+        card.style.setProperty('--gy', (50 + ny * 120) + '%');
+      });
+      card.addEventListener('pointerleave', function () {
+        M.animate(card, { rotateX: 0, rotateY: 0, y: 0 }, { type: 'spring', stiffness: 160, damping: 16 });
+      });
+    });
+  }
+
+  /* ── 17. border beams on the featured surfaces ─────────────── */
+  function beams() {
+    if (!MOTION) return;
+    $$('.cap, .tilt__device, .hero .pill').forEach(function (el, i) {
+      var b = document.createElement('span');
+      b.className = 'beam';
+      b.setAttribute('aria-hidden', 'true');
+      b.style.setProperty('--beam-delay', (-i * 1.7) + 's');
+      el.appendChild(b);
+    });
+  }
+
+  /* ── 18. magnetic buttons ──────────────────────────────────── */
+  function magnetic() {
+    if (!FINE || !MOTION) return;
+    $$('.magnetic').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        M.animate(el, { x: (e.clientX - r.left - r.width / 2) * 0.3, y: (e.clientY - r.top - r.height / 2) * 0.4 },
+          { type: 'spring', stiffness: 260, damping: 18 });
+      });
+      el.addEventListener('pointerleave', function () {
+        M.animate(el, { x: 0, y: 0 }, { type: 'spring', stiffness: 180, damping: 10 });
+      });
+    });
+  }
+
+  /* ── 19. contact title — letters rise toward the pointer ───── */
+  function contactTitle() {
+    var title = $('#contact-title');
+    if (!title) return;
+    var lines = $$('[data-chars]', title);
+    var chars = splitLetters(lines);
+    sizeGradient();
+    if (!MOTION) return;
+
+    M.inView(title, function () {
+      lines.forEach(function (l, i) {
+        M.animate(l, { opacity: [0, 1], y: [60, 0], filter: ['blur(14px)', 'blur(0px)'] },
+          { duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: i * 0.12 });
+      });
+    }, { amount: 0.4 });
+    lines.forEach(function (l) { l.style.opacity = '0'; });
+
+    if (!FINE) return;
+    var host = $('#contact'), px = -9999, py = -9999, running = false;
+    var cur = chars.map(function () { return 0; });
+    host.addEventListener('pointermove', function (e) {
+      px = e.clientX; py = e.clientY;
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    });
+    host.addEventListener('pointerleave', function () { px = py = -9999; });
+    function loop() {
+      var moving = false;
+      // offsets ignore the lift itself, so letters don't chase their own tail
+      var pr = chars[0].offsetParent.getBoundingClientRect();
+      for (var i = 0; i < chars.length; i++) {
+        var c = chars[i];
+        var cx = pr.left + c.offsetLeft + c.offsetWidth / 2;
+        var cy = pr.top + c.offsetTop + c.offsetHeight / 2;
+        var d = Math.hypot(px - cx, py - cy);
+        var f = Math.max(0, 1 - d / 240); f = f * f;
+        cur[i] += (f - cur[i]) * 0.15;
+        if (Math.abs(f - cur[i]) > 0.001) moving = true;
+        c.style.transform = 'translateY(' + (-cur[i] * 26).toFixed(2) + 'px) scale(' + (1 + cur[i] * 0.14).toFixed(4) + ')';
+      }
+      if (moving || px > -9999) requestAnimationFrame(loop);
+      else running = false;
+    }
+  }
+
   function init() {
     clock();
     progress();
     paths();
-    heroTitle();
-    counters();
+    var playHero = heroTitle();
+    var playCounts = counters();
+    contactTitle();
+    sizeGradient();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeGradient);
+    addEventListener('resize', sizeGradient);
     about();
     tilt();
     spotlight();
+    headings();
     reveals();
+    scramble();
+    marquee();
+    cardTilt();
+    beams();
+    magnetic();
+    heroFx();
     buildLog();
     nav();
+    intro().then(function () { playHero(); playCounts(); });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

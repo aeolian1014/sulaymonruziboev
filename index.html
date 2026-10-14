@@ -28,6 +28,13 @@
 <div class="progress" aria-hidden="true"><span id="progress"></span></div>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- intro curtain — once per visit; js/cursor.js waits for #loader to leave -->
+<div class="intro" id="loader" aria-hidden="true">
+  <div class="intro__name"><span data-intro-word>Sulaymon</span> <span data-intro-word>Ruziboev</span></div>
+  <div class="intro__meta"><span>Software developer — Tashkent</span><b id="intro-count">000</b></div>
+  <div class="intro__bar"><span id="intro-bar"></span></div>
+</div>
+
 <!-- ── navigation ─────────────────────────────────────────────── -->
 <header class="nav" id="nav">
   <a class="nav__logo" href="#top" aria-label="Home">
@@ -69,8 +76,9 @@
 <section class="hero" id="hero">
   <div class="paths" data-paths aria-hidden="true"></div>
   <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
 
-  <div class="hero__inner">
+  <div class="hero__inner" id="hero-inner">
     <p class="pill" data-intro>
       <span class="pill__dot" aria-hidden="true"></span> Open to junior roles — 2026
     </p>
@@ -86,11 +94,11 @@
     </p>
 
     <div class="hero__actions" data-intro>
-      <a class="btn btn--light btn--lg btn--go" href="#work">
+      <a class="btn btn--light btn--lg btn--go magnetic" href="#work">
         <span>View selected work</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
       </a>
-      <a class="btn btn--ghost btn--lg" href="#contact">Let's talk</a>
+      <a class="btn btn--ghost btn--lg magnetic" href="#contact">Let's talk</a>
     </div>
 
     <dl class="hero__stats" data-intro>
@@ -104,18 +112,24 @@
 </section>
 
 <!-- ══ MARQUEE ════════════════════════════════════════════════ -->
+<!-- two rows running opposite ways; scrolling speeds them up and leans them -->
 <section class="marquee" aria-label="Technologies">
-  <div class="marquee__track">
-    <ul class="marquee__set">
-      <li>JavaScript</li><li>Python</li><li>Rust</li><li>PostgreSQL</li><li>SQL</li>
-      <li>Supabase</li><li>REST APIs</li><li>OAuth 2.0</li><li>Three.js</li><li>WebGL</li>
-      <li>Tauri</li><li>ffmpeg</li><li>Docker</li><li>Git</li>
-    </ul>
-    <ul class="marquee__set" aria-hidden="true">
-      <li>JavaScript</li><li>Python</li><li>Rust</li><li>PostgreSQL</li><li>SQL</li>
-      <li>Supabase</li><li>REST APIs</li><li>OAuth 2.0</li><li>Three.js</li><li>WebGL</li>
-      <li>Tauri</li><li>ffmpeg</li><li>Docker</li><li>Git</li>
-    </ul>
+  <div class="marquee__row" data-velocity="1">
+    <div class="marquee__track">
+      <ul class="marquee__set">
+        <li>JavaScript</li><li>Python</li><li>Rust</li><li>PostgreSQL</li><li>SQL</li>
+        <li>Supabase</li><li>REST APIs</li><li>OAuth 2.0</li><li>Three.js</li><li>WebGL</li>
+        <li>Tauri</li><li>ffmpeg</li><li>Docker</li><li>Git</li>
+      </ul>
+    </div>
+  </div>
+  <div class="marquee__row marquee__row--alt" data-velocity="-1" aria-hidden="true">
+    <div class="marquee__track">
+      <ul class="marquee__set">
+        <li>Desktop apps</li><li>Web platforms</li><li>Row-level security</li><li>Automation</li>
+        <li>Video pipelines</li><li>Shaders</li><li>Motion design</li><li>Interfaces</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -231,7 +245,7 @@
 
 <!-- ══ CAPABILITIES — bento ══════════════════════════════════ -->
 <section class="caps" id="capabilities">
-  <header class="sec-head reveal">
+  <header class="sec-head">
     <p class="label">03 — Capabilities</p>
     <h2 class="h2">What I can<br /><em>actually build</em></h2>
   </header>
@@ -266,10 +280,10 @@
 
 <!-- ══ TOOLKIT ═══════════════════════════════════════════════ -->
 <section class="kit" id="toolkit">
-  <header class="sec-head reveal">
+  <header class="sec-head">
     <p class="label">04 — Toolkit</p>
     <h2 class="h2">The bench I<br /><em>actually reach for</em></h2>
-    <p class="sec-lede">AI writes drafts fast. Deciding which draft survives is still the job — and that part hasn't been automated yet.</p>
+    <p class="sec-lede reveal">AI writes drafts fast. Deciding which draft survives is still the job — and that part hasn't been automated yet.</p>
   </header>
 
   <div class="kit__grid">
@@ -292,7 +306,7 @@
 
 <!-- ══ BUILD LOG — the beam fills as you scroll ══════════════ -->
 <section class="log" id="experience">
-  <header class="sec-head reveal">
+  <header class="sec-head">
     <p class="label">05 — Build log</p>
     <h2 class="h2">No job titles yet.<br /><em>Plenty of releases.</em></h2>
   </header>
@@ -330,16 +344,19 @@
 <!-- ══ CONTACT ═══════════════════════════════════════════════ -->
 <section class="contact" id="contact">
   <div class="paths paths--soft" data-paths aria-hidden="true"></div>
-  <div class="contact__inner reveal">
+  <div class="contact__inner">
     <p class="label">06 — Contact</p>
-    <h2 class="contact__title">Let's build<br /><em>something</em></h2>
-    <a class="hover-btn" href="mailto:sulaymonruziboev75@gmail.com">
+    <h2 class="contact__title" id="contact-title" aria-label="Let's build something">
+      <span class="hero__line" aria-hidden="true" data-chars>Let's build</span>
+      <span class="hero__line hero__line--grad" aria-hidden="true" data-chars>something</span>
+    </h2>
+    <a class="hover-btn reveal magnetic" href="mailto:sulaymonruziboev75@gmail.com">
       <span class="hover-btn__dot" aria-hidden="true"></span>
       <span class="hover-btn__text">sulaymonruziboev75@gmail.com</span>
       <span class="hover-btn__over" aria-hidden="true"><span>Write to me</span>
         <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </a>
-    <ul class="contact__socials">
+    <ul class="contact__socials reveal">
       <li><a href="https://t.me/evedere" target="_blank" rel="noopener">Telegram</a></li>
       <li><a href="https://instagram.com/aeolian.arts" target="_blank" rel="noopener">Instagram</a></li>
       <li><a href="https://github.com/aeolian1014" target="_blank" rel="noopener">GitHub</a></li>
